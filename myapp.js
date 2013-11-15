@@ -25,12 +25,13 @@ if (Meteor.isClient) {
     }
   });
 
-  //Songs from session€
+  //Songs from session
 	Template.list_of_links.my_playlist = function () {
-	  return Links.find({sess: Meteor.default_connection._lastSessionId}, {sort: {score: -1}});
+	  //return Links.find({sess: Meteor.default_connection._lastSessionId});
+	  return Links.find();
 	};
-  
-  Template.search_bar.events({
+	
+	Template.search_bar.events({
 	//http://stackoverflow.com/a/13945912/765409
     'keypress #query' : function (evt,template) {
       // template data, if any, is available in 'this'
@@ -51,7 +52,8 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
 	Meteor.publish("links", function() {
-        return Links.find({sess:Meteor.default_connection._lastSessionId});
+        //return Links.find({sess:Meteor.default_connection._lastSessionId});
+		return Links.find();
     });
   });
 }
