@@ -37,6 +37,12 @@ if (Meteor.isClient) {
 	return Links.find({sess:Template.list.my_playlist_id});
   }
 
+  Template.track.events({
+	'click .destroy' : function (){
+		Links.remove(this._id);
+	}
+  });
+  
 }//End of Client
 
 if (Meteor.isServer) {

@@ -1,1 +1,23 @@
 /* CSS declarations go here */
+
+#playlist .link {
+	max-height:25px;
+}
+
+#playlist .link .destroy {
+    cursor: pointer;
+    position: relative;
+    left: 5px;
+    top: 20px;
+    height: 20px;
+    /*When you're actually doing this, increase the width to about 60%-70%*/
+	width: 20%;
+	margin-left:20%;
+}
+#playlist .link:hover .destroy {
+    background: url('/destroy.png') no-repeat 0 0;
+}
+
+#playlist .link .destroy:hover {
+    background-position: 0 -20px;
+}

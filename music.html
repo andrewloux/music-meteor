@@ -19,15 +19,14 @@
 </template>
 
 <template name="track">
-<li>
-	<div>
-		{{youtube_link}}
-	</div>
+<li class="link">
+    <div class="destroy"></div>
+	<div>{{youtube_link}}</div>
 </li>
 </template>
 
 <template name="list">
-  <ul>
+  <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
     {{/each}}	
