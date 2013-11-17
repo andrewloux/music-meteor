@@ -1,0 +1,18 @@
+Template.list.clean = function(collection) {
+    if(collection) {
+        // clean items
+        _.each(collection.find().fetch(), function(item){
+            collection.remove({_id: item._id});
+        });
+    }
+}
+
+Template.list.sessGen = function(){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;	
+}
