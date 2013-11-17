@@ -1,5 +1,11 @@
 <head>
   <title>music</title>
+  <script>
+  $(function() {
+    $( "#playlist" ).sortable();
+    $( "#playlist" ).disableSelection();
+  });
+  </script>
 </head>
 
 <body>
@@ -19,7 +25,7 @@
 </template>
 
 <template name="track">
-<li class="link">
+<li id="list_element">
     <div class="destroy"></div>
 	<div>{{youtube_link}}</div>
 </li>

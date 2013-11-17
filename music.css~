@@ -21,7 +21,3 @@
 #playlist .link .destroy:hover {
     background-position: 0 -20px;
 }
-
-#list_element:hover{
-    cursor:pointer;
-}
