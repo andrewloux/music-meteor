@@ -18,10 +18,19 @@
   <input id="query" type="text" placeholder="Query Track" />
 </template>
 
+<template name="track">
+<li>
+	<div>
+		{{youtube_link}}
+	</div>
+</li>
+</template>
+
 <template name="list">
   <ul>
     {{#each my_playlist}}
-           <li>{{youtube_link}}</li>
+           {{> track}}
     {{/each}}	
   </ul>
 </template>
+
