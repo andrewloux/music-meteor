@@ -1,5 +1,11 @@
 <head>
   <title>music</title>
+  <script>
+  $(function() {
+    $( "#playlist" ).sortable();
+    $( "#playlist" ).disableSelection();
+  });
+  </script>
 </head>
 
 <body>
@@ -18,18 +24,19 @@
   <input id="query" type="text" placeholder="Query Track" />
 </template>
 
-<template name="track">
-<li class="link">
-    <div class="destroy"></div>
-	<div>{{youtube_link}}</div>
-</li>
-</template>
-
 <template name="list">
   <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
     {{/each}}	
   </ul>
+</template>
+
+
+<template name="track">
+<li id="list_element">
+    <div>{{youtube_link}}</div>
+    <div class="destroy"> </div>
+</li>
 </template>
 
