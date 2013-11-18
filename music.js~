@@ -3,7 +3,7 @@ Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
 
- /*Check if you can put this anywhere else, it looks shit over her.*/
+ /*Check if you can put this anywhere else, it looks shit over here.*/
  Template.list.sessID_Gen = function(){
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -37,6 +37,12 @@ if (Meteor.isClient) {
 	return Links.find({sess:Template.list.my_playlist_id});
   }
 
+  Template.track.events({
+	'click .destroy' : function (){
+		Links.remove(this._id);
+	}
+  });
+  
 }//End of Client
 
 if (Meteor.isServer) {

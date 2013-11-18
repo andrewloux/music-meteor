@@ -35,8 +35,8 @@
 
 <template name="track">
 <li id="list_element">
-    <div>{{youtube_link}}</div>
     <div class="destroy"> </div>
+    <div>{{youtube_link}}</div>
 </li>
 </template>
 
