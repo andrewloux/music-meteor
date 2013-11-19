@@ -1,4 +1,40 @@
 /* CSS declarations go here */
+#title{
+	font-family: 'Knewave', cursive;
+	font-size:3em;
+	font-weight:100;
+	width:100%;
+	text-align:center;
+}
+
+#query{
+	/* css 3 */
+	border-radius:5px;
+	/* mozilla */
+	-moz-border-radius:5px;
+	/* webkit */
+	-webkit-border-radius:5px;
+	font-size: 2em;
+	padding: 5px;
+
+	/*Centering the input*/
+	width:40%;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+}
+
+/*Make the following global?*/
+#query:focus { 
+    outline-color: black;
+}
+
+#playlist{
+	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
+	margin-top:-1em;
+	margin-left:30%;
+	display:block;
+}
 
 .list_element {
 	max-height:25px;
@@ -8,11 +44,11 @@
     cursor: pointer;
     position: relative;
     left: 5px;
-    top: 20px;
+    top: 30px;
     height: 20px;
     /*When you're actually doing this, increase the width to about 60%-70%*/
     width: 20%;
-    margin-left:20%;
+    margin-left:50%;
 }
 #list_element:hover .destroy {
     background: url('/destroy.png') no-repeat 0 0;
@@ -24,4 +60,10 @@
 
 #list_element:hover{
     cursor:pointer;
+}
+
+.element_style{
+    /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
+    font-family: 'Ubuntu';
+    font-size:30px;
 }

@@ -1,5 +1,6 @@
 <head>
   <title>music</title>
+<link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
   <script>
   $(function() {
     $( "#playlist" ).sortable();
@@ -10,18 +11,17 @@
 
 <body>
   {{> header}}
-  <br>
   {{> search_bar}}
   <br>
   {{> list}}
 </body>
 
 <template name="header">
-  <h1>Playlist</h1>
+  <h1 id="title">mixtape</h1>
 </template>
 
 <template name="search_bar">
-  <input id="query" type="text" placeholder="Query Track" />
+  <input id="query" type="text" placeholder="Journey - Don't Stop Believin'" />
 </template>
 
 <template name="list">
