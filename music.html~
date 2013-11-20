@@ -7,6 +7,20 @@
     $( "#playlist" ).disableSelection();
   });
   </script>
+<script>
+// Called automatically when JavaScript client library is loaded.
+function onClientLoad() {
+    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
+}
+
+// Called automatically when YouTube API interface is loaded (see line 9).
+function onYouTubeApiLoad() {
+    // This API key is intended for use only in this lesson.
+    // See http://goo.gl/PdPA1 to get a key for your own applications.
+    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
+}
+</script>
+  <script src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
 </head>
 
 <body>
@@ -33,9 +47,9 @@
 
 
 <template name="track">
-<li class="list_element">
+<li id="{{_id}}" class="list_element">
     <div class="destroy"> </div>
-    <div class="element_style">{{youtube_link}}</div>
+    <div class="element_style">{{title}}</div>
 </li>
 </template>
 
