@@ -16,6 +16,15 @@ if (Meteor.isClient) {
 
  Template.list.my_playlist_id = Template.list.sessID_Gen();
 
+Template.list.search_get= function(str){
+    var request = gapi.client.youtube.search.list({part:'snippet',q:str});
+
+    request.execute(function(response) {
+	    str = JSON.stringify(response.result);
+	    str = JSON.parse(str);
+            Links.insert({sess:Template.list.my_playlist_id,youtube_link:str.items[0].snippet.title});
+    });
+}
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -39,11 +48,12 @@ Router.map(function () {
       if (evt.which === 13){
                 var url = template.find('#query').value;
                 $("#query").val('');
-		//YoutubeAPI calls go here
-                Links.insert({sess:Template.list.my_playlist_id,youtube_link:url});
-		}
+                //YoutubeAPI calls go here
+		Template.list.search_get(url);
+                }
        }
   });
+
 
   Template.list.my_playlist = function(){
 	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
