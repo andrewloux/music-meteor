@@ -36,10 +36,10 @@
 }
 
 .list_element {
-	max-height:25px;
+	max-height:40px;
 }
 
-#list_element .destroy {
+.list_element .destroy {
     cursor: pointer;
     position: relative;
     left: 5px;
@@ -49,15 +49,15 @@
     width: 20%;
     margin-left:50%;
 }
-#list_element:hover .destroy {
+.list_element:hover .destroy {
     background: url('/destroy.png') no-repeat 0 0;
 }
 
-#list_element .destroy:hover {
+.list_element .destroy:hover {
     background-position: 0 -20px;
 }
 
-#list_element:hover{
+.list_element:hover{
     cursor:pointer;
 }
 

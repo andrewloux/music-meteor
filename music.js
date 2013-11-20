@@ -51,8 +51,9 @@ Router.map(function () {
   }
 
   Template.track.events({
+	//Fixing the weird delete issue with solution that's both clunky and pretty at the same time!
 	'click .destroy' : function (){
-		Links.remove(this._id);
+		$("#"+this._id).fadeOut('slow',function(){Links.remove(this._id);});
 	}
   });
   

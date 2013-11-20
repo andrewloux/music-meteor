@@ -12,7 +12,6 @@
 <body>
   {{> header}}
   {{> search_bar}}
-  <br>
   {{> list}}
 </body>
 
@@ -34,7 +33,7 @@
 
 
 <template name="track">
-<li id="list_element">
+<li id="{{_id}}" class="list_element">
     <div class="destroy"> </div>
     <div class="element_style">{{youtube_link}}</div>
 </li>

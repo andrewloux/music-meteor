@@ -16,10 +16,22 @@ if (Meteor.isClient) {
 
  Template.list.my_playlist_id = Template.list.sessID_Gen();
 
+
+Router.map(function () {
+  //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
+  this.route('tape', {
+    path: '/tape/:_sess',
+    before: function(){
+	this.subscribe('links',this.params._sess);
+    }
+  });
+});
+
  //Renew subscription on state change.
  Deps.autorun( function(){
    Meteor.subscribe( "links", Template.list.my_playlist_id);
  });
+
 
  Template.search_bar.events({
     'keypress #query' : function (evt,template) {
@@ -34,12 +46,13 @@ if (Meteor.isClient) {
   });
 
   Template.list.my_playlist = function(){
-	return Links.find({sess:Template.list.my_playlist_id});
+	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
+	return Links.find();
   }
 
   Template.track.events({
 	'click .destroy' : function (){
-		Links.remove(this._id);
+		$("#"+this._id).fadeOut('slow',function(){Links.remove(this._id);});
 	}
   });
   
