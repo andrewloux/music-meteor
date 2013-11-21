@@ -16,13 +16,14 @@ if (Meteor.isClient) {
 
  Template.list.my_playlist_id = Template.list.sessID_Gen();
 
-Template.list.search_get= function(str){
+//Second value is to keep track of result to play if user doesn't like the first result.
+Template.list.search_get= function(str,val){
     var request = gapi.client.youtube.search.list({part:'snippet',q:str});
 
     request.execute(function(response) {
 	    str = JSON.stringify(response.result);
 	    str = JSON.parse(str);
-            Links.insert({sess:Template.list.my_playlist_id,youtube_link:str.items[0].snippet.title});
+            Links.insert({sess:Template.list.my_playlist_id,song_title:str.items[val].snippet.title,videoId:str.items[0].id.videoId,thumbnail:str.items[val].snippet.thumbnails.medium.url,index:val});
     });
 }
 
@@ -48,8 +49,7 @@ Router.map(function () {
       if (evt.which === 13){
                 var url = template.find('#query').value;
                 $("#query").val('');
-                //YoutubeAPI calls go here
-		Template.list.search_get(url);
+		Template.list.search_get(url,0);
                 }
        }
   });

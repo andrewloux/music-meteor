@@ -35,6 +35,10 @@
 	display:block;
 }
 
+.thumbnail{
+	width:200px;
+}
+
 .list_element {
 	max-height:40px;
 	width:50%;

@@ -35,8 +35,13 @@
 	display:block;
 }
 
+.thumbnail{
+	width:200px;
+	float:left;
+}
+
 .list_element {
-	max-height:45px;
+	max-height:40px;
 	width:50%;
 }
 
