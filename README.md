@@ -7,3 +7,4 @@ music, implemented in meteor.js
 
 - `mrt add jquery-ui`
 - `mrt add iron-router`
+- `mrt add http`
