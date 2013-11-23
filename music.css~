@@ -37,7 +37,6 @@
 
 .thumbnail{
 	width:200px;
-	float:left;
 }
 
 .list_element {

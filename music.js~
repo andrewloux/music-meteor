@@ -16,7 +16,7 @@ if (Meteor.isClient) {
 
  Template.list.my_playlist_id = Template.list.sessID_Gen();
 
-//Second value is to keep track of result to play if user doesn't like the "best" result.
+//Second value is to keep track of result to play if user doesn't like the first result.
 Template.list.search_get= function(str,val){
     var request = gapi.client.youtube.search.list({part:'snippet',q:str});
 
