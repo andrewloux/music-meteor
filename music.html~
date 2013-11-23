@@ -19,12 +19,55 @@ function onYouTubeApiLoad() {
 }
 </script>
   <script src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
+  <script src= "https://www.youtube.com/iframe_api"></script>
+  <script>
+  // Load the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // Replace the 'ytplayer' element with an <iframe> and
+  // YouTube player after the API code downloads.
+  var player;
+  function onYouTubePlayerAPIReady() {
+	console.log("playerAPIready");
+    player = new YT.Player('ytplayer', {
+      height: '480',
+      width: '640',
+      videoId: 'M7lc1UVf-VE',
+      events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+      }
+    });
+ 
+ //console.log("loaded");
+  $("#player").hide();
+  }
+
+function onPlayerReady(){
+//console.log("ready");
+}
+
+function onPlayerStateChange(){
+//console.log("changed");
+
+}
+
+function generatePlaylist(list){
+	console.log("list: ", list)
+	player.loadPlaylist(list);
+}
+  </script>
 </head>
 
 <body>
   {{> header}}
   {{> search_bar}}
+  {{> player}}
   {{> list}}
+  {{> generate}}
 </body>
 
 <template name="header">
@@ -43,6 +86,21 @@ function onYouTubeApiLoad() {
   </ul>
 </template>
 
+<template name="generate">
+	<button type="button" id="generate_button" >Hear mixtape</button>
+</template>
+
+<template name="player">
+	<div id="player">
+		<div id="ytplayer"></div>
+		<div id="nav">
+		    <button id="close_player"></div>
+		    {{#each my_playlist}}
+		          {{> track}}
+		    {{/each}}	
+		</div>
+	</div>
+</template>
 
 <template name="track">
 <li id="{{_id}}" class="list_element">

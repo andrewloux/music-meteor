@@ -93,10 +93,31 @@ Router.map(function () {
   });
 
 
+  Template.player.my_playlist = function(){
+	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
+	return Links.find();
+  }
+
+
   Template.list.my_playlist = function(){
 	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
 	return Links.find();
   }
+
+  Template.generate.events({
+	'click #generate_button': function (evt, template){		
+		generatePlaylist(Template.list.get_list("videoIds"));
+		$("#player").fadeIn(1000);
+	}
+  });
+
+  Template.player.events({
+	'click #close_player': function (evt, template){		
+		player.stopVideo();
+		$("#player").fadeOut(1000);
+	}
+  });
+
 
   Template.list.events({
 	//Fixing the weird delete issue with solution that's both clunky and pretty at the same time!

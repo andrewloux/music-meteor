@@ -40,7 +40,95 @@
 }
 
 .list_element {
-	max-height:40px;
+	width:50%;
+}
+
+.list_element .destroy {
+    cursor: pointer;
+    position: relative;
+    left: 5px;
+    top: 30px;
+    height: 20px;
+    /*When you're actually doing this, increase the width to about 60%-70%*/
+    width: 20%;
+    margin-left:100%;
+}
+.list_element:hover .destroy {
+    background: url('/destroy.png') no-repeat 0 0;
+}
+
+.list_element .destroy:hover {
+    background-position: 0 -20px;
+}
+
+.list_element:hover{
+    cursor:pointer;
+}
+
+.element_style{
+    /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
+    font-family: 'Ubuntu';
+    font-size:20px;
+}/* CSS declarations go here */
+#title{
+	font-family: 'Knewave', cursive;
+	font-size:3em;
+	font-weight:100;
+	width:100%;
+	text-align:center;
+}
+
+#query{
+	/* css 3 */
+	border-radius:5px;
+	/* mozilla */
+	-moz-border-radius:5px;
+	/* webkit */
+	-webkit-border-radius:5px;
+	font-size: 2em;
+	padding: 5px;
+
+	/*Centering the input*/
+	width:40%;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+}
+
+/*Make the following global?*/
+#query:focus { 
+    outline-color: black;
+}
+
+#player{
+	width:100%;
+	position:absolute;
+}
+
+#ytplayer{
+	width:55%;
+	height:390px;
+	float:left;
+}
+
+#nav{
+	width:45%;
+	height:390px;
+	background:red;
+	float:right;
+}
+
+#playlist{
+	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
+	margin-left:30%;
+	display:block;
+}
+
+.thumbnail{
+	width:200px;
+}
+
+.list_element {
 	width:50%;
 }
 
