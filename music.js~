@@ -14,17 +14,53 @@ if (Meteor.isClient) {
     return text;	
  } 
 
- Template.list.my_playlist_id = Template.list.sessID_Gen();
+//The Router after event callback overrides the following line. 
+Template.list.my_playlist_id = Template.list.sessID_Gen();
 
-//Second value is to keep track of result to play if user doesn't like the first result.
+//Second parameter is to keep track of result to play if user doesn't like the first result.
 Template.list.search_get= function(str,val){
     var request = gapi.client.youtube.search.list({part:'snippet',q:str});
 
     request.execute(function(response) {
 	    str = JSON.stringify(response.result);
 	    str = JSON.parse(str);
-            Links.insert({sess:Template.list.my_playlist_id,song_title:str.items[val].snippet.title,videoId:str.items[0].id.videoId,thumbnail:str.items[val].snippet.thumbnails.medium.url,index:val});
+
+	   //Ensuring that we found a video and not a channel.
+	    if ( (str.items[val].id.kind == "youtube#channel") || (str.items[val].id.kind == "youtube#playlist") ){
+		while (str.items[val].id.kind != "youtube#video"){
+			//Error checking, you could have an inf loop.
+			val = val+1;
+		}
+	    }
+            Links.insert({sess:Template.list.my_playlist_id,song_title:str.items[val].snippet.title,videoId:str.items[val].id.videoId,thumbnail:str.items[val].snippet.thumbnails.medium.url,index:val});
     });
+}
+
+//Since the order of playlist has been changed, this iterates through elements in new order, and rets an array of the results.
+/* Use cases: param == "videoIds"
+ * param == undef => all the collections vars.
+ *
+ */
+Template.list.get_list = function(param){
+  var ret = [];
+  $( "li.list_element" ).each(function() {
+    if($(this).is(':visible')){
+	ret.push(   Links.findOne({_id:$(this).attr('id')})   );
+    }
+  });
+
+  //No input parameters, return the entire thing
+  if (typeof param == "undefined"){
+    return ret;
+  }
+
+  else if (param == "videoIds"){
+	var urls = [];
+	for (var i = 0; i < ret.length; i++){
+		urls[i] = ret[i].videoId;
+	}
+	return urls;
+  }
 }
 
 Router.map(function () {
@@ -33,14 +69,16 @@ Router.map(function () {
     path: '/tape/:_sess',
     before: function(){
 	this.subscribe('links',this.params._sess);
+    },
+    after: function(){
+	Template.list.my_playlist_id = this.params._sess;
     }
   });
 });
 
  //Renew subscription on state change.
- Deps.autorun( function(){
-   Meteor.subscribe( "links", Template.list.my_playlist_id);
- });
+ Meteor.subscribe( "links", Template.list.my_playlist_id);
+
 
 
  Template.search_bar.events({
@@ -60,10 +98,13 @@ Router.map(function () {
 	return Links.find();
   }
 
-  Template.track.events({
+  Template.list.events({
 	//Fixing the weird delete issue with solution that's both clunky and pretty at the same time!
 	'click .destroy' : function (){
-		$("#"+this._id).fadeOut('slow',function(){Links.remove(this._id);});
+		Session.set("to_delete",this._id);	
+		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
+			Links.remove(Session.get("to_delete"));
+		});
 	}
   });
   

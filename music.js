@@ -14,7 +14,8 @@ if (Meteor.isClient) {
     return text;	
  } 
 
- Template.list.my_playlist_id = Template.list.sessID_Gen();
+//The Router after event callback overrides the following line, such that each link is now a mixtape.
+Template.list.my_playlist_id = Template.list.sessID_Gen();
 
 //Second parameter is to keep track of result to play if user doesn't like the first result.
 Template.list.search_get= function(str,val){
@@ -68,6 +69,9 @@ Router.map(function () {
     path: '/tape/:_sess',
     before: function(){
 	this.subscribe('links',this.params._sess);
+    },
+    after: function(){
+	Template.list.my_playlist_id = this.params._sess;
     }
   });
 });
