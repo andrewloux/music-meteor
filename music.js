@@ -107,6 +107,9 @@ Router.map(function () {
   Template.generate.events({
 	'click #generate_button': function (evt, template){		
 		generatePlaylist(Template.list.get_list("videoIds"));
+		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
+		vague.blur();
+		$("#playlist").css('display','none');
 		$("#player").fadeIn(1000);
 	}
   });
@@ -115,12 +118,15 @@ Router.map(function () {
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
 		$("#player").fadeOut(1000);
+
+		$("#playlist").css('display','block');
+		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
+		vague.unblur();
 	}
   });
 
 
   Template.list.events({
-	//Fixing the weird delete issue with solution that's both clunky and pretty at the same time!
 	'click .destroy' : function (){
 		Session.set("to_delete",this._id);	
 		$("#"+Session.get("to_delete")).fadeOut('slow',function(){

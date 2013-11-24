@@ -96,7 +96,7 @@ function generatePlaylist(list){
 		<div id="nav">
 		    <button id="close_player">close</button>
 		    {{#each my_playlist}}
-		          {{> track}}
+		          {{> unremovable_track}}
 		    {{/each}}	
 		</div>
 	</div>
@@ -108,6 +108,15 @@ function generatePlaylist(list){
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
     <div class="destroy"> </div>
+    <div class="element_style">{{song_title}}</div>
+</li>
+</template>
+
+<template name="unremovable_track">
+<li class="list_element">
+<!-- Have to make proper track <li> element.
+    <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
+-->
     <div class="element_style">{{song_title}}</div>
 </li>
 </template>

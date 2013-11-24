@@ -111,11 +111,16 @@
 	float:left;
 }
 
+#close_player{
+	float:right;
+}
+
 #nav{
 	width:45%;
 	height:390px;
 	background:red;
 	float:right;
+	display:none;
 }
 
 #playlist{
