@@ -65,6 +65,15 @@
     cursor:pointer;
 }
 
+.unremovable{
+	width:100% !important;/*Override list-element*/
+}
+
+.unremovable:hover{
+	background:black;
+	color:white;
+}
+
 .element_style{
     /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
     font-family: 'Ubuntu';

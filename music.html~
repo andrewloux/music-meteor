@@ -113,11 +113,10 @@ function generatePlaylist(list){
 </template>
 
 <template name="unremovable_track">
-<li id="{{_id}}" class="list_element">
+<li class="unremovable list_element">
 <!-- Have to make proper track <li> element.
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
-    <div class="destroy"> </div>
     <div class="element_style">{{song_title}}</div>
 </li>
 </template>

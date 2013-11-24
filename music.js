@@ -63,6 +63,8 @@ Template.list.get_list = function(param){
   }
 }
 
+
+
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
   this.route('tape', {
@@ -79,8 +81,6 @@ Router.map(function () {
  //Renew subscription on state change.
  Meteor.subscribe( "links", Template.list.my_playlist_id);
 
-
-
  Template.search_bar.events({
     'keypress #query' : function (evt,template) {
       // template data, if any, is available in 'this'
@@ -92,27 +92,35 @@ Router.map(function () {
        }
   });
 
-
-  Template.player.my_playlist = function(){
-	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
-	return Links.find();
-  }
-
-
   Template.list.my_playlist = function(){
 	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
 	return Links.find();
   }
 
-  Template.generate.events({
-	'click #generate_button': function (evt, template){		
-		generatePlaylist(Template.list.get_list("videoIds"));
-		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
-		vague.blur();
-		$("#playlist").css('display','none');
-		$("#player").fadeIn(1000);
+  Template.list.events({
+	'click .destroy' : function (){
+		Session.set("to_delete",this._id);	
+		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
+			Links.remove(Session.get("to_delete"));
+		});
 	}
   });
+
+  Template.unremovable_track.events({
+	'click .unremovable' : function (){
+		var videoId_local = this.videoId;
+		var index = $.inArray(videoId_local,Template.globalvar);
+		console.log(Template.globalvar);
+		console.log(videoId_local);
+		console.log(index);
+		player.loadPlaylist(Template.globalvar,index);
+	}
+  });
+  
+  Template.player.my_playlist = function(){
+	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
+	return Links.find();
+  }
 
   Template.player.events({
 	'click #close_player': function (evt, template){		
@@ -125,16 +133,21 @@ Router.map(function () {
 	}
   });
 
-
-  Template.list.events({
-	'click .destroy' : function (){
-		Session.set("to_delete",this._id);	
-		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
-			Links.remove(Session.get("to_delete"));
-		});
+  Template.generate.events({
+	'click #generate_button': function (evt, template){
+		//bad code below:
+		Template.globalvar = Template.list.get_list("videoIds");		
+		generatePlaylist(Template.globalvar);
+		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
+		vague.blur();
+		$("#playlist").css('display','none');
+		$("#player").fadeIn(1000);
 	}
   });
-  
+
+
+
+
 }//End of Client
 
 if (Meteor.isServer) {

@@ -95,6 +95,7 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <button id="close_player">close</button>
+		    <br>
 		    {{#each my_playlist}}
 		          {{> unremovable_track}}
 		    {{/each}}	
@@ -113,7 +114,7 @@ function generatePlaylist(list){
 </template>
 
 <template name="unremovable_track">
-<li class="list_element">
+<li class="unremovable list_element">
 <!-- Have to make proper track <li> element.
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
