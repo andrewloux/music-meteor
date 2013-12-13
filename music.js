@@ -87,6 +87,7 @@ Router.map(function () {
       if (evt.which === 13){
                 var url = template.find('#query').value;
                 $("#query").val('');
+		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight},1000);
 		Template.list.search_get(url,0);
                 }
        }

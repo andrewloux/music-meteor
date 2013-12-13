@@ -79,6 +79,7 @@ function generatePlaylist(list){
 </template>
 
 <template name="list">
+<div id="playlist_container">
   <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
@@ -95,6 +96,7 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <button id="close_player">close</button>
+		    <br>
 		    {{#each my_playlist}}
 		          {{> unremovable_track}}
 		    {{/each}}	

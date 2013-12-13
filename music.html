@@ -79,11 +79,13 @@ function generatePlaylist(list){
 </template>
 
 <template name="list">
+<div id="playlist_container">
   <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
     {{/each}}	
   </ul>
+</div>
 </template>
 
 <template name="generate">

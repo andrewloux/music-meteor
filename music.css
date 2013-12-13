@@ -1,4 +1,16 @@
 /* CSS declarations go here */
+
+/*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
+html {
+   height:100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 #title{
 	font-family: 'Knewave', cursive;
 	font-size:3em;
@@ -31,8 +43,18 @@
 
 #playlist{
 	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
-	margin-left:30%;
 	display:block;
+}
+
+#playlist_container{	
+	/*Scrollbar*/
+	margin-left: auto;
+	margin-right: auto;
+
+	width:40%;
+	height: 70%;
+
+	overflow-y: auto;
 }
 
 .thumbnail{
@@ -40,7 +62,8 @@
 }
 
 .list_element {
-	width:50%;
+	width:94%; /*Where the destroy button will fall*/
+	left:0;
 }
 
 .list_element .destroy {
@@ -50,7 +73,7 @@
     top: 30px;
     height: 20px;
     /*When you're actually doing this, increase the width to about 60%-70%*/
-    width: 20%;
+    width: 5%;
     margin-left:100%;
 }
 .list_element:hover .destroy {
@@ -78,96 +101,3 @@
     /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
     font-family: 'Ubuntu';
     font-size:20px;
-}/* CSS declarations go here */
-#title{
-	font-family: 'Knewave', cursive;
-	font-size:3em;
-	font-weight:100;
-	width:100%;
-	text-align:center;
-}
-
-#query{
-	/* css 3 */
-	border-radius:5px;
-	/* mozilla */
-	-moz-border-radius:5px;
-	/* webkit */
-	-webkit-border-radius:5px;
-	font-size: 2em;
-	padding: 5px;
-
-	/*Centering the input*/
-	width:40%;
-	margin-left:auto;
-	margin-right:auto;
-	display:block;
-}
-
-/*Make the following global?*/
-#query:focus { 
-    outline-color: black;
-}
-
-#player{
-	width:100%;
-	position:absolute;
-}
-
-#ytplayer{
-	width:55%;
-	height:390px;
-	float:left;
-}
-
-#close_player{
-	float:right;
-}
-
-#nav{
-	width:45%;
-	height:390px;
-	float:right;
-}
-
-#playlist{
-	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
-	margin-left:30%;
-	display:block;
-}
-
-.thumbnail{
-	width:200px;
-}
-
-.list_element {
-	width:50%;
-}
-
-.list_element .destroy {
-    cursor: pointer;
-    position: relative;
-    left: 5px;
-    top: 30px;
-    height: 20px;
-    /*When you're actually doing this, increase the width to about 60%-70%*/
-    width: 20%;
-    margin-left:100%;
-}
-.list_element:hover .destroy {
-    background: url('/destroy.png') no-repeat 0 0;
-}
-
-.list_element .destroy:hover {
-    background-position: 0 -20px;
-}
-
-.list_element:hover{
-    cursor:pointer;
-}
-
-.element_style{
-    /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
-    font-family: 'Ubuntu';
-    font-size:20px;
-}

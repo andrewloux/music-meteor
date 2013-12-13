@@ -87,6 +87,7 @@ Router.map(function () {
       if (evt.which === 13){
                 var url = template.find('#query').value;
                 $("#query").val('');
+		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight},700);
 		Template.list.search_get(url,0);
                 }
        }
@@ -107,7 +108,7 @@ Router.map(function () {
   });
 
   Template.unremovable_track.events({
-	'click .list_element' : function (){
+	'click .unremovable' : function (){
 		var videoId_local = this.videoId;
 		var index = $.inArray(videoId_local,Template.globalvar);
 		console.log(Template.globalvar);
