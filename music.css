@@ -9,6 +9,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden; /*This must be FIXED*/
 }
 
 #title{
@@ -36,6 +37,14 @@ body {
 	display:block;
 }
 
+#nav{
+	width: calc(100% - 640px);
+	margin-top: -480px;
+	max-height: 480px;
+	overflow-y:auto;
+	float: right;
+}
+
 /*Make the following global?*/
 #query:focus { 
     outline-color: black;
@@ -52,10 +61,35 @@ body {
 	margin-right: auto;
 
 	width:40%;
-	height: 70%;
+	height: 60%;
 
 	overflow-y: auto;
 }
+
+.tape_image{
+	background-image: url("http://i.imgur.com/LssXcec.jpg?1");
+    	background-repeat: no-repeat;
+	background-size:45% 45%;
+}
+
+#button_control{
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
+}
+
+#generate_button{
+	margin-left:40px;
+	float:left;
+	width:15em;
+}
+
+#share{
+	margin-right:40px;
+	float:right;
+	width:15em;	
+}
+
 
 .thumbnail{
 	width:200px;
@@ -90,6 +124,7 @@ body {
 
 .unremovable{
 	width:100% !important;/*Override list-element*/
+	color:white !important;
 }
 
 .unremovable:hover{

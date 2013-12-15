@@ -87,7 +87,7 @@ Router.map(function () {
       if (evt.which === 13){
                 var url = template.find('#query').value;
                 $("#query").val('');
-		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight},1000);
+		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
 		Template.list.search_get(url,0);
                 }
        }
@@ -127,10 +127,17 @@ Router.map(function () {
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
 		$("#player").fadeOut(1000);
-
 		$("#playlist").css('display','block');
-		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
-		vague.unblur();
+
+		/*Things that must reappear*/
+		$("#query").show();
+		$("#share").fadeIn(1000);
+		$("#generate_button").fadeIn(1000);
+		$("#playlist_container").fadeIn(1000);
+		$("#button_control").fadeIn(1000);
+
+		$('body').animate({backgroundColor: '#fff'}, 'slow');$('#title').animate({color: '#000'}, 'slow');$('#query').fadeIn('slow')
+
 	}
   });
 
@@ -139,10 +146,18 @@ Router.map(function () {
 		//bad code below:
 		Template.globalvar = Template.list.get_list("videoIds");		
 		generatePlaylist(Template.globalvar);
-		var vague = $("#query,#title,#playlist,#generate_button").Vague({intensity:3});
-		vague.blur();
 		$("#playlist").css('display','none');
 		$("#player").fadeIn(1000);
+
+		/*Things to hide*/
+		$("#query").hide();
+		$("#share").fadeOut(1000);
+		$("#generate_button").fadeOut(1000);
+		$("#playlist_container").fadeOut(1000);
+		$("#button_control").fadeOut(1000);
+
+		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');$('#title').animate({color: '#fff'}, 'slow');$('#query').fadeOut('slow');
+
 	}
   });
 

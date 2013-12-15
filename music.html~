@@ -79,16 +79,20 @@ function generatePlaylist(list){
 </template>
 
 <template name="list">
-<div id="playlist_container">
+<div class="tape_image" id="playlist_container">
   <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
     {{/each}}	
   </ul>
+</div>
 </template>
 
 <template name="generate">
-	<button type="button" id="generate_button" >Hear mixtape</button>
+	<div id="button_control">
+		<div class="button is-default" id="generate_button">Hear Mixtape</div>
+		<div class="button is-default" id="share">Share</div>
+	</div>
 </template>
 
 <template name="player">
