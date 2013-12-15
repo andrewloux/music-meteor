@@ -126,7 +126,8 @@ Router.map(function () {
   Template.player.events({
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
-		$("#player").fadeOut(1000);
+		$("#player").fadeOut(500);
+		$(".absolute_center").fadeOut(500);		
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
@@ -146,8 +147,9 @@ Router.map(function () {
 		//bad code below:
 		Template.globalvar = Template.list.get_list("videoIds");		
 		generatePlaylist(Template.globalvar);
-		$("#playlist").css('display','none');
+		$("#playlist").css('display','none',1000);//Check that this last argument works. 
 		$("#player").fadeIn(1000);
+		$(".absolute_center").fadeIn(1000);		
 
 		/*Things to hide*/
 		$("#query").hide();

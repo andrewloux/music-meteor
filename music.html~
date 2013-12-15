@@ -1,6 +1,7 @@
 <head>
   <title>music</title>
 <link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
     $( "#playlist" ).sortable();
@@ -33,7 +34,7 @@ function onYouTubeApiLoad() {
   function onYouTubePlayerAPIReady() {
 	console.log("playerAPIready");
     player = new YT.Player('ytplayer', {
-      height: '480',
+      height: '400',
       width: '640',
       videoId: 'M7lc1UVf-VE',
       events: {
@@ -79,7 +80,7 @@ function generatePlaylist(list){
 </template>
 
 <template name="list">
-<div class="tape_image" id="playlist_container">
+<div id="playlist_container">
   <ul id="playlist">
     {{#each my_playlist}}
            {{> track}}
@@ -96,16 +97,17 @@ function generatePlaylist(list){
 </template>
 
 <template name="player">
+	<i class="fa fa-music" id="close_player"></i>
 	<div id="player">
 		<div id="ytplayer"></div>
 		<div id="nav">
-		    <button id="close_player">close</button>
 		    <br>
 		    {{#each my_playlist}}
 		          {{> unremovable_track}}
 		    {{/each}}	
 		</div>
 	</div>
+	<!-- PUT THIS NIGGA SOMEPLACE ELSE -->
 </template>
 
 <template name="track">

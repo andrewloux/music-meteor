@@ -9,7 +9,6 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /*This must be FIXED*/
 }
 
 #title{
@@ -17,6 +16,7 @@ body {
 	font-size:3em;
 	font-weight:100;
 	width:100%;
+	height:45px;
 	text-align:center;
 }
 
@@ -37,10 +37,33 @@ body {
 	display:block;
 }
 
+.absolute_center{
+	width:3em; /*Must be the same width as the icon*/
+
+	margin-left: auto;
+	margin-right: auto;
+
+	display:none;
+}
+
+#close_player{
+	cursor:pointer;
+	color:white;
+	font-size:3em;
+}
+
+#player{
+	margin-top:20px;
+}
+
+#ytplayer{
+
+}
+
 #nav{
 	width: calc(100% - 640px);
-	margin-top: -480px;
-	max-height: 480px;
+	margin-top: -424px;
+	max-height: 400px;
 	overflow-y:auto;
 	float: right;
 }
