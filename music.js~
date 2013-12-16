@@ -117,19 +117,23 @@ Router.map(function () {
 		player.loadPlaylist(Template.globalvar,index);
 	}
   });
-  /*
+  
   Template.player.my_playlist = function(){
 	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
 	return Links.find();
   }
-  */
+
 
   Template.header.events({
 	'click #generate_button': function (evt, template){
 		//bad code below:
+
+	if (Template.list.my_playlist().fetch().length == 0){
+		alert('Your tape is empty!');
+	}
 		Template.globalvar = Template.list.get_list("videoIds");		
 		generatePlaylist(Template.globalvar);
-		Template.player.my_playlist = Template.globalvar;
+
 		$("#playlist").css('display','none',1000);//Check that this last argument works. 
 		$("#player").fadeIn(1000);
 		$("#close_player").fadeIn(1000);

@@ -127,6 +127,11 @@ Router.map(function () {
   Template.header.events({
 	'click #generate_button': function (evt, template){
 		//bad code below:
+
+	if (Template.list.my_playlist().fetch().length == 0){
+		alert('Your tape is empty!');
+	}
+	else{
 		Template.globalvar = Template.list.get_list("videoIds");		
 		generatePlaylist(Template.globalvar);
 
@@ -142,6 +147,7 @@ Router.map(function () {
 		$("#playlist_container").fadeOut(1000);
 
 		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');$('#title').animate({color: '#fff'}, 'slow');$('#query').fadeOut('slow');
+	}
 
 	}
   });
