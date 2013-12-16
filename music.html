@@ -111,7 +111,8 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <br>
-		    {{#each nav_playlist}}
+			{{debug list}}
+		    {{#each list}}
 				  {{> unremovable_track}}	
 		    {{/each}}
 		</div>

@@ -6,11 +6,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
-    $( "#playlist" ).sortable({
-	update: function(event,ui){
-		updateList();
-	}
-	});
+    $( "#playlist" ).sortable();
     $( "#playlist" ).disableSelection();
   });
   </script>
@@ -115,7 +111,7 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <br>
-		    {{#each nav_playlist}}
+		    {{#each list}}
 				  {{> unremovable_track}}	
 		    {{/each}}
 		</div>

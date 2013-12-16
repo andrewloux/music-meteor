@@ -2,7 +2,17 @@
 Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
+Handlebars.registerHelper("debug", function(optionalValue) { 
+  console.log("Current Context");
+  console.log("====================");
+  console.log(this);
 
+  if (optionalValue) {
+    console.log("Value"); 
+    console.log("===================="); 
+    console.log(optionalValue); 
+  } 
+});
  /*Check if you can put this anywhere else, it looks shit over here.*/
  Template.list.sessID_Gen = function(){
     var text = "";
@@ -44,18 +54,17 @@ Template.list.updateList = function(){
 		ret.push(   Links.findOne({_id:$(this).attr('id')})   );
          }
 	});
-	Session.set("current_list",ret);
-	
+
 	var urls = [];
 	for (var i = 0; i < ret.length; i++){
 		urls[i] = ret[i].videoId;
 	}
 
-	Session.set("current_urls",urls);
-		
-	return;
+	Template.player.temp = ret;
+	Template.player.urls =	urls;
 }
 
+Template.player.list = function(){return Template.player.temp;}
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -115,12 +124,15 @@ Router.map(function () {
   Template.header.events({
 	'click #generate_button': function (evt, template){
 		//bad code below:
+	
+	Template.list.updateList();
 
 	if (Template.list.my_playlist().fetch().length == 0){
+
 		alert('Your tape is empty!');
 	}
 	else{
-		generatePlaylist(  Session.get("current_urls")  );
+		generatePlaylist(  Template.player.urls  );
 		$("#playlist").css('display','none');
 		$("#player").fadeIn(1000);
 
