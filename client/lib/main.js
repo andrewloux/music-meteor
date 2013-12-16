@@ -6,3 +6,4 @@ Template.list.clean = function(collection) {
         });
     }
 }
+

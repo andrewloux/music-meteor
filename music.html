@@ -6,7 +6,11 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
-    $( "#playlist" ).sortable();
+    $( "#playlist" ).sortable({
+	update: function(event,ui){
+		updateList();
+	}
+	});
     $( "#playlist" ).disableSelection();
   });
   </script>
@@ -77,8 +81,10 @@ function generatePlaylist(list){
   <h1 id="title">MIXTAPE</h1>
    <div class="absolute_center" id="generate_button">
 	<i class="fa fa-play-circle-o" id="play"></i>
-	<i class="fa fa-list" id="close_player"></i>
    </div>
+   <div class="absolute_center2" id="generate_button">
+	<i class="fa fa-list" id="close_player"></i>
+    </div>
 </template>
 
 <template name="search_bar">
@@ -109,9 +115,9 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <br>
-		    {{#each my_playlist}}
-		          {{> unremovable_track}}
-		    {{/each}}	
+		    {{#each nav_playlist}}
+				  {{> unremovable_track}}	
+		    {{/each}}
 		</div>
 	</div>
 	<!-- PUT THIS NIGGA SOMEPLACE ELSE -->

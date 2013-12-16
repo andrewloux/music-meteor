@@ -6,7 +6,17 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
-    $( "#playlist" ).sortable();
+    $( "#playlist" ).sortable({
+	update: function(event,ui){
+		  var ret = [];
+		  $( "#playlist .list_element" ).each(function() {
+		    if($(this).is(':visible')){
+			ret.push(   Links.findOne({_id:$(this).attr('id')})   );
+		    }
+		  });
+		Session.set("current_list",ret);
+	}
+	});
     $( "#playlist" ).disableSelection();
   });
   </script>
@@ -76,9 +86,11 @@ function generatePlaylist(list){
 <template name="header">
   <h1 id="title">MIXTAPE</h1>
    <div class="absolute_center" id="generate_button">
-	<i class="fa fa-play-circle-o" id="mode"></i>
-	<i class="fa fa-list" id="close_player"></i>
+	<i class="fa fa-play-circle-o" id="play"></i>
    </div>
+   <div class="absolute_center2" id="generate_button">
+	<i class="fa fa-list" id="close_player"></i>
+    </div>
 </template>
 
 <template name="search_bar">
@@ -109,9 +121,9 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <br>
-		    {{#each my_playlist}}
-		          {{> unremovable_track}}
-		    {{/each}}	
+		    {{#each nav_playlist}}
+				  {{> unremovable_track}}	
+		    {{/each}}
 		</div>
 	</div>
 	<!-- PUT THIS NIGGA SOMEPLACE ELSE -->

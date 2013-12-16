@@ -49,6 +49,8 @@ Template.list.get_list = function(param){
     }
   });
 
+  console.log(ret);
+
   //No input parameters, return the entire thing
   if (typeof param == "undefined"){
     return ret;
@@ -63,6 +65,25 @@ Template.list.get_list = function(param){
   }
 }
 
+
+Template.list.updateList = function(){
+	var ret = [];
+        $( "#playlist .list_element" ).each(function() {
+	if($(this).is(':visible')){
+		ret.push(   Links.findOne({_id:$(this).attr('id')})   );
+         }
+	});
+	Session.set("current_list",ret);
+	
+	var urls = [];
+	for (var i = 0; i < ret.length; i++){
+		urls[i] = ret[i].videoId;
+	}
+
+	Session.set("current_urls",urls);
+		
+	return;
+}
 
 
 Router.map(function () {
@@ -93,11 +114,12 @@ Router.map(function () {
        }
   });
 
-  Template.list.my_playlist = function(){
-	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
-	return Links.find();
-  }
 
+/*
+  Template.player.nav_playlist = function(){
+	return Template.list.get_list();
+}
+*/
   Template.list.events({
 	'click .destroy' : function (){
 		Session.set("to_delete",this._id);	
@@ -111,16 +133,17 @@ Router.map(function () {
 	'click .unremovable' : function (){
 		var videoId_local = this.videoId;
 		var index = $.inArray(videoId_local,Template.globalvar);
-		console.log(Template.globalvar);
-		console.log(videoId_local);
-		console.log(index);
 		player.loadPlaylist(Template.globalvar,index);
 	}
   });
   
-  Template.player.my_playlist = function(){
+  Template.list.my_playlist = function(){
 	//After the deep copy in the routing part of the code, the JQuery will not be relevant.
 	return Links.find();
+  }
+  
+  Template.player.nav_playlist = function(){
+	return Session.get("current_list");
   }
 
 
@@ -128,24 +151,30 @@ Router.map(function () {
 	'click #generate_button': function (evt, template){
 		//bad code below:
 
+	//Template.list.updateList();
+
 	if (Template.list.my_playlist().fetch().length == 0){
 		alert('Your tape is empty!');
 	}
-		Template.globalvar = Template.list.get_list("videoIds");		
-		generatePlaylist(Template.globalvar);
-
-		$("#playlist").css('display','none',1000);//Check that this last argument works. 
+	else{
+		generatePlaylist(  Session.get("current_urls")  );
+		$("#playlist").css('display','none');
 		$("#player").fadeIn(1000);
-		$("#close_player").fadeIn(1000);
+
+		$(".absolute_center").hide();
+
 	
 
 		/*Things to hide*/
-		$("#play").hide();
+		$(".absolute_center2").fadeIn();
+
 		$("#query").hide();
 		$("#share").fadeOut(1000);
 		$("#playlist_container").fadeOut(1000);
 
-		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');$('#title').animate({color: '#fff'}, 'slow');$('#query').fadeOut('slow');
+		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
+		$('#title').animate({color: '#fff'}, 'slow');
+	}
 
 	}
   });
@@ -154,17 +183,18 @@ Router.map(function () {
   Template.header.events({
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
-		$("#player").fadeOut(500);
-		$("#close_player").hide();
+		$(".absolute_center2").hide();
+		$("#player").hide();
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
 		$("#query").show();
 		$("#share").fadeIn(1000);
-		$("#play").fadeIn(1000);		
+		$(".absolute_center").fadeIn(1000);
 		$("#playlist_container").fadeIn(1000);
 
-		$('body').animate({backgroundColor: '#fff'}, 'slow');$('#title').animate({color: '#000'}, 'slow');$('#query').fadeIn('slow')
+		$('body').animate({backgroundColor: '#fff'}, 'slow');
+		$('#title').animate({color: '#000'}, 'slow');
 
 	}
   });

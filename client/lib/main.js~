@@ -7,12 +7,12 @@ Template.list.clean = function(collection) {
     }
 }
 
-Template.list.sessGen = function(){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;	
+function updateList(){
+	var ret = [];
+        $( "#playlist .list_element" ).each(function() {
+	if($(this).is(':visible')){
+		ret.push(   Links.findOne({_id:$(this).attr('id')})   );
+         }
+	});
+	Session.set("current_list",ret);	
 }
