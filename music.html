@@ -1,6 +1,8 @@
 <head>
   <title>music</title>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:600&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
@@ -72,7 +74,11 @@ function generatePlaylist(list){
 </body>
 
 <template name="header">
-  <h1 id="title">mixtape</h1>
+  <h1 id="title">MIXTAPE</h1>
+   <div class="absolute_center" id="generate_button">
+	<i class="fa fa-play-circle-o" id="play"></i>
+	<i class="fa fa-list" id="close_player"></i>
+   </div>
 </template>
 
 <template name="search_bar">
@@ -91,15 +97,14 @@ function generatePlaylist(list){
 
 <template name="generate">
 	<div id="button_control">
+		<!--
 		<div class="button is-default" id="generate_button">Hear Mixtape</div>
-		<div class="button is-default" id="share">Share</div>
+		-->
+		<div class="button is-inverse has-icon-spacing" id="share"><i class="fa fa-users"></i>Share</div>
 	</div>
 </template>
 
 <template name="player">
-	<div class="absolute_center">
-		<i class="fa fa-music" id="close_player"></i>
-	</div>
 	<div id="player">
 		<div id="ytplayer"></div>
 		<div id="nav">

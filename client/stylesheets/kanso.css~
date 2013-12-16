@@ -84,7 +84,8 @@
   /*border-color: #656d78;*/
   border-color:black;
   background-color: #f5f7fa;
-  color: #434a54;
+  /*color: #434a54;*/
+   color:black;
 }
 
 .button.is-default:hover,
@@ -93,11 +94,13 @@
   background-color: white;
 }
 
+/*
 .button.is-default:active,
 .button.is-default.is-active {
   border-color: #575e67;
   background-color: #e1e7f0;
 }
+*/
 
 .button.is-primary {
   border-color: #2494be;
@@ -190,8 +193,8 @@
 }
 
 .button.is-inverse {
-  border-color: #434a54;
-  background-color: #656d78;
+  border-color: #000;
+  background-color: #353535;
   color: white;
 }
 

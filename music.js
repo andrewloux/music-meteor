@@ -123,42 +123,44 @@ Router.map(function () {
 	return Links.find();
   }
 
-  Template.player.events({
+
+  Template.header.events({
+	'click #generate_button': function (evt, template){
+		//bad code below:
+		Template.globalvar = Template.list.get_list("videoIds");		
+		generatePlaylist(Template.globalvar);
+
+		$("#playlist").css('display','none',1000);//Check that this last argument works. 
+		$("#player").fadeIn(1000);
+		$("#close_player").fadeIn(1000);
+	
+
+		/*Things to hide*/
+		$("#play").hide();
+		$("#query").hide();
+		$("#share").fadeOut(1000);
+		$("#playlist_container").fadeOut(1000);
+
+		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');$('#title').animate({color: '#fff'}, 'slow');$('#query').fadeOut('slow');
+
+	}
+  });
+
+
+  Template.header.events({
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
 		$("#player").fadeOut(500);
-		$(".absolute_center").fadeOut(500);		
+		$("#close_player").hide();
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
 		$("#query").show();
 		$("#share").fadeIn(1000);
-		$("#generate_button").fadeIn(1000);
+		$("#play").fadeIn(1000);		
 		$("#playlist_container").fadeIn(1000);
-		$("#button_control").fadeIn(1000);
 
 		$('body').animate({backgroundColor: '#fff'}, 'slow');$('#title').animate({color: '#000'}, 'slow');$('#query').fadeIn('slow')
-
-	}
-  });
-
-  Template.generate.events({
-	'click #generate_button': function (evt, template){
-		//bad code below:
-		Template.globalvar = Template.list.get_list("videoIds");		
-		generatePlaylist(Template.globalvar);
-		$("#playlist").css('display','none',1000);//Check that this last argument works. 
-		$("#player").fadeIn(1000);
-		$(".absolute_center").fadeIn(1000);		
-
-		/*Things to hide*/
-		$("#query").hide();
-		$("#share").fadeOut(1000);
-		$("#generate_button").fadeOut(1000);
-		$("#playlist_container").fadeOut(1000);
-		$("#button_control").fadeOut(1000);
-
-		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');$('#title').animate({color: '#fff'}, 'slow');$('#query').fadeOut('slow');
 
 	}
   });

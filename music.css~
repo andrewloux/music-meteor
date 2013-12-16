@@ -3,20 +3,22 @@
 /*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
 html {
    height:100%;
+   overflow:auto;
 }
 
 body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow:auto;
 }
 
 #title{
-	font-family: 'Knewave', cursive;
-	font-size:3em;
-	font-weight:100;
+	font-family: 'Lato', sans-serif;
+	font-size:2.5em;
+	font-weight:700;
 	width:100%;
-	height:45px;
+	height:30px;
 	text-align:center;
 }
 
@@ -27,13 +29,14 @@ body {
 	-moz-border-radius:5px;
 	/* webkit */
 	-webkit-border-radius:5px;
-	font-size: 2em;
+	font-size: 1.5em;
 	padding: 5px;
 
 	/*Centering the input*/
 	width:40%;
 	margin-left:auto;
 	margin-right:auto;
+	margin-top:20px;
 	display:block;
 }
 
@@ -42,13 +45,21 @@ body {
 
 	margin-left: auto;
 	margin-right: auto;
+}
 
-	display:none;
+#play{
+	cursor:pointer;
+	width:100%;
+	display:inline-block;
+	font-size:2em;
+	text-align:center;
 }
 
 #close_player{
+	cursor:pointer;
 	color:white;
-	font-size:3em;
+	font-size:2em;
+	display:none;
 }
 
 #player{
@@ -97,19 +108,13 @@ body {
 #button_control{
 	margin-left:auto;
 	margin-right:auto;
-	width:40%;
+	width:20%;
 }
 
-#generate_button{
-	margin-left:40px;
-	float:left;
-	width:15em;
-}
 
 #share{
-	margin-right:40px;
-	float:right;
-	width:15em;	
+	font-family: 'Open Sans', sans-serif;
+	width:100%;	
 }
 
 
