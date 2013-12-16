@@ -8,13 +8,7 @@
   $(function() {
     $( "#playlist" ).sortable({
 	update: function(event,ui){
-		  var ret = [];
-		  $( "#playlist .list_element" ).each(function() {
-		    if($(this).is(':visible')){
-			ret.push(   Links.findOne({_id:$(this).attr('id')})   );
-		    }
-		  });
-		Session.set("current_list",ret);
+		updateList();
 	}
 	});
     $( "#playlist" ).disableSelection();

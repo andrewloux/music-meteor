@@ -36,36 +36,7 @@ Template.list.search_get= function(str,val){
     });
 }
 
-//Since the order of playlist has been changed, this iterates through elements in new order, and rets an array of the results.
-/* Use cases: param == "videoIds"
- * param == undef => all the collections vars.
- *
- */
-Template.list.get_list = function(param){
-  var ret = [];
-  $( "li.list_element" ).each(function() {
-    if($(this).is(':visible')){
-	ret.push(   Links.findOne({_id:$(this).attr('id')})   );
-    }
-  });
-
-  console.log(ret);
-
-  //No input parameters, return the entire thing
-  if (typeof param == "undefined"){
-    return ret;
-  }
-
-  else if (param == "videoIds"){
-	var urls = [];
-	for (var i = 0; i < ret.length; i++){
-		urls[i] = ret[i].videoId;
-	}
-	return urls;
-  }
-}
-
-
+/*Update List on generate button*/
 Template.list.updateList = function(){
 	var ret = [];
         $( "#playlist .list_element" ).each(function() {
@@ -114,12 +85,6 @@ Router.map(function () {
        }
   });
 
-
-/*
-  Template.player.nav_playlist = function(){
-	return Template.list.get_list();
-}
-*/
   Template.list.events({
 	'click .destroy' : function (){
 		Session.set("to_delete",this._id);	
@@ -151,8 +116,6 @@ Router.map(function () {
 	'click #generate_button': function (evt, template){
 		//bad code below:
 
-	//Template.list.updateList();
-
 	if (Template.list.my_playlist().fetch().length == 0){
 		alert('Your tape is empty!');
 	}
@@ -162,8 +125,6 @@ Router.map(function () {
 		$("#player").fadeIn(1000);
 
 		$(".absolute_center").hide();
-
-	
 
 		/*Things to hide*/
 		$(".absolute_center2").fadeIn();
@@ -198,9 +159,6 @@ Router.map(function () {
 
 	}
   });
-
-
-
 
 }//End of Client
 
