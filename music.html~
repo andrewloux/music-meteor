@@ -42,7 +42,7 @@
             'onStateChange': onPlayerStateChange
           }
         });
-	$('#player').css('opacity',0);
+	$("#player").hide();
       }
 
 function onPlayerReady(){

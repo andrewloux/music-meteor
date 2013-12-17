@@ -2,17 +2,7 @@
 Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
-Handlebars.registerHelper("debug", function(optionalValue) { 
-  console.log("Current Context");
-  console.log("====================");
-  console.log(this);
 
-  if (optionalValue) {
-    console.log("Value"); 
-    console.log("===================="); 
-    console.log(optionalValue); 
-  } 
-});
  /*Check if you can put this anywhere else, it looks shit over here.*/
  Template.list.sessID_Gen = function(){
     var text = "";
@@ -64,27 +54,12 @@ Template.list.updateList = function(){
 	Session.set("current_urls",urls);
 }
 
-Template.list.rendered = function(){
-	Template.list.updateList();
-	console.log("Catch #1");
+
+Template.fucking_list.navlist = function(){
+	return Session.get("current_list");
 }
 
-Template.fucking_list.navlist = function(){return Session.get("current_list");}
-
-Template.player.created = function(){
-	  var tag = document.createElement('script');
-	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
-	  var firstScriptTag = document.getElementsByTagName('script')[0];
-	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
-	
-}
-
-Template.player.rendered = function(){
-	console.log("JUST RENDERED!");
-}
-
-Template.player.list = function(){return Template.player.temp;}
-
+/*PART II - ROUTING AND SUBSCRIPTIONS-----------------------------------------------------------------------------------------------*/
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
   this.route('tape', {
@@ -100,6 +75,8 @@ Router.map(function () {
 
  //Renew subscription on state change.
  Meteor.subscribe( "links", Template.list.my_playlist_id);
+
+/*PART III - EVENT HANDLERS AND REACTIONS BELOW-----------------------------------------------------------------------------------------------*/
 
  Template.search_bar.events({
     'keypress #query' : function (evt,template) {
@@ -149,7 +126,7 @@ Router.map(function () {
 		alert('Your tape is empty!');
 	}
 	else{
-		$("#player").show('fast');
+		$("#player").fadeIn(1000);
 		generatePlaylist(  Session.get("current_urls")  );
 		$("#playlist").css('display','none');
 

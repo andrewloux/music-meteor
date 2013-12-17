@@ -2,17 +2,8 @@
 Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
-Handlebars.registerHelper("debug", function(optionalValue) { 
-  console.log("Current Context");
-  console.log("====================");
-  console.log(this);
 
-  if (optionalValue) {
-    console.log("Value"); 
-    console.log("===================="); 
-    console.log(optionalValue); 
-  } 
-});
+/*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
  Template.list.sessID_Gen = function(){
     var text = "";
@@ -26,6 +17,8 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 
 //The Router after event callback overrides the following line, such that each link is now a mixtape.
 Template.list.my_playlist_id = Template.list.sessID_Gen();
+
+/*PART II: YOUTUBE API AND CONTROL FUNCTIONS -----------------------------------------------------------------------------------------------*/
 
 //Second parameter is to keep track of result to play if user doesn't like the first result.
 Template.list.search_get= function(str,val){
@@ -64,27 +57,12 @@ Template.list.updateList = function(){
 	Session.set("current_urls",urls);
 }
 
-Template.list.rendered = function(){
-	Template.list.updateList();
-	console.log("Catch #1");
+
+Template.fucking_list.navlist = function(){
+	return Session.get("current_list");
 }
 
-Template.fucking_list.navlist = function(){return Session.get("current_list");}
-
-Template.player.created = function(){
-	  var tag = document.createElement('script');
-	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
-	  var firstScriptTag = document.getElementsByTagName('script')[0];
-	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
-	
-}
-
-Template.player.rendered = function(){
-
-}
-
-Template.player.list = function(){return Template.player.temp;}
-
+/*PART III - ROUTING AND SUBSCRIPTIONS---------------------------------------------------------------------------------------------------------*/
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
   this.route('tape', {
@@ -100,6 +78,23 @@ Router.map(function () {
 
  //Renew subscription on state change.
  Meteor.subscribe( "links", Template.list.my_playlist_id);
+
+/*PART III - EVENT HANDLERS AND REACTIONS BELOW-----------------------------------------------------------------------------------------------*/
+
+//Updates Session vars on new addition.
+Template.list.rendered = function(){
+	Template.list.updateList();
+}
+
+//Loads API after #player is created for synchronicity(sp?)
+Template.player.created = function(){
+	  var tag = document.createElement('script');
+	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
+	  var firstScriptTag = document.getElementsByTagName('script')[0];
+	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
+	
+}
+
 
  Template.search_bar.events({
     'keypress #query' : function (evt,template) {
