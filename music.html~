@@ -116,7 +116,6 @@ function generatePlaylist(list){
 		    {{/each}}
 		</div>
 	</div>
-	<!-- PUT THIS NIGGA SOMEPLACE ELSE -->
 </template>
 
 <template name="track">

@@ -111,13 +111,11 @@ function generatePlaylist(list){
 		<div id="ytplayer"></div>
 		<div id="nav">
 		    <br>
-			{{debug list}}
-		    {{#each list}}
+		    {{#each nav_playlist}}
 				  {{> unremovable_track}}	
 		    {{/each}}
 		</div>
 	</div>
-	<!-- PUT THIS NIGGA SOMEPLACE ELSE -->
 </template>
 
 <template name="track">

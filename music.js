@@ -60,8 +60,8 @@ Template.list.updateList = function(){
 		urls[i] = ret[i].videoId;
 	}
 
-	Template.player.temp = ret;
-	Template.player.urls =	urls;
+	Session.set("current_list",ret);
+	Session.set("current_urls",urls);
 }
 
 Template.player.list = function(){return Template.player.temp;}
@@ -132,7 +132,7 @@ Router.map(function () {
 		alert('Your tape is empty!');
 	}
 	else{
-		generatePlaylist(  Template.player.urls  );
+		generatePlaylist(  Session.get("current_urls")  );
 		$("#playlist").css('display','none');
 		$("#player").fadeIn(1000);
 

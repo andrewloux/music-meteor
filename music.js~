@@ -60,10 +60,11 @@ Template.list.updateList = function(){
 		urls[i] = ret[i].videoId;
 	}
 
-	Template.player.list = ret;
-	Template.player.urls =	urls;
+	Session.set("current_list",ret);
+	Session.set("current_urls",urls);
 }
 
+Template.player.list = function(){return Template.player.temp;}
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
