@@ -6,48 +6,44 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <script>
   $(function() {
-    $( "#playlist" ).sortable();
+    $( "#playlist" ).sortable({
+	update: function(){Template.list.updateList();}
+});
     $( "#playlist" ).disableSelection();
   });
   </script>
-<script>
-// Called automatically when JavaScript client library is loaded.
-function onClientLoad() {
-    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
-}
-
-// Called automatically when YouTube API interface is loaded
-function onYouTubeApiLoad() {
-    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
-}
-</script>
-  <script src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
-  <script src= "https://www.youtube.com/iframe_api"></script>
   <script>
-  // Load the IFrame Player API code asynchronously.
-  var tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/player_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	function onClientLoad() {
+	    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
+	}
 
-  // Replace the 'ytplayer' element with an <iframe> and
-  // YouTube player after the API code downloads.
-  var player;
-  function onYouTubePlayerAPIReady() {
-	console.log("playerAPIready");
-    player = new YT.Player('ytplayer', {
-      height: '400',
-      width: '640',
-      videoId: 'M7lc1UVf-VE',
-      events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
+	// Called automatically when YouTube API interface is loaded
+	function onYouTubeApiLoad() {
+	    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
+	}
+
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'M7lc1UVf-VE',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+	$("#player").hide();
       }
-    });
- 
- //console.log("loaded");
-  $("#player").hide();
-  }
 
 function onPlayerReady(){
 //console.log("ready");
@@ -59,7 +55,6 @@ function onPlayerStateChange(){
 }
 
 function generatePlaylist(list){
-	console.log("list: ", list)
 	player.loadPlaylist(list);
 }
   </script>
@@ -70,6 +65,7 @@ function generatePlaylist(list){
   {{> search_bar}}
   {{> player}}
   {{> list}}
+  {{> fucking_list}} 
   {{> generate}}
 </body>
 
@@ -107,14 +103,14 @@ function generatePlaylist(list){
 </template>
 
 <template name="player">
-	<div id="player">
-		<div id="ytplayer"></div>
-		<div id="nav">
-		    <br>
-		    {{#each nav_playlist}}
-				  {{> unremovable_track}}	
-		    {{/each}}
-		</div>
+	<div id="player"></div>
+</template>
+
+<template name="fucking_list">
+	<div id="navigation">
+	    {{#each navlist}}
+			  {{> unremovable_track}}	
+	    {{/each}}
 	</div>
 </template>
 

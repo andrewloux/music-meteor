@@ -52,6 +52,7 @@ body {
 
 	margin-left: auto;
 	margin-right: auto;
+	display:none;
 }
 
 #play{
@@ -76,12 +77,13 @@ body {
 
 }
 
-#nav{
-	width: calc(100% - 640px);
-	margin-top: -424px;
+#navigation{
+	margin-top:-400px;
+	width: calc(90% - 640px);
 	max-height: 400px;
 	overflow-y:auto;
 	float: right;
+	position:absolute;
 }
 
 /*Make the following global?*/

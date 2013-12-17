@@ -77,12 +77,14 @@ body {
 
 }
 
-#nav{
-	width: calc(100% - 640px);
-	margin-top: -424px;
+#navigation{
+	margin-top:-400px;
+	right:0;
+	width: calc(90% - 640px);
 	max-height: 400px;
 	overflow-y:auto;
 	float: right;
+	position:absolute;
 }
 
 /*Make the following global?*/

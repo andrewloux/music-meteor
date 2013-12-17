@@ -64,6 +64,25 @@ Template.list.updateList = function(){
 	Session.set("current_urls",urls);
 }
 
+Template.list.rendered = function(){
+	Template.list.updateList();
+	console.log("Catch #1");
+}
+
+Template.fucking_list.navlist = function(){return Session.get("current_list");}
+
+Template.player.created = function(){
+	  var tag = document.createElement('script');
+	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
+	  var firstScriptTag = document.getElementsByTagName('script')[0];
+	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
+	
+}
+
+Template.player.rendered = function(){
+	console.log("JUST RENDERED!");
+}
+
 Template.player.list = function(){return Template.player.temp;}
 
 Router.map(function () {
@@ -124,22 +143,22 @@ Router.map(function () {
   Template.header.events({
 	'click #generate_button': function (evt, template){
 		//bad code below:
-	
-	Template.list.updateList();
 
 	if (Template.list.my_playlist().fetch().length == 0){
 
 		alert('Your tape is empty!');
 	}
 	else{
-		generatePlaylist(  Template.player.urls  );
+		$("#player").show('fast');
+		generatePlaylist(  Session.get("current_urls")  );
 		$("#playlist").css('display','none');
-		$("#player").fadeIn(1000);
+
 
 		$(".absolute_center").hide();
 
 		/*Things to hide*/
 		$(".absolute_center2").fadeIn();
+		$("#navigation").fadeIn(1000);
 
 		$("#query").hide();
 		$("#share").fadeOut(1000);
@@ -148,16 +167,13 @@ Router.map(function () {
 		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		$('#title').animate({color: '#fff'}, 'slow');
 	}
+	},
 
-	}
-  });
-
-
-  Template.header.events({
 	'click #close_player': function (evt, template){		
 		player.stopVideo();
 		$(".absolute_center2").hide();
 		$("#player").hide();
+		$("#navigation").hide();
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
@@ -170,7 +186,9 @@ Router.map(function () {
 		$('#title').animate({color: '#000'}, 'slow');
 
 	}
+	
   });
+
 
 }//End of Client
 
