@@ -14,7 +14,16 @@ Template.list.sessID_Gen = function(){
 		console.log("this is count: "+message);
 		var id = (message).toString(30);
 		var filler = "00000";
-		Template.list.my_playlist_id = [filler.slice(0,5-id.length),id].join('');
+		/*Check if there is already an id assigned, this will differentiate
+		  whether it's a brand new session or a shared sess*/
+		if (Template.list.my_playlist_id){
+			console.log("There already exists a playlist id");
+		}
+		else{
+			Template.list.my_playlist_id = [filler.slice(0,5-id.length),id].join('');
+			console.log("I just created a playlist id");	
+		}
+		console.log("SESSIDGEN FIRST");
 		console.log("sessID: "+Template.list.my_playlist_id);
 		Meteor.subscribe("links", Template.list.my_playlist_id);
 	});
@@ -24,8 +33,23 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+
+Router.map(function () {
+  //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
+  this.route('tape', {
+    path: '/tape/:_sess',
+    before: function(){
+	Template.list.my_playlist_id = this.params._sess;
+	console.log("ROUTING FIRST");
+	 console.log("subscribing to sess inside route: " + this.params._sess);
+	this.subscribe('links',this.params._sess);
+	console.log("after my sessid is " + Template.list.my_playlist_id);
+    }
+  });
+});
 	Template.list.sessID_Gen();	//generate sessionID on pageload
 });
+
 
 
 /*PART II: YOUTUBE API AND CONTROL FUNCTIONS -----------------------------------------------------------------------------------------------*/
@@ -108,29 +132,11 @@ Template.fucking_list.navlist = function(){
 }
 
 /*PART III - ROUTING AND SUBSCRIPTIONS---------------------------------------------------------------------------------------------------------*/
-Router.map(function () {
-  //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
-  this.route('tape', {
-    path: '/tape/:_sess',
-    before: function(){
-	 console.log("subscribing to sess inside route: " + this.params._sess);
-	this.subscribe('links',this.params._sess);
-    },
-    after: function(){
-	Template.list.my_playlist_id = this.params._sess;
-	console.log("after my sessid is " + Template.list.my_playlist_id);
-    }
-  });
-});
+
 
 
 /*PART III - EVENT HANDLERS AND REACTIONS BELOW-----------------------------------------------------------------------------------------------*/
 
-//Updates Session vars on new addition.
-Template.list.rendered = function(){
-	console.log("im calling updatelist from rendered");
-	Template.list.updateList();
-}
 
 //Loads API after #player is created for synchronicity(sp?)
 Template.player.created = function(){
@@ -214,7 +220,7 @@ Template.list.events({
 		$("#player").fadeIn(1000);
 		generatePlaylist(  Session.get("current_urls")  );
 		$("#playlist").css('display','none');
-
+		$("#navigation").show();
 
 		$(".absolute_center").hide();
 
