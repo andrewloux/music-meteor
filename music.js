@@ -98,6 +98,8 @@ Template.list.updateList = function(){
 
 	Session.set("current_list",ret);
 	Session.set("current_urls",urls);
+	
+	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){});
 }
 
 

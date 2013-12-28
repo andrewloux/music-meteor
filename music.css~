@@ -84,7 +84,7 @@ body {
 	width: calc(90% - 640px);
 	max-height: 400px;
 	overflow-y:auto;
-	float: right;
+	display:none;
 	position:absolute;
 }
 
