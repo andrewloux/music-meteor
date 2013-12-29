@@ -128,6 +128,7 @@ Template.list.updateList = function(){
 
 
 Template.fucking_list.navlist = function(){
+	console.log("getting the fucking list for navigation");
 	return Session.get("current_list");
 }
 
@@ -213,13 +214,17 @@ Template.list.events({
 
 		alert('Your tape is empty!');
 	}*/
-	if(Template.list.my_playlist().length == 0){
+	
+	
+	if(Template.list.my_playlist().fetch().length == 0){
 		alert('Your tape is empty!');
 	}
 	else{
 		$("#player").fadeIn(1000);
-		generatePlaylist(  Session.get("current_urls")  );
+		console.log("current urls: "+Session.get("current_urls"));
+		generatePlaylist(Session.get("current_urls"));
 		$("#playlist").css('display','none');
+		console.log("abooooot to show navigation");
 		$("#navigation").show();
 
 		$(".absolute_center").hide();
