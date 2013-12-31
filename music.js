@@ -62,33 +62,47 @@ Template.list.search_get= function(str,val){
 	    str = JSON.stringify(response.result);
 	    str = JSON.parse(str);
 
+	   
+
 	   //Ensuring that we found a video and not a channel.
-	    if ( (str.items[val].id.kind == "youtube#channel") || (str.items[val].id.kind == "youtube#playlist") ){
+	   /* if ( (str.items[val].id.kind == "youtube#channel") || (str.items[val].id.kind == "youtube#playlist") ){
 		while (str.items[val].id.kind != "youtube#video"){
 			//Error checking, you could have an inf loop.
 			val = val+1;
 		}
-	    }
-
+	
+	    }*/
+	var video_list = [];
+	str.items.forEach(function(entry) {
+    			//console.log(entry);
+			if((entry.id.kind != "youtube#channel") && (entry.id.kind != "youtube#playlist")){
+				video_list.push(entry);	
+			}
+		});
+	if(video_list.length != 0){
 	//make a call to the db right now
 
-	if(!Links.findOne({sess: Template.list.my_playlist_id})){
-		console.log("im inserting a new record with sess id: "+Template.list.my_playlist_id);
-		Links.insert({sess: Template.list.my_playlist_id});
-	}
+		if(!Links.findOne({sess: Template.list.my_playlist_id})){
+			console.log("im inserting a new record with sess id: "+Template.list.my_playlist_id);
+			Links.insert({sess: Template.list.my_playlist_id});
+		}
 
-	var song = new Object();	
-	song["title"] = str.items[val].snippet.title;
-	song["video_id"] = str.items[val].id.videoId;
-	song["thumbnail"] = str.items[val].snippet.thumbnails;
-	//song["index"] = val;
-	song["index"] = new Meteor.Collection.ObjectID().toHexString();	//this is unique every time
-	console.log("title: "+song["title"]);
-	console.log("index: "+song["index"]);
-	console.log("about to update");
-	Meteor.call('update_record',Template.list.my_playlist_id, song, function(err,message){
-		//
-	});
+		var song = new Object();	
+		song["title"] = str.items[val].snippet.title;
+		song["video_id"] = str.items[val].id.videoId;
+		song["thumbnail"] = str.items[val].snippet.thumbnails;
+		//song["index"] = val;
+		song["index"] = new Meteor.Collection.ObjectID().toHexString();	//this is unique every time
+		console.log("title: "+song["title"]);
+		console.log("index: "+song["index"]);
+		console.log("about to update");
+		var last_song = video_list.shift();
+		video_list.push(last_song);
+		Session.set(song["index"],video_list);
+		Meteor.call('update_record',Template.list.my_playlist_id, song, function(err,message){
+			//
+		});
+	}
 	
 	//console.log(Links);
    });
@@ -178,9 +192,41 @@ Template.list.events({
 			//Links.update({
 			Meteor.call('delete_record',Template.list.my_playlist_id, Session.get("to_delete"), function(err,message){
 			//alert(err);
-				console.log("err from delete: "+err);
+				console.log("err from delete: "+err);								
+				Session.set(this.index,undefined);
 			});
 		});
+	},
+	'click .next_song' : function(){
+		//console.log("NEXT");
+		var curr_index = this.index;
+		var song_list = Session.get(curr_index);
+		/*song_list.forEach(function(entry){
+			console.log("video_list tits: "+entry.snippet.title);
+		});*/
+		var curr_track = $(".list_element[id='"+curr_index+"']");
+		curr_track.children(".element_style").text(song_list[0].snippet.title);
+		var last_song = song_list.shift();
+		song_list.push(last_song);
+		Session.set(curr_index,song_list); 
+	},
+	'click .confirm_song': function(){
+		var curr_index = this.index;
+		var song_list = Session.get(curr_index);
+		var current_song = song_list.pop();
+		var newsong = new Object();	
+		newsong["title"] = current_song.snippet.title;
+		newsong["video_id"] = current_song.id.videoId;
+		newsong["thumbnail"] = current_song.snippet.thumbnails;
+		newsong["obj_id"] = curr_index;
+		Meteor.call('change_record',Template.list.my_playlist_id, newsong, function(err,message){
+			//save the rest of the list in the array
+			//console.log("inserted song:
+			console.log("error from change_record: "+err); 
+			
+		});
+		song_list.push(current_song);
+		Session.set(curr_index,song_list);
 	}
   });
 
@@ -336,6 +382,10 @@ Meteor.methods({
 			console.log("list empty, destroying record with id "+sessID);
 			Links.remove({sess: sessID});
 		}
+	},
+	change_record: function(sessID, songObj){
+		Links.update({sess: sessID, "songs.index": songObj["obj_id"]},{$set:{"songs.$.song_title": songObj["title"], "songs.$.videoId":songObj["video_id"],"songs.$.thumbnail":songObj["thumbnail"]}});
+		//console.log(
 	}
 });
 }());
