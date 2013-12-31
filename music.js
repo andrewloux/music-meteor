@@ -204,16 +204,25 @@ Template.list.events({
 	}
   });
 
-  Template.unremovable_track.check_loop = function(){
-	if (Session.get("from_click") == false){
+  Template.unremovable_track.check_loop = function(current_index,signal){
+	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
+		console.log("GOING IN");
 		//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
-		var index = player.getPlaylistIndex()-1;
+		if (signal == YT.PlayerState.ENDED){
+		    var index = current_index;
+		}
+		else if (signal == -1){
+		    var index = current_index-1;
+		}
+
+		console.log("CHECKING AND LOADING " + index);
 		var loop_check = $($("#navigation li")[index]).hasClass("loop");
 
 		if (loop_check == true){
 			//Play it again, Sam!
 			player.loadPlaylist(Session.get("current_urls"),index);
 		}	
+		Session.set("last_signal",signal);
 	}
 	else{
 		Session.set("from_click",false);

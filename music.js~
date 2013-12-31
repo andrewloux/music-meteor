@@ -186,6 +186,8 @@ Template.list.events({
 
   Template.unremovable_track.events({
 	'click .unremovable .element_style' : function (){
+		/*from_click is a control variable that makes sure that loop_check doesn't get called
+		  on every UNSTARTED event*/
 		Session.set("from_click",true);
 		var videoId_local = this.videoId;
 		var index = $.inArray(videoId_local,Session.get("current_urls"));
@@ -202,17 +204,25 @@ Template.list.events({
 	}
   });
 
-  Template.unremovable_track.check_loop = function(){
-	if (Session.get("from_click") == false){
-		var index = player.getPlaylistIndex()-1;
+  Template.unremovable_track.check_loop = function(current_index,signal){
+	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
+		console.log("GOING IN");
+		//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
+		if (signal == YT.PlayerState.ENDED){
+		    var index = current_index;
+		}
+		else{
+		    var index = current_index-1;
+		}
+
+		console.log("CHECKING AND LOADING " + index);
 		var loop_check = $($("#navigation li")[index]).hasClass("loop");
-		console.log("THE PLAYLIST INDEX WE'RE LOOKING AT IS " + index);
-		console.log("LOOP CHECK IS " + loop_check);
+
 		if (loop_check == true){
 			//Play it again, Sam!
-			console.log("WE'RE REALLY OUT HERE NIGGAS");
 			player.loadPlaylist(Session.get("current_urls"),index);
 		}	
+		Session.set("last_signal",signal);
 	}
 	else{
 		Session.set("from_click",false);

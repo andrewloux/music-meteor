@@ -50,26 +50,33 @@ function onPlayerReady(){
 }
 
 function onPlayerStateChange(e){
+//Save last signal so there is no upwards cascade in check_loop
+
 console.log(e);
  if(e.data == YT.PlayerState.ENDED){
 	console.log("ENDED SIGNAL");
+	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
 }
 else if (e.data == YT.PlayerState.PLAYING){
-	console.log("PLAYING SIGNAL");
+	console.log("PLAYING SIGNAL " + player.getPlaylistIndex());
+	Session.set("last_signal",e.data);
 }
 else if (e.data == YT.PlayerState.PAUSED){
 	console.log(player.getPlaylistIndex());
 	console.log("PAUSED SIGNAL");
+	Session.set("last_signal",e.data);
 }
 else if (e.data == YT.PlayerState.BUFFERING){
 	console.log("BUFFERING SIGNAL");
+	Session.set("last_signal",e.data);
 }
 else if (e.data == YT.PlayerState.CUED){
 	console.log("CUED SIGNAL");
+	Session.set("last_signal",e.data);
 }
 else if (e.data == -1){
-	console.log("UNSTARTED SIGNAL");
-	Template.unremovable_track.check_loop();
+	//alert("UNSTARTED SIGNAL " + player.getPlaylistIndex());
+	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
 }
 
 }
