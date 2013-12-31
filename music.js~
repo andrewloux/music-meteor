@@ -128,11 +128,9 @@ Template.list.updateList = function(){
 
 
 Template.fucking_list.navlist = function(){
+	console.log("getting the fucking list for navigation");
 	return Session.get("current_list");
 }
-
-/*PART III - ROUTING AND SUBSCRIPTIONS---------------------------------------------------------------------------------------------------------*/
-
 
 
 /*PART III - EVENT HANDLERS AND REACTIONS BELOW-----------------------------------------------------------------------------------------------*/
@@ -187,13 +185,40 @@ Template.list.events({
   });
 
   Template.unremovable_track.events({
-	'click .unremovable' : function (){
+	'click .unremovable .element_style' : function (){
+		Session.set("from_click",true);
 		var videoId_local = this.videoId;
 		var index = $.inArray(videoId_local,Session.get("current_urls"));
 		player.loadPlaylist(Session.get("current_urls"),index);
+	},
+	'click .unremovable .loop_activate' : function(){
+		if ($("#video-"+this.index).hasClass("loop")){
+			$("#video-"+this.index).removeClass("loop");
+		}
+		else{
+			$("#video-"+this.index).addClass("loop");
+			alert("Loop is activated");
+		}
 	}
   });
-  
+
+  Template.unremovable_track.check_loop = function(){
+	if (Session.get("from_click") == false){
+		var index = player.getPlaylistIndex()-1;
+		var loop_check = $($("#navigation li")[index]).hasClass("loop");
+		console.log("THE PLAYLIST INDEX WE'RE LOOKING AT IS " + index);
+		console.log("LOOP CHECK IS " + loop_check);
+		if (loop_check == true){
+			//Play it again, Sam!
+			console.log("WE'RE REALLY OUT HERE NIGGAS");
+			player.loadPlaylist(Session.get("current_urls"),index);
+		}	
+	}
+	else{
+		Session.set("from_click",false);
+	}
+  }
+
   Template.list.my_playlist = function(){
 	return Links.find();
 	
@@ -213,14 +238,17 @@ Template.list.events({
 
 		alert('Your tape is empty!');
 	}*/
-	if(Template.list.my_playlist().length == 0){
+	
+	
+	if(Template.list.my_playlist().fetch().length == 0){
 		alert('Your tape is empty!');
 	}
 	else{
 		$("#player").fadeIn(1000);
-		generatePlaylist(  Session.get("current_urls")  );
+		console.log("current urls: "+Session.get("current_urls"));
+		generatePlaylist(Session.get("current_urls"));
 		$("#playlist").css('display','none');
-
+		$("#navigation").show();
 
 		$(".absolute_center").hide();
 
@@ -238,7 +266,7 @@ Template.list.events({
 	},
 
 	'click #close_player': function (evt, template){		
-		player.stopVideo();
+		player.pauseVideo();
 		$(".absolute_center2").hide();
 		$("#player").hide();
 		$("#navigation").hide();

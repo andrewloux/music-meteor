@@ -48,7 +48,7 @@ body {
 }
 
 .absolute_center2{
-	width:3em; /*Must be the same width as the icon*/
+	width:1.5em; /*Must be the same width as the icon*/
 
 	margin-left: auto;
 	margin-right: auto;
@@ -63,10 +63,13 @@ body {
 	text-align:center;
 }
 
+#close{
+	font-size:1.5em;
+}
+
 #close_player{
 	cursor:pointer;
 	color:white;
-	font-size:2em;
 }
 
 #player{

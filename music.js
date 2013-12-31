@@ -132,9 +132,6 @@ Template.fucking_list.navlist = function(){
 	return Session.get("current_list");
 }
 
-/*PART III - ROUTING AND SUBSCRIPTIONS---------------------------------------------------------------------------------------------------------*/
-
-
 
 /*PART III - EVENT HANDLERS AND REACTIONS BELOW-----------------------------------------------------------------------------------------------*/
 
@@ -188,13 +185,41 @@ Template.list.events({
   });
 
   Template.unremovable_track.events({
-	'click .unremovable' : function (){
+	'click .unremovable .element_style' : function (){
+		/*from_click is a control variable that makes sure that loop_check doesn't get called
+		  on every UNSTARTED event*/
+		Session.set("from_click",true);
 		var videoId_local = this.videoId;
 		var index = $.inArray(videoId_local,Session.get("current_urls"));
 		player.loadPlaylist(Session.get("current_urls"),index);
+	},
+	'click .unremovable .loop_activate' : function(){
+		if ($("#video-"+this.index).hasClass("loop")){
+			$("#video-"+this.index).removeClass("loop");
+		}
+		else{
+			$("#video-"+this.index).addClass("loop");
+			alert("Loop is activated");
+		}
 	}
   });
-  
+
+  Template.unremovable_track.check_loop = function(){
+	if (Session.get("from_click") == false){
+		//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
+		var index = player.getPlaylistIndex()-1;
+		var loop_check = $($("#navigation li")[index]).hasClass("loop");
+
+		if (loop_check == true){
+			//Play it again, Sam!
+			player.loadPlaylist(Session.get("current_urls"),index);
+		}	
+	}
+	else{
+		Session.set("from_click",false);
+	}
+  }
+
   Template.list.my_playlist = function(){
 	return Links.find();
 	
@@ -224,7 +249,6 @@ Template.list.events({
 		console.log("current urls: "+Session.get("current_urls"));
 		generatePlaylist(Session.get("current_urls"));
 		$("#playlist").css('display','none');
-		console.log("abooooot to show navigation");
 		$("#navigation").show();
 
 		$(".absolute_center").hide();
@@ -243,7 +267,7 @@ Template.list.events({
 	},
 
 	'click #close_player': function (evt, template){		
-		player.stopVideo();
+		player.pauseVideo();
 		$(".absolute_center2").hide();
 		$("#player").hide();
 		$("#navigation").hide();

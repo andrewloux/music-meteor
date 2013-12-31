@@ -37,7 +37,6 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: 'M7lc1UVf-VE',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -50,8 +49,28 @@ function onPlayerReady(){
 //console.log("ready");
 }
 
-function onPlayerStateChange(){
-//console.log("changed");
+function onPlayerStateChange(e){
+console.log(e);
+ if(e.data == YT.PlayerState.ENDED){
+	console.log("ENDED SIGNAL");
+}
+else if (e.data == YT.PlayerState.PLAYING){
+	console.log("PLAYING SIGNAL");
+}
+else if (e.data == YT.PlayerState.PAUSED){
+	console.log(player.getPlaylistIndex());
+	console.log("PAUSED SIGNAL");
+}
+else if (e.data == YT.PlayerState.BUFFERING){
+	console.log("BUFFERING SIGNAL");
+}
+else if (e.data == YT.PlayerState.CUED){
+	console.log("CUED SIGNAL");
+}
+else if (e.data == -1){
+	console.log("UNSTARTED SIGNAL");
+	Template.unremovable_track.check_loop();
+}
 
 }
 
@@ -132,11 +151,12 @@ function generatePlaylist(list){
 </template>
 
 <template name="unremovable_track">
-<li class="unremovable list_element">
+<li id="video-{{index}}" class="unremovable list_element">
 <!-- Have to make proper track <li> element.
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
     <div class="element_style">{{song_title}}</div>
+    <button class="loop_activate">Loop Me</button>
 </li>
 </template>
 
