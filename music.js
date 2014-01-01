@@ -3,6 +3,7 @@ Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
 
+
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -33,6 +34,10 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+//added this
+//console.log("showing modal");
+$('#dialogue').modal('hide');
+//$('#dialogue').toggle();
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -248,6 +253,14 @@ Template.list.events({
 	}
   });
 
+Template.generate.events({
+	'click #share' : function(){
+		console.log("showing modal");
+		$("#share_link").text("localhost:3000/tapes/"+Template.list.my_playlist_id);
+		$("#dialogue").modal('show');
+	} 	
+});
+
   Template.unremovable_track.check_loop = function(current_index,signal){
 	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
 		console.log("GOING IN");
@@ -277,6 +290,8 @@ Template.list.events({
 	return Links.find();
 	
   }
+
+ 
   
   Template.player.nav_playlist = function(){
 	return Session.get("current_list");

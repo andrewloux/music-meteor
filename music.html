@@ -127,8 +127,31 @@ function generatePlaylist(list){
 		<!--
 		<div class="button is-default" id="generate_button">Hear Mixtape</div>
 		-->
-		<div class="button is-inverse has-icon-spacing" id="share"><i class="fa fa-users"></i>Share</div>
+		<!--<div class="button is-inverse has-icon-spacing" id="share"><a data-toggle="modal" data-target="#dialogue" class="btn btn-primary btn-large"><i class="fa fa-users"></i>Share</a></div>-->
+
+	<button class="btn btn-primary btn-lg" data-target="#dialogue" id="share">
+  <i class="fa fa-users"></i>Share
+</button>
+		
 	</div>
+	<div id="dialogue" class="modal hide fade in" style="display: none;">  
+		<div class="modal-header">  
+			<a class="close" data-dismiss="modal">×</a>  
+			<h3>Share this with friends</h3>  
+		</div>  
+		<div class="modal-body">  
+			<h4>link to playlist</h4>  
+			<p id="share_link">You can add some text here.</p>                
+		</div>  
+		<div class="modal-footer">  
+			<a href="#" class="btn" data-dismiss="modal">Close</a>  
+		</div>  
+	</div>  		
+
+	<!--<p><a data-toggle="modal" href="#example" class="btn btn-primary btn-large">Launch demo modal</a></p>-->
+
+
+
 </template>
 
 <template name="player">
@@ -154,6 +177,7 @@ function generatePlaylist(list){
     <div class="destroy"> </div>
     <div class="element_style">{{song_title}}</div>
     <button class="next_song">next</button>
+
 </li>
 
 </template>
