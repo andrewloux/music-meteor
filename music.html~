@@ -55,6 +55,7 @@ function onPlayerStateChange(e){
 console.log(e);
  if(e.data == YT.PlayerState.ENDED){
 	console.log("ENDED SIGNAL");
+	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
 }
 else if (e.data == YT.PlayerState.PLAYING){
 	console.log("PLAYING SIGNAL " + player.getPlaylistIndex());
@@ -75,7 +76,7 @@ else if (e.data == YT.PlayerState.CUED){
 }
 else if (e.data == -1){
 	//alert("UNSTARTED SIGNAL " + player.getPlaylistIndex());
-	Template.unremovable_track.check_loop(player.getPlaylistIndex());
+	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
 }
 
 }
@@ -152,6 +153,8 @@ function generatePlaylist(list){
 -->
     <div class="destroy"> </div>
     <div class="element_style">{{song_title}}</div>
+    <button class="next_song">next</button>
+    <button class="confirm_song">confirm</button>
 </li>
 
 </template>

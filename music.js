@@ -56,7 +56,7 @@ Router.map(function () {
 
 //Second parameter is to keep track of result to play if user doesn't like the first result.
 Template.list.search_get= function(str,val){
-    var request = gapi.client.youtube.search.list({part:'snippet',q:str});
+    var request = gapi.client.youtube.search.list({part:'snippet',q:str, maxResults:10});
 
     request.execute(function(response) {
 	    str = JSON.stringify(response.result);
@@ -74,11 +74,12 @@ Template.list.search_get= function(str,val){
 	    }*/
 	var video_list = [];
 	str.items.forEach(function(entry) {
-    			//console.log(entry);
+			console.log(entry);
 			if((entry.id.kind != "youtube#channel") && (entry.id.kind != "youtube#playlist")){
 				video_list.push(entry);	
 			}
 		});
+ 	console.log(video_list);
 	if(video_list.length != 0){
 	//make a call to the db right now
 
@@ -88,9 +89,9 @@ Template.list.search_get= function(str,val){
 		}
 
 		var song = new Object();	
-		song["title"] = str.items[val].snippet.title;
-		song["video_id"] = str.items[val].id.videoId;
-		song["thumbnail"] = str.items[val].snippet.thumbnails;
+		song["title"] = video_list[val].snippet.title;
+		song["video_id"] = video_list[val].id.videoId;
+		song["thumbnail"] = video_list[val].snippet.thumbnails;
 		//song["index"] = val;
 		song["index"] = new Meteor.Collection.ObjectID().toHexString();	//this is unique every time
 		console.log("title: "+song["title"]);
@@ -204,15 +205,11 @@ Template.list.events({
 		/*song_list.forEach(function(entry){
 			console.log("video_list tits: "+entry.snippet.title);
 		});*/
-		var curr_track = $(".list_element[id='"+curr_index+"']");
-		curr_track.children(".element_style").text(song_list[0].snippet.title);
+		$(".list_element[id='"+curr_index+"'] .element_style").text(song_list[0].snippet.title);
 		var last_song = song_list.shift();
 		song_list.push(last_song);
 		Session.set(curr_index,song_list); 
-	},
-	'click .confirm_song': function(){
-		var curr_index = this.index;
-		var song_list = Session.get(curr_index);
+
 		var current_song = song_list.pop();
 		var newsong = new Object();	
 		newsong["title"] = current_song.snippet.title;
@@ -225,8 +222,6 @@ Template.list.events({
 			console.log("error from change_record: "+err); 
 			
 		});
-		song_list.push(current_song);
-		Session.set(curr_index,song_list);
 	}
   });
 
