@@ -186,15 +186,18 @@ Template.player.created = function(){
 
 Template.list.events({
 	'click .destroy' : function (){
-		console.log("this: "+this.index);
+		var index_local = this.index;
+		console.log("this: "+index_local);
 		Session.set("to_delete",this.index);	
 		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
 			//Links.remove(Session.get("to_delete"));
 			//Links.update({
 			Meteor.call('delete_record',Template.list.my_playlist_id, Session.get("to_delete"), function(err,message){
 			//alert(err);
-				console.log("err from delete: "+err);								
-				Session.set(this.index,undefined);
+				console.log("err from delete: "+err);
+				console.log("deleting this session variable: "+index_local);								
+				//Session.set(index_local,undefined);
+				delete Session.keys[index_local];
 			});
 		});
 	},
