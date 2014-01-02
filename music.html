@@ -4,6 +4,14 @@
 <link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script>
   $(function() {
     $( "#playlist" ).sortable({
@@ -124,34 +132,22 @@ function generatePlaylist(list){
 
 <template name="generate">
 	<div id="button_control">
-		<!--
-		<div class="button is-default" id="generate_button">Hear Mixtape</div>
-		-->
-		<!--<div class="button is-inverse has-icon-spacing" id="share"><a data-toggle="modal" data-target="#dialogue" class="btn btn-primary btn-large"><i class="fa fa-users"></i>Share</a></div>-->
-
-	<button class="btn btn-primary btn-lg" data-target="#dialogue" id="share">
-  <i class="fa fa-users"></i>Share
-</button>
-		
+		<div class="button is-inverse has-icon-spacing" id="share" data-toggle="modal" data-target="#share_modal"><i class="fa fa-users"></i>Share</div>	
 	</div>
-	<div id="dialogue" class="modal hide fade in" style="display: none;">  
-		<div class="modal-header">  
-			<a class="close" data-dismiss="modal">×</a>  
-			<h3>Share this with friends</h3>  
-		</div>  
-		<div class="modal-body">  
-			<h4>link to playlist</h4>  
-			<p id="share_link">You can add some text here.</p>                
-		</div>  
-		<div class="modal-footer">  
-			<a href="#" class="btn" data-dismiss="modal">Close</a>  
-		</div>  
-	</div>  		
 
-	<!--<p><a data-toggle="modal" href="#example" class="btn btn-primary btn-large">Launch demo modal</a></p>-->
-
-
-
+<div class="modal fade" id="share_modal" tabindex="-1" role="dialog" aria-labelledby="share" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="modal_title" class="modal-title">Share and Collaborate!</h3>
+      </div>
+      <div class="modal-body">
+       	<input id="share_link" type="text" class="input-group form-control" /> 
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->	
 </template>
 
 <template name="player">

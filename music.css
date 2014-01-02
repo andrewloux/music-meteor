@@ -130,6 +130,13 @@ body {
 	width:100%;	
 }
 
+#share_link{
+	margin-left:auto;
+	margin-right:auto;
+	font-size:24px;
+	height:50px;
+	width:60%;
+}
 
 .thumbnail{
 	width:200px;

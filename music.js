@@ -34,10 +34,6 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
-//added this
-//console.log("showing modal");
-$('#dialogue').modal('hide');
-//$('#dialogue').toggle();
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -257,13 +253,15 @@ Template.generate.events({
 	'click #share' : function(){
 		console.log("showing modal");
 		console.log(Template.list.my_playlist().fetch());
-		if(Template.list.my_playlist().fetch().length){
-			$("#share_link").text("localhost:3000/tapes/"+Template.list.my_playlist_id);
+		if(Template.list.my_playlist().fetch().length == 0){
+			$("#modal_title").text("Start collaborating!");
+
 		}
 		else{
-			$("#share_link").text("make playlist first bitch");
+			$("#modal_title").text("Share and Collaborate!");
 		}
-		$("#dialogue").modal('show');
+		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
+		$("#dialog").modal('show');
 	} 	
 });
 

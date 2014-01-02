@@ -3,6 +3,7 @@ Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
 
+
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -89,9 +90,9 @@ Template.list.search_get= function(str,val){
 		}
 
 		var song = new Object();	
-		song["title"] = str.items[val].snippet.title;
-		song["video_id"] = str.items[val].id.videoId;
-		song["thumbnail"] = str.items[val].snippet.thumbnails;
+		song["title"] = video_list[val].snippet.title;
+		song["video_id"] = video_list[val].id.videoId;
+		song["thumbnail"] = video_list[val].snippet.thumbnails;
 		//song["index"] = val;
 		song["index"] = new Meteor.Collection.ObjectID().toHexString();	//this is unique every time
 		console.log("title: "+song["title"]);
@@ -186,15 +187,18 @@ Template.player.created = function(){
 
 Template.list.events({
 	'click .destroy' : function (){
-		console.log("this: "+this.index);
+		var index_local = this.index;
+		console.log("this: "+index_local);
 		Session.set("to_delete",this.index);	
 		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
 			//Links.remove(Session.get("to_delete"));
 			//Links.update({
 			Meteor.call('delete_record',Template.list.my_playlist_id, Session.get("to_delete"), function(err,message){
 			//alert(err);
-				console.log("err from delete: "+err);								
-				Session.set(this.index,undefined);
+				console.log("err from delete: "+err);
+				console.log("deleting this session variable: "+index_local);								
+				//Session.set(index_local,undefined);
+				delete Session.keys[index_local];
 			});
 		});
 	},
@@ -245,6 +249,19 @@ Template.list.events({
 	}
   });
 
+Template.generate.events({
+	'click #share' : function(){
+		console.log("showing modal");
+		console.log(Template.list.my_playlist().fetch());
+		if(Template.list.my_playlist().fetch().length == 0){
+			$("#modal_title").text("Start collaborating!");
+
+		}
+		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
+		$("#dialog").modal('show');
+	} 	
+});
+
   Template.unremovable_track.check_loop = function(current_index,signal){
 	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
 		console.log("GOING IN");
@@ -274,6 +291,8 @@ Template.list.events({
 	return Links.find();
 	
   }
+
+ 
   
   Template.player.nav_playlist = function(){
 	return Session.get("current_list");

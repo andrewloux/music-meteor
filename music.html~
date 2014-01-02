@@ -4,6 +4,14 @@
 <link href='http://fonts.googleapis.com/css?family=Knewave' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script>
   $(function() {
     $( "#playlist" ).sortable({
@@ -124,11 +132,26 @@ function generatePlaylist(list){
 
 <template name="generate">
 	<div id="button_control">
-		<!--
-		<div class="button is-default" id="generate_button">Hear Mixtape</div>
-		-->
-		<div class="button is-inverse has-icon-spacing" id="share"><i class="fa fa-users"></i>Share</div>
+		<div class="button is-inverse has-icon-spacing" id="share" data-toggle="modal" data-target="#myModal"><i class="fa fa-users"></i>Share</div>
+<!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="share">
+  <i class="fa fa-users"></i>Share
+</button>
+-->		
 	</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="share" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="modal_title" class="modal-title">Share and Collaborate!</h3>
+      </div>
+      <div class="modal-body">
+       	<input id="share_link" type="text" class="input-group form-control" /> 
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->	
 </template>
 
 <template name="player">
@@ -154,7 +177,7 @@ function generatePlaylist(list){
     <div class="destroy"> </div>
     <div class="element_style">{{song_title}}</div>
     <button class="next_song">next</button>
-    <button class="confirm_song">confirm</button>
+
 </li>
 
 </template>
