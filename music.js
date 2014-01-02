@@ -256,7 +256,13 @@ Template.list.events({
 Template.generate.events({
 	'click #share' : function(){
 		console.log("showing modal");
-		$("#share_link").text("localhost:3000/tapes/"+Template.list.my_playlist_id);
+		console.log(Template.list.my_playlist().fetch());
+		if(Template.list.my_playlist().fetch().length){
+			$("#share_link").text("localhost:3000/tapes/"+Template.list.my_playlist_id);
+		}
+		else{
+			$("#share_link").text("make playlist first bitch");
+		}
 		$("#dialogue").modal('show');
 	} 	
 });
