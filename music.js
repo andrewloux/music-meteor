@@ -34,6 +34,8 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+//lock screen until gapi loads
+$("#loading_modal").modal('show');
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
