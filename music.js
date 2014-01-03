@@ -286,7 +286,7 @@ Template.generate.events({
 		$("#navigation").fadeIn(1000);
 
 		$("#query").hide();
-		$("#share").fadeOut(1000);
+
 		$("#playlist_container").fadeOut(1000);
 
 		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
@@ -335,14 +335,14 @@ Template.generate.events({
   Template.header.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
-		$(".absolute_center2").hide();
+		$(".absolute_center2").fadeOut(500);
 		$("#player").hide();
-		$("#navigation").hide();
+		$("#navigation").fadeOut();
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
 		$("#query").show();
-		$("#share").fadeIn(1000);
+
 		$(".absolute_center").fadeIn(1000);
 		$("#playlist_container").fadeIn(1000);
 		$("#button_control").show();

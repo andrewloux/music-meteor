@@ -175,9 +175,11 @@ function generatePlaylist(list){
 
 <template name="fucking_list">
 	<div id="navigation">
+	<ul id="navigation_list"> 
 	    {{#each navlist}}
 			  {{> unremovable_track}}	
 	    {{/each}}
+	</ul>
 	</div>
 </template>
 
@@ -202,7 +204,7 @@ function generatePlaylist(list){
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
     <div class="element_style">{{song_title}}</div>
-    <button class="loop_activate">Loop Me</button>
+    <div class="loop_activate"><i class="fa fa-repeat"></i></div>
 </li>
 </template>
 

@@ -147,10 +147,10 @@ function generatePlaylist(list){
 
 <template name="generate">
 	<div id="button_control">
-		<div class="control_buttons" id="share" data-toggle="modal" data-target="#share_modal"><i class="fa fa-share"></i>
+		<div class="control_buttons" id="share" data-toggle="modal" data-target="#share_modal"><i id="share_icon" class="fa fa-share"></i>
 		</div>	
 		 <div class="control_buttons" id="generate_button">
-		      <i class="fa fa-play"></i>
+		      <i id="start_icon" class="fa fa-play"></i>
 		 </div>
 	</div>
 
@@ -175,9 +175,11 @@ function generatePlaylist(list){
 
 <template name="fucking_list">
 	<div id="navigation">
+	<ul id="navigation_list"> 
 	    {{#each navlist}}
 			  {{> unremovable_track}}	
 	    {{/each}}
+	</ul>
 	</div>
 </template>
 
@@ -202,7 +204,7 @@ function generatePlaylist(list){
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
     <div class="element_style">{{song_title}}</div>
-    <button class="loop_activate">Loop Me</button>
+    <button class="loop_activate"><i class="fa fa-repeat"></i></button>
 </li>
 </template>
 

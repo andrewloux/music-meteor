@@ -82,6 +82,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 #close{
+	position:absolute;
+	top:90px;
 	font-size:1.5em;
 }
 
@@ -109,10 +111,11 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	position:absolute;
 }
 
-/*Make the following global?*/
+/*Make the following global?
 #query:focus { 
     outline-color: black;
 }
+*/
 
 #playlist{
 	list-style-type: none;
@@ -241,22 +244,40 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 */
 
+#navigation_list{
+    list-style:none;	
+}
 
 .list_element:hover{
     cursor:pointer;
 }
 
+
 .unremovable{
-	width:100% !important;/*Override list-element*/
+	width:85% !important;/*Override list-element*/
 	color:white !important;
 }
 
 .unremovable:hover{
-	background:black;
+	/*LOL The padding causes a cool 3D like effect.*/
+	padding:5px;
+	border-radius:5px;
+	background:rgba(0,0,0,0.36);
 	color:white;
+	/*Make that shit transparent*/
+	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
+}
+
+.loop_activate{
+	position: absolute;
+	margin-left: 74%;
+	/*Shit alignment below.*/
+	margin-top: -31px;
 }
 
 .element_style{
+    line-height:40px;
+
     color:white;
     /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
     font-family: 'Lato';
