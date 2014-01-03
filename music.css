@@ -37,26 +37,42 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 
 #query{
 	/* css 3 */
-	border-radius:5px;
+	/*border-radius:5px;*/
 	/* mozilla */
-	-moz-border-radius:5px;
+	/*-moz-border-radius:5px;*/
 	/* webkit */
-	-webkit-border-radius:5px;
+	/*-webkit-border-radius:5px;*/
 	font-size: 1.5em;
 	padding: 5px;
 
 	/*Styling the search bar*/
 	width:590px;
-	border-radius:8px;
+	/*border-radius:8px;*/
 
 
 	/*Centering the input*/	
-	margin-left:auto;
+	/*margin-left:auto;
 	margin-right:auto;
 	margin-top:20px;
-	margin-bottom:35px;
+	margin-bottom:35px;*/
 	display:block;
+	float:left;
 }
+
+#search-group{
+        width:650px;    
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:20px;
+        margin-bottom:35px;
+        display:block;
+}
+
+#search-button{
+    float:left;
+    display:block;
+}
+
 
 .absolute_center{
 	width:3em; /*Must be the same width as the icon*/

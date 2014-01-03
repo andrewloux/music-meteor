@@ -130,7 +130,12 @@ function generatePlaylist(list){
 </template>
 
 <template name="search_bar">
-  <input id="query" type="text" placeholder="Journey - Don't Stop Believin'" />
+        <div class="input-group" id="search-group">
+            <input type="text" class="form-control" placeholder="Search" id="query">
+            <div class="input-button">
+                <button class="btn btn-default" type="submit" id="search-button"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
 </template>
 
 <template name="list">

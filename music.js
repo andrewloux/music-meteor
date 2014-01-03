@@ -165,9 +165,9 @@ Template.player.created = function(){
 
 
  Template.search_bar.events({
-    'keypress #query' : function (evt,template) {
+    'keypress #query, click #search-button' : function (evt,template) {
       // template data, if any, is available in 'this'
-      if (evt.which === 13){
+      if (evt.which === 13 || evt.which == 1){
                 var url = template.find('#query').value;
                 $("#query").val('');
 		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
