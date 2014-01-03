@@ -10,16 +10,29 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow:auto;
+    overflow-y:hidden;
+
+background: #4d6663; /* Old browsers */
+background: -moz-linear-gradient(top,  #4d6663 0%, #808378 27%, #a08771 76%, #8c6249 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4d6663), color-stop(27%,#808378), color-stop(76%,#a08771), color-stop(100%,#8c6249)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c6249 100%); /* Chrome10+,Safari5.1+ */
+}
+
+#loading_modal{
+	top:150px;
+	margin-left:15px;
+
 }
 
 #title{
 	font-family: 'Lato', sans-serif;
-	font-size:2.5em;
-	font-weight:700;
+	font-size:38px;
+	font-weight:100;
 	width:100%;
-	height:30px;
+	margin-top:30px;
+	margin-bottom:45px;
 	text-align:center;
+	color:white;
 }
 
 #query{
@@ -32,11 +45,16 @@ body {
 	font-size: 1.5em;
 	padding: 5px;
 
-	/*Centering the input*/
-	width:40%;
+	/*Styling the search bar*/
+	width:590px;
+	border-radius:8px;
+
+
+	/*Centering the input*/	
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:20px;
+	margin-bottom:35px;
 	display:block;
 }
 
@@ -97,6 +115,8 @@ body {
 }
 
 #playlist{
+	list-style-type: none;
+	line-height:40px;
 	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
 	display:block;
 }
@@ -107,7 +127,7 @@ body {
 	margin-right: auto;
 
 	width:40%;
-	height: 60%;
+	height: 55%;
 
 	overflow-y: auto;
 }
@@ -118,24 +138,54 @@ body {
 	background-size:45% 45%;
 }
 
+.control_buttons{
+	border-radius:5px;
+	color:white;
+	background-color: rgba(255, 255, 255, 0.31);
+}
+
 #button_control{
+	line-height:50px;
+	/*For the icons*/
+	text-align:center;
+	/*For the container*/
 	margin-left:auto;
 	margin-right:auto;
-	width:20%;
+	width:30%;
 }
 
 
 #share{
+	cursor:pointer;
+	height:46px;
+	width:13%;
 	font-family: 'Open Sans', sans-serif;
-	width:100%;	
+	float:left;
+	width:40%;	
+}
+
+#share_icon{
+	font-size:1.4em;
+}
+
+#generate_button{
+	cursor:pointer;
+	height:46px;
+	width:13%;
+	float:right;
+	width:40%;
+}
+
+#start_icon{
+	font-size:1.4em;
 }
 
 #share_link{
 	margin-left:auto;
 	margin-right:auto;
-	font-size:30px;
-	height:60px;
-	width:40%;
+	font-size:24px;
+	height:50px;
+	width:60%;
 }
 
 .thumbnail{
@@ -147,23 +197,50 @@ body {
 	left:0;
 }
 
+.list_icons{
+	font-size:20px;
+}
+
+.list_element .next_song{
+    cursor: pointer;
+    color:white;
+
+    margin-top:3px;
+    margin-left:430px;
+
+    display:none;
+    position: absolute;
+}
+
 .list_element .destroy {
     cursor: pointer;
-    position: relative;
-    left: 5px;
-    top: 30px;
-    height: 20px;
-    /*When you're actually doing this, increase the width to about 60%-70%*/
-    width: 5%;
-    margin-left:100%;
+    color:white;
+/*  opacity:0.6;*/
+
+    margin-top:3px;
+    margin-left:450px;
+
+    display:none;
+    position: absolute;
 }
+
+.list_element:hover .destroy{
+	display:block;
+}
+
+.list_element:hover .next_song{
+	display:block;
+}
+
+/*
 .list_element:hover .destroy {
     background: url('/destroy.png') no-repeat 0 0;
 }
-
-.list_element .destroy:hover {
-    background-position: 0 -20px;
+.list_element:hover .next_song{
+    background: url('/destroy.png') no-repeat 0 0;
 }
+*/
+
 
 .list_element:hover{
     cursor:pointer;
@@ -180,7 +257,13 @@ body {
 }
 
 .element_style{
+    color:white;
     /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
-    font-family: 'Ubuntu';
-    font-size:20px;
+    font-family: 'Lato';
+    font-weight: 300;
+
+    font-size:18px;
+
+    /*Order at the bottom*/
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);	
 }

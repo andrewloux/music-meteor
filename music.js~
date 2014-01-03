@@ -34,6 +34,8 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+//lock screen until gapi loads
+$("#loading_modal").modal('show');
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -257,8 +259,39 @@ Template.generate.events({
 			$("#modal_title").text("Start collaborating!");
 
 		}
+		else{
+			$("#modal_title").text("Share and Collaborate!");
+		}
 		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
+	},
+	'click #generate_button': function (evt, template){
+	Template.list.updateList();
+	if(Template.list.my_playlist().fetch().length == 0){
+		alert('Your tape is empty!');
+	}
+	else{
+		$("#player").fadeIn(1000);
+		console.log("current urls: "+Session.get("current_urls"));
+		generatePlaylist(Session.get("current_urls"));
+		$("#playlist").css('display','none');
+		$("#navigation").show();
+
+		$(".absolute_center").hide();
+
+		/*Things to hide*/
+		$(".button_control").hide();
+		/*CHECK FOR REDUNDANCY IN THIS OTHER SHIT BELOW*/
+		$(".absolute_center2").fadeIn();
+		$("#navigation").fadeIn(1000);
+
+		$("#query").hide();
+		$("#share").fadeOut(1000);
+		$("#playlist_container").fadeOut(1000);
+
+		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
+		$('#title').animate({color: '#fff'}, 'slow');
+	}
 	} 	
 });
 
@@ -300,41 +333,6 @@ Template.generate.events({
 
   //when user hits the generate playlist button
   Template.header.events({
-	'click #generate_button': function (evt, template){
-	Template.list.updateList();
-		//bad code below:
-
-	/*if (Template.list.my_playlist().fetch().length == 0){
-
-		alert('Your tape is empty!');
-	}*/
-	
-	
-	if(Template.list.my_playlist().fetch().length == 0){
-		alert('Your tape is empty!');
-	}
-	else{
-		$("#player").fadeIn(1000);
-		console.log("current urls: "+Session.get("current_urls"));
-		generatePlaylist(Session.get("current_urls"));
-		$("#playlist").css('display','none');
-		$("#navigation").show();
-
-		$(".absolute_center").hide();
-
-		/*Things to hide*/
-		$(".absolute_center2").fadeIn();
-		$("#navigation").fadeIn(1000);
-
-		$("#query").hide();
-		$("#share").fadeOut(1000);
-		$("#playlist_container").fadeOut(1000);
-
-		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
-		$('#title').animate({color: '#fff'}, 'slow');
-	}
-	},
-
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
 		$(".absolute_center2").hide();
@@ -347,9 +345,10 @@ Template.generate.events({
 		$("#share").fadeIn(1000);
 		$(".absolute_center").fadeIn(1000);
 		$("#playlist_container").fadeIn(1000);
+		$(".button_control").show();
 
-		$('body').animate({backgroundColor: '#fff'}, 'slow');
-		$('#title').animate({color: '#000'}, 'slow');
+		//$('body').animate({backgroundColor: '#fff'}, 'slow');
+		//$('#title').animate({color: '#000'}, 'slow');
 
 	}
 	
