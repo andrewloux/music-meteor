@@ -270,7 +270,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	position: absolute;
 	margin-left: 74%;
 	/*Shit alignment below.*/
-	margin-top: -31px;
+	margin-top: -43px;
 }
 
 .element_style{
@@ -287,7 +287,9 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);	
 }
 
-#navigation_list .element_style:hover{
+.unremovable *:hover{
 	/*Make that shit transparent*/
 	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
 }
+
+

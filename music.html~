@@ -188,9 +188,9 @@ function generatePlaylist(list){
 <!--<li id="{{_id}}" class="list_element">-->
 <li id="{{index}}" class="list_element">
 <!--<li id="{{index}}" class="list_element">-->
-<!--Have to make proper track <li> element.-->
-    <div class="thumbnail" style="background-image:url('{{thumbnail.high.url}}')"></div>
-
+<!-- Have to make proper track <li> element.
+    <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
+-->
     <div class="next_song"><i class="list_icons fa fa-arrow-circle-o-right"></i></div>
     <div class="destroy"><i class="list_icons fa fa-times-circle-o"></i></div>
     <div class="element_style">{{song_title}}</div>
@@ -203,8 +203,11 @@ function generatePlaylist(list){
 <!-- Have to make proper track <li> element.
     <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
 -->
-    <div class="element_style">{{song_title}}</div>
+    <div class="element_style">{{song_title}}
+
     <div class="loop_activate"><i class="fa fa-repeat"></i></div>
+</div>
+
 </li>
 </template>
 

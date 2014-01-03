@@ -297,6 +297,7 @@ Template.generate.events({
 
   Template.unremovable_track.check_loop = function(current_index,signal){
 	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
+		if (Session.get("last_signal")!=YT.PlayerState.ENDED){
 		console.log("GOING IN");
 		//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
 		if (signal == YT.PlayerState.ENDED){
@@ -314,6 +315,7 @@ Template.generate.events({
 			player.loadPlaylist(Session.get("current_urls"),index);
 		}	
 		Session.set("last_signal",signal);
+	}
 	}
 	else{
 		Session.set("from_click",false);
