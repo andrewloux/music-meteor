@@ -122,12 +122,15 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	line-height:40px;
 	/*Centering the playlist, and bringing it up a bit... Make this neater!*/
 	display:block;
+	position:relative;
 }
 
 #playlist_container{	
 	/*Scrollbar*/
 	margin-left: auto;
 	margin-right: auto;
+	
+	padding-right:5px;
 
 	width:40%;
 	height: 55%;
@@ -184,6 +187,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 #share_link{
+	cursor:text;
 	margin-left:auto;
 	margin-right:auto;
 	font-size:24px;
@@ -204,33 +208,39 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	font-size:20px;
 }
 
-.list_element .next_song{
+.next_song{
     cursor: pointer;
     color:white;
-    margin-top:-38px;
-    margin-left:29%;
 
-    display:none;
+   right: 20px;
+   height:100%;
+
+    opacity:0;
+    display:block;
     position: absolute;
 }
 
-.list_element .destroy {
+.destroy {
     cursor: pointer;
     color:white;
-    margin-top:-38px;
-    margin-left:32%;
-/*  opacity:0.6;*/
 
-    display:none;
+    right:0;
+   height:100%;
+/*  opacity:0.6;*/
+    padding:1px;
+
+    opacity:0;
+    display:block;
     position: absolute;
 }
 
 .list_element:hover .destroy{
-	display:block;
+    opacity:1;	
+
 }
 
 .list_element:hover .next_song{
-	display:block;
+    opacity:1;
 }
 
 /*
@@ -272,6 +282,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .element_style{
+    width:97%;
+
     line-height:40px;
 
     color:white;
