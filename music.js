@@ -256,10 +256,12 @@ Template.generate.events({
 		console.log("showing modal");
 		console.log(Template.list.my_playlist().fetch());
 		if(Template.list.my_playlist().fetch().length == 0){
+			console.log("THIS IS TRUE");
 			$("#modal_title").text("Start collaborating!");
 
 		}
 		else{
+			console.log("THIS IS FALSE");
 			$("#modal_title").text("Share and Collaborate!");
 		}
 		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
