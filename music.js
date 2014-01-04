@@ -232,7 +232,7 @@ Template.list.events({
   });
 
   Template.unremovable_track.events({
-	'click .unremovable .element_style' : function (){
+	'click .unremovable .element_style .nav_song' : function (){
 		/*from_click is a control variable that makes sure that loop_check doesn't get called
 		  on every UNSTARTED event*/
 		Session.set("from_click",true);
@@ -240,7 +240,7 @@ Template.list.events({
 		var index = $.inArray(videoId_local,Session.get("current_urls"));
 		player.loadPlaylist(Session.get("current_urls"),index);
 	},
-	'click .unremovable .loop_activate' : function(){
+	'click .unremovable .element_style .loop_activate' : function(){
 		if ($("#video-"+this.index).hasClass("loop")){
 			$("#video-"+this.index).removeClass("loop");
 		}

@@ -280,7 +280,7 @@ Template.generate.events({
 		$("#playlist").css('display','none');
 		$("#button_control").hide();
 		$("#search-group").hide();
-		$("#playlist_container").fadeOut(1000);
+		$("#playlist_container").fadeOut();
 
 		$("#player-list_container").fadeIn(1000);
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
