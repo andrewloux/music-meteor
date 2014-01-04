@@ -47,6 +47,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 
 	/*Styling the search bar*/
 	width:590px;
+	height:100%;
 	/*border-radius:8px;*/
 
 
@@ -60,7 +61,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 #search-group{
-        width:650px;    
+        width:650px;   
+	height:40px; 
         margin-left:auto;
         margin-right:auto;
         margin-top:20px;
@@ -68,7 +70,10 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
         display:block;
 }
 
+
+
 #search-button{
+	height:100%;
     float:left;
     display:block;
 }
@@ -231,7 +236,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     color:white;
 
    right: 20px;
-   height:100%;
+   height:7%;
 
     opacity:0;
     display:block;
@@ -243,7 +248,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     color:white;
 
     right:0;
-   height:100%;
+   height:7%;
 /*  opacity:0.6;*/
     padding:1px;
 
