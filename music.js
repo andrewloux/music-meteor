@@ -250,6 +250,7 @@ Template.list.events({
 		else{
 			$("#video-"+this.index).addClass("loop");
 			//alert("Loop is activated");
+			console.log("loop activated");
 		}
 		$("#video-"+this.index).children('.element_style').children('.loop_activate').toggleClass('fa-spin');
 	}
