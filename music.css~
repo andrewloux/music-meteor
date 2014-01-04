@@ -251,6 +251,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .next_song{
+    z-index:99;
     cursor: pointer;
     color:white;
 
@@ -320,6 +321,10 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	color:white;
 }
 
+.nav_song{
+	width:97%;
+}
+
 .loop_activate{
 	top:0;
 	right:0;
@@ -327,6 +332,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .element_style{
+    width:98%;
+
     line-height:40px;
 
     color:white;
@@ -347,4 +354,15 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
 }
 
+#playlist-alert{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: fixed;
+
+	width: 300px;
+	left: 50%;
+	margin-left: -255px;
+	display:none;
+	/*http://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div*/
+}
 

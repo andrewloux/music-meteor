@@ -173,7 +173,6 @@ Template.player.created = function(){
 		        $("#query").val('');
 			$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
 			Template.list.search_get(url,0);//insert records into the database
-			$("#playlist-alert").fadeOut('slow');
 		}	
        }
 }
@@ -277,6 +276,7 @@ Template.generate.events({
 	if(Template.list.my_playlist().fetch().length == 0){
 		//alert('Your tape is empty!');
 		$("#playlist-alert").fadeIn('slow');
+		$("#playlist-alert").delay(4000).fadeOut('slow');
 	}
 	else{
 		console.log("current urls: "+Session.get("current_urls"));
