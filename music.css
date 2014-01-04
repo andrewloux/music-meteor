@@ -35,30 +35,6 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	color:white;
 }
 
-#query{
-	/* css 3 */
-	/*border-radius:5px;*/
-	/* mozilla */
-	/*-moz-border-radius:5px;*/
-	/* webkit */
-	/*-webkit-border-radius:5px;*/
-	font-size: 1.5em;
-	padding: 5px;
-
-	/*Styling the search bar*/
-	width:590px;
-	height:100%;
-	/*border-radius:8px;*/
-
-
-	/*Centering the input*/	
-	/*margin-left:auto;
-	margin-right:auto;
-	margin-top:20px;
-	margin-bottom:35px;*/
-	display:block;
-	float:left;
-}
 
 #search-group{
         width:650px;   
@@ -70,12 +46,28 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
         display:block;
 }
 
+#left{
+	width:93%;
+	height:100%;
+	float:left;
+}
 
+#query{
+	font-size:1.3em;
+	border-radius: 8px 0 0 8px;
+	height:100%;
+}
+
+.input-button{
+	width:7%;
+	height:100%;
+	float:right;
+}
 
 #search-button{
+	border-radius: 0 8px 8px 0;
+	width:100%;
 	height:100%;
-    float:left;
-    display:block;
 }
 
 
@@ -134,11 +126,6 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	position:absolute;
 }
 
-/*Make the following global?
-#query:focus { 
-    outline-color: black;
-}
-*/
 
 #playlist{
 	list-style-type: none;
@@ -154,8 +141,12 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	margin-right: auto;
 	
 	padding-right:5px;
-
+	
+	/*
 	width:40%;
+	*/
+	width:550px;
+
 	height: 55%;
 
 	overflow-y: auto;
@@ -173,6 +164,20 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	background-color: rgba(255, 255, 255, 0.31);
 }
 
+@media all and (max-width: 800px) {
+#button_control{
+	background:green !important;
+	line-height:50px;
+	/*For the icons*/
+	text-align:center;
+	/*For the container*/
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+}
+}
+
+@media not all and (max-width: 800px) {
 #button_control{
 	line-height:50px;
 	/*For the icons*/
@@ -181,6 +186,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	margin-left:auto;
 	margin-right:auto;
 	width:30%;
+}
 }
 
 

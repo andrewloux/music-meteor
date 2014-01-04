@@ -131,8 +131,10 @@ function generatePlaylist(list){
 
 <template name="search_bar">
         <div class="input-group" id="search-group">
-            <input type="text" class="form-control" placeholder="Journey - Don't Stop Believin'" id="query">
-            <div class="input-button" style="height:100%"> <!-- Don't like this inline CSS.*/
+	    <div id="left">
+            <input id="query" type="text" class="form-control" placeholder="Journey - Don't Stop Believin'">
+	    </div>
+            <div class="input-button"> <!-- Don't like this inline CSS.-->
                 <button class="btn btn-default" type="submit" id="search-button"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
@@ -167,7 +169,7 @@ function generatePlaylist(list){
         <h3 id="modal_title" class="modal-title">Share and Collaborate!</h3>
       </div>
       <div class="modal-body">
-       	<input id="share_link" type="text" class="input-group form-control" readonly> 
+       	<input id="share_link" type="text" class="input-group form-control"> 
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
