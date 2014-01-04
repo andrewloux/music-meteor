@@ -169,11 +169,14 @@ Template.player.created = function(){
       // template data, if any, is available in 'this'
       if (evt.which === 13 || evt.which == 1){
                 var url = template.find('#query').value;
-                $("#query").val('');
-		$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
-		Template.list.search_get(url,0);	//insert records into the database
-                }
+		if(url){
+		        $("#query").val('');
+			$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
+			Template.list.search_get(url,0);//insert records into the database
+			$("#playlist-alert").fadeOut('slow');
+		}	
        }
+}
   });
 
   /*Template.list.events({
@@ -246,8 +249,10 @@ Template.list.events({
 		}
 		else{
 			$("#video-"+this.index).addClass("loop");
-			alert("Loop is activated");
+			//alert("Loop is activated");
+			console.log("loop activated");
 		}
+		$("#video-"+this.index).children('.element_style').children('.loop_activate').toggleClass('fa-spin');
 	}
   });
 
@@ -270,7 +275,8 @@ Template.generate.events({
 	'click #generate_button': function (evt, template){
 	Template.list.updateList();
 	if(Template.list.my_playlist().fetch().length == 0){
-		alert('Your tape is empty!');
+		//alert('Your tape is empty!');
+		$("#playlist-alert").fadeIn('slow');
 	}
 	else{
 		console.log("current urls: "+Session.get("current_urls"));
