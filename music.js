@@ -273,26 +273,18 @@ Template.generate.events({
 		alert('Your tape is empty!');
 	}
 	else{
-		$("#player").fadeIn(1000);
 		console.log("current urls: "+Session.get("current_urls"));
 		generatePlaylist(Session.get("current_urls"));
-		$("#playlist").css('display','none');
-		$("#navigation").show();
-
-		$(".absolute_center").hide();
-
-		/*Things to hide*/
-		$("#button_control").hide();
-		/*CHECK FOR REDUNDANCY IN THIS OTHER SHIT BELOW*/
 		$(".absolute_center2").fadeIn();
-		$("#navigation").fadeIn(1000);
-
+		/*Things to hide*/
+		$("#playlist").css('display','none');
+		$("#button_control").hide();
 		$("#search-group").hide();
+		$("#playlist_container").fadeOut();
 
-		$("#playlist_container").fadeOut(1000);
-
-		$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
-		$('#title').animate({color: '#fff'}, 'slow');
+		$("#player-list_container").fadeIn(1000);
+		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
+		//$('#title').animate({color: '#fff'}, 'slow');
 	}
 	} 	
 });
@@ -340,8 +332,9 @@ Template.generate.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
 		$(".absolute_center2").fadeOut(500);
-		$("#player").hide();
-		$("#navigation").fadeOut();
+
+		$("#player-list_container").fadeOut();
+
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/

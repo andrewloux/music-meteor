@@ -52,7 +52,6 @@
             'onStateChange': onPlayerStateChange
           }
         });
-	$("#player").hide();
       }
 
 function onPlayerReady(){
@@ -100,7 +99,6 @@ function generatePlaylist(list){
 <body>
   {{> header}}
   {{> search_bar}}
-  {{> player}}
   {{> list}}
   {{> fucking_list}} 
   {{> generate}}
@@ -181,12 +179,15 @@ function generatePlaylist(list){
 </template>
 
 <template name="fucking_list">
-	<div id="navigation">
-	<ul id="navigation_list"> 
-	    {{#each navlist}}
-			  {{> unremovable_track}}	
-	    {{/each}}
-	</ul>
+	<div id="player-list_container">
+		{{> player}}
+		<div id="navigation">
+		<ul id="navigation_list"> 
+		    {{#each navlist}}
+				  {{> unremovable_track}}	
+		    {{/each}}
+		</ul>
+		</div>
 	</div>
 </template>
 

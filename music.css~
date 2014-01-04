@@ -109,21 +109,26 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	width:50%;
 	height:79%;
 	margin-top:20px;
+	float:left;
+	position:relative;
 }
 
 #ytplayer{
 
 }
 
-#navigation{
-	top:0;
-	right:0;
-	margin-top:125px;
-	width: calc(90% - 640px);
-	max-height: 400px;
-	overflow-y:auto;
+#player-list_container{
+	width:100%;
+	height:100%;
 	display:none;
-	position:absolute;
+}
+
+#navigation{
+	width: 50%;
+	max-height: 80%;
+	overflow-y:auto;
+	float:right;
+	position:relative;
 }
 
 
@@ -174,7 +179,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	text-align:center;
 
 	/*So there's space between the list and the buttons:*/
-	margin-top:10px;
+	margin-top:10px; /*10px???*/
 	/*For the container*/
 	margin-left:auto;
 	margin-right:auto;
@@ -291,7 +296,10 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 */
 
 #navigation_list{
+    width:95%;
+    margin-left:5%;
     list-style:none;	
+    position:relative;
 }
 
 .list_element:hover{
@@ -313,15 +321,12 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .loop_activate{
+	top:0;
+	right:0;
 	position: absolute;
-	margin-left: 74%;
-	/*Shit alignment below.*/
-	margin-top: -43px;
 }
 
 .element_style{
-    width:97%;
-
     line-height:40px;
 
     color:white;
@@ -333,6 +338,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 
     /*Order at the bottom*/
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);	
+
+    position:relative;
 }
 
 .unremovable *:hover{
