@@ -287,7 +287,7 @@ Template.generate.events({
 		$(".absolute_center2").fadeIn();
 		$("#navigation").fadeIn(1000);
 
-		$("#query").hide();
+		$("#search-group").hide();
 
 		$("#playlist_container").fadeOut(1000);
 
@@ -345,7 +345,7 @@ Template.generate.events({
 		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
-		$("#query").show();
+		$("#search-group").show();
 
 		$(".absolute_center").fadeIn(1000);
 		$("#playlist_container").fadeIn(1000);
