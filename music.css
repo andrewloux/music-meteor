@@ -251,6 +251,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .next_song{
+    z-index:99;
     cursor: pointer;
     color:white;
 
@@ -331,6 +332,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .element_style{
+    width:98%;
+
     line-height:40px;
 
     color:white;
