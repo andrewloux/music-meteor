@@ -282,7 +282,7 @@ Template.generate.events({
 		$("#search-group").hide();
 		$("#playlist_container").fadeOut();
 
-		$("#player-list_container").fadeIn(1000);
+		$("#player-list_container").delay(300).fadeIn();
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		//$('#title').animate({color: '#fff'}, 'slow');
 	}
@@ -332,17 +332,15 @@ Template.generate.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
 		$(".absolute_center2").fadeOut(500);
-
 		$("#player-list_container").fadeOut();
 
-		$("#playlist").css('display','block');
 
 		/*Things that must reappear*/
-		$("#search-group").show();
-
-		$(".absolute_center").fadeIn(1000);
-		$("#playlist_container").fadeIn(1000);
-		$("#button_control").show();
+		$("#search-group").delay(300).fadeIn();
+		$(".absolute_center").delay(300).fadeIn();
+		$("#playlist_container").delay(300).fadeIn();
+		$("#button_control").delay(300).fadeIn();
+		$("#playlist").delay(300).css('display','block');
 
 		//$('body').animate({backgroundColor: '#fff'}, 'slow');
 		//$('#title').animate({color: '#000'}, 'slow');
