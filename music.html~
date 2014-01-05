@@ -54,8 +54,14 @@
         });
       }
 
+function setupContainer(){
+	$("#player-list_container").removeClass("my_hide");
+	/*$("#player-list_container").hide();	*/
+}
+
 function onPlayerReady(){
-//console.log("ready");
+	console.log("We really up in here");
+	//setupContainer();
 }
 
 function onPlayerStateChange(e){
@@ -137,7 +143,7 @@ function generatePlaylist(list){
             </div>
         </div>
 	<div id="playlist-alert" class="alert alert-info">
-		<strong>Ayo,</strong> You're trying to play an empty tape!</div>
+		<strong>Ayo,</strong> you're trying to play an empty tape!</div>
 </template>
 
 <template name="list">
@@ -181,7 +187,7 @@ function generatePlaylist(list){
 </template>
 
 <template name="fucking_list">
-	<div id="player-list_container">
+	<div id="player-list_container" class="my_hide">
 		{{> player}}
 		<div id="navigation">
 		<ul id="navigation_list"> 

@@ -54,8 +54,10 @@
         });
       }
 
+
 function onPlayerReady(){
-//console.log("ready");
+	console.log("We really up in here");
+	//setupContainer();
 }
 
 function onPlayerStateChange(e){
@@ -181,7 +183,7 @@ function generatePlaylist(list){
 </template>
 
 <template name="fucking_list">
-	<div id="player-list_container">
+	<div id="player-list_container" class="my_hide">
 		{{> player}}
 		<div id="navigation">
 		<ul id="navigation_list"> 

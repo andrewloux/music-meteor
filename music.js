@@ -288,7 +288,8 @@ Template.generate.events({
 		$("#search-group").hide();
 		$("#playlist_container").fadeOut();
 
-		$("#player-list_container").delay(300).fadeIn();
+		$("#player-list_container").removeClass("my_hide");
+		//$("#player-list_container").delay(300).fadeIn();
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		//$('#title').animate({color: '#fff'}, 'slow');
 	}
@@ -338,7 +339,8 @@ Template.generate.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
 		$(".absolute_center2").fadeOut(500);
-		$("#player-list_container").fadeOut();
+		//$("#player-list_container").fadeOut();
+		$("#player-list_container").addClass("my_hide");
 
 
 		/*Things that must reappear*/

@@ -276,7 +276,7 @@ Template.generate.events({
 	if(Template.list.my_playlist().fetch().length == 0){
 		//alert('Your tape is empty!');
 		$("#playlist-alert").fadeIn('slow');
-		$("#playlist-alert").delay(3000).fadeOut('slow');
+		$("#playlist-alert").delay(4000).fadeOut('slow');
 	}
 	else{
 		console.log("current urls: "+Session.get("current_urls"));
@@ -288,7 +288,8 @@ Template.generate.events({
 		$("#search-group").hide();
 		$("#playlist_container").fadeOut();
 
-		$("#player-list_container").delay(300).fadeIn();
+		$("#player-list_container").hide().removeClass("my_hide").delay(100).show();
+		//$("#player-list_container").delay(300).fadeIn();
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		//$('#title').animate({color: '#fff'}, 'slow');
 	}
@@ -338,7 +339,8 @@ Template.generate.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
 		$(".absolute_center2").fadeOut(500);
-		$("#player-list_container").fadeOut();
+		//$("#player-list_container").fadeOut();
+		$("#player-list_container").addClass("my_hide");
 
 
 		/*Things that must reappear*/
