@@ -3,7 +3,6 @@
 /*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
 html {
    height:100%;
-   overflow:auto;
 }
 
 body {
@@ -330,6 +329,13 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	color:white;
 }
 
+.current_song{
+	padding:5px;
+	border-radius:5px;
+	background:rgba(0,0,0,0.36);
+	color:white;
+}
+
 .nav_song{
 	width:97%;
 }
@@ -362,6 +368,14 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	/*Make that shit transparent*/
 	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
 }
+
+/*.current_song {
+	border-bottom:  1px solid rgba(0, 0, 0, 0) !important;
+	padding:5px;
+	border-radius:5px;
+	background:rgba(0,0,0,0.36);
+	color:white;
+}*/
 
 #playlist-alert{
 	padding-top: 5px;

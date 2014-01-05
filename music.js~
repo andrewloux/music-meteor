@@ -141,7 +141,12 @@ Template.list.updateList = function(){
 	Session.set("current_list",ret);
 	Session.set("current_urls",urls);
 	
-	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){});
+	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){
+	     console.log("update finito applying shadow to first element");
+	     $($("#navigation li")[0]).addClass("current_song");
+	     Session.set("prev_song_idx", 0);
+	     //Session.set("on_prepared", true);
+	   });
 }
 
 
@@ -283,10 +288,10 @@ Template.generate.events({
 
 		$(".absolute_center2").fadeIn();
 		/*Things to hide*/
-		$("#playlist").fadeOut(1000);
-		$("#button_control").fadeOut(1000);
-		$("#search-group").fadeOut(1000);
-		$("#playlist_container").fadeOut(1000, function(){
+		$("#playlist").fadeOut(700);
+		$("#button_control").fadeOut(700);
+		$("#search-group").fadeOut(700);
+		$("#playlist_container").fadeOut(700, function(){
 			$("#player-list_container").toggleClass("my_hide");
 		});
 		//$("#player-list_container").delay(300).fadeIn();

@@ -48,7 +48,7 @@
           height: '390',
           width: '640',
 	  playerVars:{
-		controls:0
+
 	  },
           events: {
             'onReady': onPlayerReady,
@@ -90,7 +90,11 @@ else if (e.data == YT.PlayerState.CUED){
 }
 else if (e.data == -1){
 	//alert("UNSTARTED SIGNAL " + player.getPlaylistIndex());
+	console.log("unstarted: "+player.getPlaylistIndex());
+	//console.log("bitches me");
 	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
+	
+	
 }
 
 }

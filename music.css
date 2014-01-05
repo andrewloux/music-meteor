@@ -3,13 +3,14 @@
 /*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
 html {
    height:100%;
+   overflow:auto;
 }
 
 body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y:hidden;
+/*    overflow-y:hidden;*/
 
 background: #4d6663; /* Old browsers */
 background: -moz-linear-gradient(top,  #4d6663 0%, #808378 27%, #a08771 76%, #8c6249 100%); /* FF3.6+ */
