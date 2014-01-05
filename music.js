@@ -141,7 +141,12 @@ Template.list.updateList = function(){
 	Session.set("current_list",ret);
 	Session.set("current_urls",urls);
 	
-	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){});
+	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){
+		console.log("update finito applying shadow to first element");
+		$($("#navigation li")[0]).addClass("current_song");
+		Session.set("prev_song_idx", 0);
+		//Session.set("on_prepared", true);
+	});
 }
 
 
@@ -238,8 +243,15 @@ Template.list.events({
 		/*from_click is a control variable that makes sure that loop_check doesn't get called
 		  on every UNSTARTED event*/
 		Session.set("from_click",true);
-		var videoId_local = this.videoId;
-		var index = $.inArray(videoId_local,Session.get("current_urls"));
+		///var videoId_local = this.videoId;
+		var index = $("li.unremovable").index($("#video-"+this.index));
+		//var index = $.inArray(videoId_local,Session.get("current_urls")); 
+		//highlight next song
+		$($("#navigation li")[Session.get("prev_song_idx")]).removeClass("current_song");
+		$($("#navigation li")[index]).addClass("current_song");
+		console.log("this song index is "+index);
+		Session.set("prev_song_idx", index);
+
 		player.loadPlaylist(Session.get("current_urls"),index);
 	},
 	'click .unremovable .element_style .loop_activate' : function(){
@@ -281,7 +293,11 @@ Template.generate.events({
 	else{
 		console.log("current urls: "+Session.get("current_urls"));
 		generatePlaylist(Session.get("current_urls"));
+		console.log("adding class for first song");
+		
 		$(".absolute_center2").fadeIn();
+		
+		//$($("#navigation li")[0]).addClass("current_song");
 		/*Things to hide*/
 		$("#playlist").css('display','none');
 		$("#button_control").hide();
@@ -289,6 +305,7 @@ Template.generate.events({
 		$("#playlist_container").fadeOut();
 
 		$("#player-list_container").removeClass("my_hide");
+		//console.log("first song attr: "+$($("#navigation li")[0]).attr('id'));
 		//$("#player-list_container").delay(300).fadeIn();
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		//$('#title').animate({color: '#fff'}, 'slow');
@@ -297,29 +314,48 @@ Template.generate.events({
 });
 
   Template.unremovable_track.check_loop = function(current_index,signal){
+	console.log("last signal: "+Session.get("last_signal"));
 	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
 		if (Session.get("last_signal")!=YT.PlayerState.ENDED){
-		console.log("GOING IN");
-		//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
-		if (signal == YT.PlayerState.ENDED){
-		    var index = current_index;
-		}
-		else if (signal == -1){
-		    var index = current_index-1;
-		}
+			console.log("GOING IN");
+			//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
+			if (signal == YT.PlayerState.ENDED){
+			    var index = current_index;
+			}
+			else if (signal == -1){
+			    var index = current_index-1;
+			}
 
-		console.log("CHECKING AND LOADING " + index);
-		var loop_check = $($("#navigation li")[index]).hasClass("loop");
+			console.log("CHECKING AND LOADING " + index);
+			var loop_check = $($("#navigation li")[index]).hasClass("loop");
 
-		if (loop_check == true){
-			//Play it again, Sam!
-			player.loadPlaylist(Session.get("current_urls"),index);
-		}	
-		Session.set("last_signal",signal);
-	}
+			if (loop_check == true){
+				//Play it again, Sam!
+				player.loadPlaylist(Session.get("current_urls"),index);
+			
+			}
+			else{
+				index = index+1;
+				console.log("removing class for song "+Session.get("prev_song_idx"));
+				$($("#navigation li")[Session.get("prev_song_idx")]).removeClass("current_song");
+				console.log("adding class for song "+index);
+				$($("#navigation li")[index]).addClass("current_song");
+				Session.set("prev_song_idx",index);
+		
+			}
+			Session.set("last_signal",signal);
+		}
 	}
 	else{
+		/*if(Session.get("last_signal")!=-1){
+			console.log("removing class for song "+Session.get("prev_song_idx"));
+			$($("#navigation li")[Session.get("prev_song_idx")]).removeClass("current_song");
+			console.log("adding class for song "+index);
+			$($("#navigation li")[index]).addClass("current_song");
+			Session.set("prev_song_idx",index);
+		}*/
 		Session.set("from_click",false);
+		
 	}
   }
 
@@ -341,7 +377,8 @@ Template.generate.events({
 		$(".absolute_center2").fadeOut(500);
 		//$("#player-list_container").fadeOut();
 		$("#player-list_container").addClass("my_hide");
-
+		console.log("removing class for index "+player.getPlaylistIndex());
+		$($("#navigation li")[player.getPlaylistIndex()]).removeClass("current_song");
 
 		/*Things that must reappear*/
 		$("#search-group").delay(300).fadeIn();
@@ -349,7 +386,7 @@ Template.generate.events({
 		$("#playlist_container").delay(300).fadeIn();
 		$("#button_control").delay(300).fadeIn();
 		$("#playlist").delay(300).css('display','block');
-
+		
 		//$('body').animate({backgroundColor: '#fff'}, 'slow');
 		//$('#title').animate({color: '#000'}, 'slow');
 
