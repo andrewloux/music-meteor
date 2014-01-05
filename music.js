@@ -280,7 +280,7 @@ Template.generate.events({
 			console.log("THIS IS FALSE");
 			$("#modal_title").text("Share and Collaborate!");
 		}
-		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
+		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
 	},
 	'click #generate_button': function (evt, template){

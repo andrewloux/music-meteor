@@ -3,6 +3,7 @@
 /*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
 html {
    height:100%;
+   overflow:auto;
 }
 
 body {
@@ -250,6 +251,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .list_element {
+	color:white;
 	width:94%; /*Where the destroy button will fall*/
 	left:0;
 }
@@ -318,7 +320,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 
 .unremovable{
 	width:85% !important;/*Override list-element*/
-	color:white !important;
+	color:white;
 }
 
 .unremovable:hover{
@@ -330,10 +332,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .current_song{
-	padding:5px;
-	border-radius:5px;
-	background:rgba(0,0,0,0.36);
-	color:white;
+	text-shadow: 0 0 0.2em rgba(82, 168, 236, 0.8);
 }
 
 .nav_song{
@@ -346,12 +345,15 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	position: absolute;
 }
 
+.loop_activate i{
+	font-size:1em;
+}
+
 .element_style{
     width:98%;
 
     line-height:40px;
 
-    color:white;
     /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
     font-family: 'Lato';
     font-weight: 300;
@@ -364,8 +366,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     position:relative;
 }
 
-.unremovable *:hover{
-	/*Make that shit transparent*/
+
+.element_style:hover{
 	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
 }
 
