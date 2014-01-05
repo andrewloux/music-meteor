@@ -47,6 +47,9 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
+	  playerVars:{
+		controls:0
+	  },
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -54,10 +57,6 @@
         });
       }
 
-function setupContainer(){
-	$("#player-list_container").removeClass("my_hide");
-	/*$("#player-list_container").hide();	*/
-}
 
 function onPlayerReady(){
 	console.log("We really up in here");

@@ -10,7 +10,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-/*    overflow-y:hidden;*/
+    overflow-y:hidden;
 
 background: #4d6663; /* Old browsers */
 background: -moz-linear-gradient(top,  #4d6663 0%, #808378 27%, #a08771 76%, #8c6249 100%); /* FF3.6+ */
@@ -118,13 +118,17 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .my_hide{
-	margin-left:-9999px;
-	position:fixed;
+	transform: translateX(-9999px);
+	-ms-transform: translateX(-9999px); /* IE 9 */
+	-webkit-transform: translateX(-9999px); 
+	position:fixed !important;
+	opacity:0;
 }
 
 #player-list_container{
 	width:100%;
 	height:100%;
+	opacity:1;
 }
 
 #navigation{
@@ -161,6 +165,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	height: 55%;
 
 	overflow-y: auto;
+	position:relative;
 }
 
 .tape_image{

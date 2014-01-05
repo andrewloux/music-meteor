@@ -275,20 +275,20 @@ Template.generate.events({
 	Template.list.updateList();
 	if(Template.list.my_playlist().fetch().length == 0){
 		//alert('Your tape is empty!');
-		$("#playlist-alert").fadeIn('slow');
-		$("#playlist-alert").delay(4000).fadeOut('slow');
+		$("#playlist-alert").fadeIn('slow').delay(4000).fadeOut('slow');
 	}
 	else{
 		console.log("current urls: "+Session.get("current_urls"));
 		generatePlaylist(Session.get("current_urls"));
+
 		$(".absolute_center2").fadeIn();
 		/*Things to hide*/
-		$("#playlist").css('display','none');
-		$("#button_control").hide();
-		$("#search-group").hide();
-		$("#playlist_container").fadeOut();
-
-		$("#player-list_container").removeClass("my_hide");
+		$("#playlist").fadeOut(700);
+		$("#button_control").fadeOut(700);
+		$("#search-group").fadeOut(700);
+		$("#playlist_container").fadeOut(700, function(){
+			$("#player-list_container").toggleClass("my_hide");
+		});
 		//$("#player-list_container").delay(300).fadeIn();
 		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
 		//$('#title').animate({color: '#fff'}, 'slow');
@@ -338,17 +338,19 @@ Template.generate.events({
   Template.header.events({
 	'click #close_player': function (evt, template){		
 		player.pauseVideo();
-		$(".absolute_center2").fadeOut(500);
-		//$("#player-list_container").fadeOut();
-		$("#player-list_container").addClass("my_hide");
+		$("#player-list_container").toggleClass("my_hide").promise().done(function(){
+			$("#playlist").delay(300).css('display','block');
+			$(".absolute_center2").fadeOut(500);
+			//$("#player-list_container").fadeOut();
+
+			/*Things that must reappear*/
+			$("#search-group").delay(300).fadeIn();
+			$(".absolute_center").delay(300).fadeIn();
+			$("#playlist_container").delay(300).fadeIn();
+			$("#button_control").delay(300).fadeIn();
+		});
 
 
-		/*Things that must reappear*/
-		$("#search-group").delay(300).fadeIn();
-		$(".absolute_center").delay(300).fadeIn();
-		$("#playlist_container").delay(300).fadeIn();
-		$("#button_control").delay(300).fadeIn();
-		$("#playlist").delay(300).css('display','block');
 
 		//$('body').animate({backgroundColor: '#fff'}, 'slow');
 		//$('#title').animate({color: '#000'}, 'slow');
