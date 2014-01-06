@@ -13,11 +13,16 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script>
   $(function() {
+    /*Then we make sortable*/
     $( "#playlist" ).sortable({
+	/*
+        axis: "y",
+	containment: "#playlist li",*/
 	update: function(){
 	Template.list.updateList(); //Updates on moving the position of an element around.
      }});
     $( "#playlist" ).disableSelection();
+
   });
   </script>
   <script>
@@ -135,7 +140,7 @@ function generatePlaylist(list){
 <template name="search_bar">
         <div class="input-group" id="search-group">
 	    <div id="left">
-            <input id="query" type="text" class="form-control" placeholder="Journey - Don't Stop Believin'">
+            <input id="query" type="text" class="form-control">
 	    </div>
             <div class="input-button">
                 <button id="search-button" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
@@ -176,6 +181,14 @@ function generatePlaylist(list){
       <div class="modal-body">
        	<input id="share_link" type="text" class="input-group form-control"> 
       </div>
+	<div  class="modal-footer">
+		 <div id="modal_text" style="text-align:center !important;">
+		</div>
+		<br>
+		<div style="text-align:left !important;">
+			Share your playlist with someone. Start working on it together. Or hold it to it for later. 
+		</div>
+	</div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->	

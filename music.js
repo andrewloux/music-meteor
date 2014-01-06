@@ -4,6 +4,7 @@ Links = new Meteor.Collection("links");
 if (Meteor.isClient) {
 
 
+
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -34,8 +35,29 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+
+   /*Other stupidness below*/
+    $("#playlist li .next_song").each(function(){
+	$(this).removeClass("next_song").addClass("hide_song");	
+    });
+
+
+/*Shit coin toss placeholder*/
+//var rando = Math.floor((Math.random()*2)+1);
+var rando = 2; //Better idea for default.
+if (rando == 1){
+	$("#query").attr("placeholder","E.g. http://www.youtube.com/watch?v=1sAm5UCJ9vA");
+}
+else if (rando == 2){
+	$("#query").attr("placeholder","Journey - Don't Stop Believin'");
+}	
+
+
+
 //lock screen until gapi loads
 $("#loading_modal").modal('show');
+
+
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -52,6 +74,8 @@ Router.map(function () {
 });
 	Template.list.sessID_Gen();	//generate sessionID on pageload
 });
+
+
 
 
 
@@ -149,6 +173,11 @@ Template.list.updateList = function(){
 	});
 }
 
+
+Template.list.created = function(){
+
+
+}
 
 Template.fucking_list.navlist = function(){
 	console.log("getting the fucking list for navigation");
@@ -274,11 +303,13 @@ Template.generate.events({
 		if(Template.list.my_playlist().fetch().length == 0){
 			console.log("THIS IS TRUE");
 			$("#modal_title").text("Start collaborating!");
+			$("#modal_text").html("<strong>Here's the link to the playlist you've just created.</strong>")
 
 		}
 		else{
 			console.log("THIS IS FALSE");
 			$("#modal_title").text("Share and Collaborate!");
+			$("#modal_text").html("<strong>Here's the link to the playlist you're about to create.</strong>")
 		}
 		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');

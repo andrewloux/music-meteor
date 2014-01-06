@@ -243,7 +243,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	margin-right:auto;
 	font-size:24px;
 	height:50px;
-	width:60%;
+	width:65.6%;
 }
 
 .thumbnail{
@@ -273,6 +273,11 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     display:block;
     position: absolute;
 }
+
+.hide_song{
+   display:none !important;
+}
+
 
 .destroy {
     cursor: pointer;
