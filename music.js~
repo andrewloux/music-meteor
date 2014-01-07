@@ -4,6 +4,7 @@ Links = new Meteor.Collection("links");
 if (Meteor.isClient) {
 
 
+
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -30,12 +31,35 @@ Template.list.sessID_Gen = function(){
 	});
 }
 
+
 //The Router after event callback overrides the following line, such that each link is now a mixtape.
 
 
 Meteor.startup(function (){
+
+/*
+    Other stupidness below
+    $("#playlist li .next_song").each(function(){
+	$(this).removeClass("next_song").addClass("hide_song");	
+    });
+*/
+
+/*Shit coin toss placeholder*/
+//var rando = Math.floor((Math.random()*2)+1);
+var rando = 2; //Better idea for default.
+if (rando == 1){
+	$("#query").attr("placeholder","E.g. http://www.youtube.com/watch?v=1sAm5UCJ9vA");
+}
+else if (rando == 2){
+	$("#query").attr("placeholder","Journey - Don't Stop Believin'");
+}	
+
+
+
 //lock screen until gapi loads
 $("#loading_modal").modal('show');
+
+
 
 Router.map(function () {
   //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
@@ -52,6 +76,8 @@ Router.map(function () {
 });
 	Template.list.sessID_Gen();	//generate sessionID on pageload
 });
+
+
 
 
 
@@ -113,11 +139,24 @@ Template.list.search_get= function(str,val){
    
 }
 
+Session.set("renderedBefore", false);
+
+Template.list.rendered = function() {
+    Session.set("renderedBefore", true);
+}
+
+Template.list.renderedBefore = function() {
+    return Session.get('renderedBefore');
+}
+
+
 /*Update List on generate button*/
 Template.list.updateList = function(){
 	console.log("update list being called");
 	var ret = [];
+	
         $( "#playlist .list_element" ).each(function() {
+//	if (1){
 	if($(this).is(':visible')){
 		var songs= Links.find({sess: Template.list.my_playlist_id},{songs: {$elemMatch: {index: $(this).attr('id')}}}).fetch()[0].songs;
 		for (var i in songs){
@@ -130,7 +169,7 @@ Template.list.updateList = function(){
 		}
          }
 	});
-
+	
 	var urls = [];
 	console.log("length of ret " + ret.length);
 	for (var i = 0; i < ret.length; i++){
@@ -149,6 +188,10 @@ Template.list.updateList = function(){
 	});
 }
 
+
+Template.the_playlist.main_list = function(){
+	return Links.find().fetch()[0].songs;
+}
 
 Template.fucking_list.navlist = function(){
 	console.log("getting the fucking list for navigation");
@@ -272,15 +315,15 @@ Template.generate.events({
 		console.log("showing modal");
 		console.log(Template.list.my_playlist().fetch());
 		if(Template.list.my_playlist().fetch().length == 0){
-			console.log("THIS IS TRUE");
 			$("#modal_title").text("Start collaborating!");
+			$("#modal_text").html("<strong>Here's the link to the playlist you're about to create.</strong>")
 
 		}
 		else{
-			console.log("THIS IS FALSE");
 			$("#modal_title").text("Share and Collaborate!");
+			$("#modal_text").html("<strong>Here's the link to the playlist you've just created.</strong>")
 		}
-		$("#share_link").val("localhost:3000/tape/"+Template.list.my_playlist_id);
+		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
 	},
 	'click #generate_button': function (evt, template){

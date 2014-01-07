@@ -275,7 +275,17 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 .hide_song{
+    z-index:99;
+    cursor: pointer;
+    color:white;
+
+   right: 20px;
+   height:40px;
+
+    padding:3px;
+    opacity:0;
    display:none !important;
+    position: absolute;
 }
 
 
@@ -358,6 +368,11 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	font-size:1em;
 }
 
+/*Class while dragging*/
+.ui-sortable-helper{
+    border-top: 1px solid rgba(255, 255, 255, 0.18);		
+}
+
 .element_style{
     width:98%;
 
@@ -375,10 +390,6 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     position:relative;
 }
 
-
-.element_style:hover{
-	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
-}
 
 /*.current_song {
 	border-bottom:  1px solid rgba(0, 0, 0, 0) !important;

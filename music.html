@@ -22,7 +22,6 @@
 	Template.list.updateList(); //Updates on moving the position of an element around.
      }});
     $( "#playlist" ).disableSelection();
-
   });
   </script>
   <script>
@@ -35,6 +34,7 @@
 	    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
 		//allow user access only when gapi loads;
  		$("#loading_modal").modal('hide');
+
 	}
 
       // 2. This code loads the IFrame Player API code asynchronously.
@@ -51,6 +51,9 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
+          playerVars: {
+            rel:0,
+          },
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -61,6 +64,9 @@
 
 function onPlayerReady(){
 	console.log("We really up in here");
+  Template.the_playlist.signal();
+  //Find a better place to put the below.
+  //alert($("#playlist li").length);
 	//setupContainer();
 }
 
@@ -153,13 +159,23 @@ function generatePlaylist(list){
 <template name="list">
 <div id="playlist_container">
   <ul id="playlist">
-    {{#each my_playlist}}
-	{{#each songs}}
-           {{> track}}
-	{{/each}}
-    {{/each}}	
+	 {{ > the_playlist }}
   </ul>
 </div>
+</template>
+
+<template name="the_playlist">
+  		{{#each main_list}}
+          <li id="{{index}}" class="HASNEXT-{{index}} list_element">
+                  {{#if shared_songs}}
+                        <div class="hide_song"><i class="list_icons fa fa-arrow-circle-o-right"></i></div>
+                  {{else}}
+                        <div class="next_song"><i class="list_icons fa fa-arrow-circle-o-right"></i></div>
+                 {{/if}}
+              <div class="destroy"><i class="list_icons fa fa-times-circle-o"></i></div>
+              <div class="element_style">{{song_title}}</div>
+          </li>
+  		{{/each}}
 </template>
 
 <template name="generate">
@@ -186,7 +202,7 @@ function generatePlaylist(list){
 		</div>
 		<br>
 		<div style="text-align:left !important;">
-			Share your playlist with someone. Start working on it together. Or hold it to it for later. 
+			Share your playlist with someone. Start working on it together. Or hold onto it to it for later. 
 		</div>
 	</div>
     </div><!-- /.modal-content -->

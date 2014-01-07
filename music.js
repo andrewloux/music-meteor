@@ -4,7 +4,6 @@ Links = new Meteor.Collection("links");
 if (Meteor.isClient) {
 
 
-
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -31,16 +30,22 @@ Template.list.sessID_Gen = function(){
 	});
 }
 
+
 //The Router after event callback overrides the following line, such that each link is now a mixtape.
 
 
 Meteor.startup(function (){
 
-   /*Other stupidness below*/
+Session.set("renderedBefore", false);
+    /*FIND A BETTER PLACE TO PUT THIS BELOW. Needs to be in a place after all 
+      songs load onto the page*/
+
+/*
+    Other stupidness below
     $("#playlist li .next_song").each(function(){
 	$(this).removeClass("next_song").addClass("hide_song");	
     });
-
+*/
 
 /*Shit coin toss placeholder*/
 //var rando = Math.floor((Math.random()*2)+1);
@@ -137,12 +142,55 @@ Template.list.search_get= function(str,val){
    
 }
 
+/*
+Template.list.updateHover = function(){
+
+
+	console.log("UPDATE HOVER");	
+
+	/*
+	$("#playlist li .next_song").each(function(){
+		if ($(this).is(':hover')){
+                  $(this).css({opacity:1});
+		}
+
+	});
+
+    $( "#playlist li .next_song" ).mouseenter(
+    		function(){
+                //GRABBING THE INDEX
+                var curr_index = $(this).parent().attr('id');
+                var song_list = Session.get(curr_index);  
+
+                if (typeof song_list === 'undefined'){
+                      console.log("SHARED SONG");
+                }
+                else{
+                  $(this).css({opacity:1});
+                  	console.log("IN HERE");
+                }    			
+
+
+    		}
+    	);
+    $( "#playlist li .next_song" ).mouseleave(
+    		function(){
+                  $(this).css({opacity:0});
+              }
+    	);
+}
+
+*/
+
 /*Update List on generate button*/
 Template.list.updateList = function(){
+
 	console.log("update list being called");
 	var ret = [];
+	
         $( "#playlist .list_element" ).each(function() {
-	if($(this).is(':visible')){
+	if (1){
+//	if($(this).is(':visible')){
 		var songs= Links.find({sess: Template.list.my_playlist_id},{songs: {$elemMatch: {index: $(this).attr('id')}}}).fetch()[0].songs;
 		for (var i in songs){
 			console.log("hello this is: "+songs[i].index);
@@ -154,7 +202,7 @@ Template.list.updateList = function(){
 		}
          }
 	});
-
+	
 	var urls = [];
 	console.log("length of ret " + ret.length);
 	for (var i = 0; i < ret.length; i++){
@@ -171,12 +219,45 @@ Template.list.updateList = function(){
 		Session.set("prev_song_idx", 0);
 		//Session.set("on_prepared", true);
 	});
+
+
+}
+
+Template.the_playlist.signal = function(){
+	//Waits until the playlist finishes rendering. 
+	Meteor.defer(function(){
+		Session.set("shared_songs",false);
+	})
+	
 }
 
 
-Template.list.created = function(){
+
+Template.the_playlist.helpers({
+    'shared_songs': function() {
+    		//Check that either signal is false OR 
+    		if (Session.get("HASNEXT-" + this.index) == "done"){
+    			return true;
+    		}
+    		else{
+    			return false; //This should only happen once. 
+    		}
+
+    		Session.set("HASNEXT-" + this.index, "done" );
+    }
+})
 
 
+Template.the_playlist.main_list = function(){
+
+	var ret = Links.find().fetch()[0];
+	if (typeof ret == 'undefined'){
+		ret = []
+	}
+	else {
+		ret = Links.find().fetch()[0].songs;
+	}
+	return ret;
 }
 
 Template.fucking_list.navlist = function(){
@@ -194,7 +275,6 @@ Template.player.created = function(){
 	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
 	  var firstScriptTag = document.getElementsByTagName('script')[0];
 	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
-	
 }
 
 
@@ -262,8 +342,8 @@ Template.list.events({
 			//save the rest of the list in the array
 			//console.log("inserted song:
 			console.log("error from change_record: "+err); 
-			
 		});
+
 	}
   });
 
@@ -301,15 +381,13 @@ Template.generate.events({
 		console.log("showing modal");
 		console.log(Template.list.my_playlist().fetch());
 		if(Template.list.my_playlist().fetch().length == 0){
-			console.log("THIS IS TRUE");
 			$("#modal_title").text("Start collaborating!");
-			$("#modal_text").html("<strong>Here's the link to the playlist you've just created.</strong>")
+			$("#modal_text").html("<strong>Here's the link to the playlist you're about to create.</strong>")
 
 		}
 		else{
-			console.log("THIS IS FALSE");
 			$("#modal_title").text("Share and Collaborate!");
-			$("#modal_text").html("<strong>Here's the link to the playlist you're about to create.</strong>")
+			$("#modal_text").html("<strong>Here's the link to the playlist you've just created.</strong>")
 		}
 		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
