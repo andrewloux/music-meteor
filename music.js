@@ -142,46 +142,6 @@ Template.list.search_get= function(str,val){
    
 }
 
-/*
-Template.list.updateHover = function(){
-
-
-	console.log("UPDATE HOVER");	
-
-	/*
-	$("#playlist li .next_song").each(function(){
-		if ($(this).is(':hover')){
-                  $(this).css({opacity:1});
-		}
-
-	});
-
-    $( "#playlist li .next_song" ).mouseenter(
-    		function(){
-                //GRABBING THE INDEX
-                var curr_index = $(this).parent().attr('id');
-                var song_list = Session.get(curr_index);  
-
-                if (typeof song_list === 'undefined'){
-                      console.log("SHARED SONG");
-                }
-                else{
-                  $(this).css({opacity:1});
-                  	console.log("IN HERE");
-                }    			
-
-
-    		}
-    	);
-    $( "#playlist li .next_song" ).mouseleave(
-    		function(){
-                  $(this).css({opacity:0});
-              }
-    	);
-}
-
-*/
-
 /*Update List on generate button*/
 Template.list.updateList = function(){
 
@@ -225,10 +185,13 @@ Template.list.updateList = function(){
 
 Template.the_playlist.signal = function(){
 	//Waits until the playlist finishes rendering. 
-	Meteor.defer(function(){
-		Session.set("shared_songs",false);
-	})
-	
+	var len = $("#playlist li").length;
+	if (len != 0){
+		$("#playlist li").each(function(){
+			var idvar = $(this).attr('id');
+			Session.set( "shared-" + idvar , true );
+		});
+	}
 }
 
 
@@ -236,14 +199,13 @@ Template.the_playlist.signal = function(){
 Template.the_playlist.helpers({
     'shared_songs': function() {
     		//Check that either signal is false OR 
-    		if (Session.get("HASNEXT-" + this.index) == "done"){
+    		if (Session.get("shared-" + this.index)){
     			return true;
     		}
     		else{
-    			return false; //This should only happen once. 
+    			return false;  
     		}
 
-    		Session.set("HASNEXT-" + this.index, "done" );
     }
 })
 
