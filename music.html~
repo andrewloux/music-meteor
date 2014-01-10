@@ -11,99 +11,81 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-  <script>
-  $(function() {
-    /*Then we make sortable*/
-    $( "#playlist" ).sortable({
-	/*
-        axis: "y",
-	containment: "#playlist li",*/
-	update: function(){
-	Template.list.updateList(); //Updates on moving the position of an element around.
-     }});
-    $( "#playlist" ).disableSelection();
 
-  });
-  </script>
-  <script>
-	function onClientLoad() {
-	    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
-	}
+<script>
+/*Keep this here for now, move to /lib after the clutter is cleaned*/
+function onClientLoad() {
+    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
+}
 
-	// Called automatically when YouTube API interface is loaded
-	function onYouTubeApiLoad() {
-	    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
-		//allow user access only when gapi loads;
- 		$("#loading_modal").modal('hide');
-	}
+// Called automatically when YouTube API interface is loaded
+function onYouTubeApiLoad() {
+    gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
+    //allow user access only when gapi loads;
+    $("#loading_modal").modal('hide');
+}
 
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+	player = new YT.Player('player', {
+          	height: '390',
+          	width: '640',
+          	playerVars: {
+            		rel:0,
+          	},
+          	events: {
+            		'onReady': onPlayerReady,
+            		'onStateChange': onPlayerStateChange
+          	}
         });
-      }
+}
 
-
-function onPlayerReady(){
-	console.log("We really up in here");
-	//setupContainer();
+function onPlayerReady(){	
+	console.log("Player ready, sending signal to mark shared links");
+  	Template.the_playlist.signal();
 }
 
 function onPlayerStateChange(e){
-//Save last signal so there is no upwards cascade in check_loop
-
-console.log(e);
- if(e.data == YT.PlayerState.ENDED){
-	console.log("ENDED SIGNAL");
-	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
-}
-else if (e.data == YT.PlayerState.PLAYING){
-	console.log("PLAYING SIGNAL " + player.getPlaylistIndex());
-	Session.set("last_signal",e.data);
-}
-else if (e.data == YT.PlayerState.PAUSED){
-	console.log(player.getPlaylistIndex());
-	console.log("PAUSED SIGNAL");
-	Session.set("last_signal",e.data);
-}
-else if (e.data == YT.PlayerState.BUFFERING){
-	console.log("BUFFERING SIGNAL");
-	Session.set("last_signal",e.data);
-}
-else if (e.data == YT.PlayerState.CUED){
-	console.log("CUED SIGNAL");
-	Session.set("last_signal",e.data);
-}
-else if (e.data == -1){
-	//alert("UNSTARTED SIGNAL " + player.getPlaylistIndex());
-	console.log("unstarted: "+player.getPlaylistIndex());
-	//console.log("bitches me");
-	Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
-	
-	
-}
-
+	//Save last signal so there is no upwards cascade in check_loop
+	 if(e.data == YT.PlayerState.ENDED){
+		console.log("ENDED SIGNAL");
+		Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
+	}
+	else if (e.data == YT.PlayerState.PLAYING){
+		console.log("PLAYING SIGNAL " + player.getPlaylistIndex());
+		Session.set("last_signal",e.data);
+	}
+	else if (e.data == YT.PlayerState.PAUSED){
+		console.log(player.getPlaylistIndex());
+		console.log("PAUSED SIGNAL");
+		Session.set("last_signal",e.data);
+	}
+	else if (e.data == YT.PlayerState.BUFFERING){
+		console.log("BUFFERING SIGNAL");
+		Session.set("last_signal",e.data);
+	}
+	else if (e.data == YT.PlayerState.CUED){
+		console.log("CUED SIGNAL");
+		Session.set("last_signal",e.data);
+	}
+	else if (e.data == -1){
+		console.log("unstarted: "+player.getPlaylistIndex());
+		Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);	
+	}
 }
 
 function generatePlaylist(list){
 	player.loadPlaylist(list);
 }
-  </script>
+</script>
 </head>
 
 <body>
@@ -153,18 +135,23 @@ function generatePlaylist(list){
 <template name="list">
 <div id="playlist_container">
   <ul id="playlist">
-	{{ > the_playlist }}
-
+	 {{ > the_playlist }}
   </ul>
 </div>
 </template>
 
 <template name="the_playlist">
-	{{#with main_list}}
-		{{#each songs}}
-		   {{> track}}
-		{{/each}}
-	{{/with}}
+  		{{#each main_list}}
+          <li id="{{index}}" class="list_element">
+                  {{#if shared_songs}}
+                        <div class="hide_song"><i class="list_icons fa fa-arrow-circle-o-right"></i></div>
+                  {{else}}
+                        <div class="next_song"><i class="list_icons fa fa-arrow-circle-o-right"></i></div>
+                 {{/if}}
+              <div class="destroy"><i class="list_icons fa fa-times-circle-o"></i></div>
+              <div class="element_style">{{song_title}}</div>
+          </li>
+  		{{/each}}
 </template>
 
 <template name="generate">

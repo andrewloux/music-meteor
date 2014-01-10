@@ -4,7 +4,6 @@ Links = new Meteor.Collection("links");
 if (Meteor.isClient) {
 
 
-
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
  /*Check if you can put this anywhere else, it looks shit over here.*/
 
@@ -36,6 +35,10 @@ Template.list.sessID_Gen = function(){
 
 
 Meteor.startup(function (){
+
+Session.set("renderedBefore", false);
+    /*FIND A BETTER PLACE TO PUT THIS BELOW. Needs to be in a place after all 
+      songs load onto the page*/
 
 /*
     Other stupidness below
@@ -139,25 +142,15 @@ Template.list.search_get= function(str,val){
    
 }
 
-Session.set("renderedBefore", false);
-
-Template.list.rendered = function() {
-    Session.set("renderedBefore", true);
-}
-
-Template.list.renderedBefore = function() {
-    return Session.get('renderedBefore');
-}
-
-
 /*Update List on generate button*/
 Template.list.updateList = function(){
+
 	console.log("update list being called");
 	var ret = [];
 	
         $( "#playlist .list_element" ).each(function() {
-//	if (1){
-	if($(this).is(':visible')){
+	if (1){
+//	if($(this).is(':visible')){
 		var songs= Links.find({sess: Template.list.my_playlist_id},{songs: {$elemMatch: {index: $(this).attr('id')}}}).fetch()[0].songs;
 		for (var i in songs){
 			console.log("hello this is: "+songs[i].index);
@@ -186,11 +179,47 @@ Template.list.updateList = function(){
 		Session.set("prev_song_idx", 0);
 		//Session.set("on_prepared", true);
 	});
+
+
+}
+
+Template.the_playlist.signal = function(){
+	//Waits until the playlist finishes rendering. 
+	var len = $("#playlist li").length;
+	if (len != 0){
+		$("#playlist li").each(function(){
+			var idvar = $(this).attr('id');
+			Session.set( "shared-" + idvar , true );
+		});
+	}
 }
 
 
+
+Template.the_playlist.helpers({
+    'shared_songs': function() {
+    		//Check that either signal is false OR 
+    		if (Session.get("shared-" + this.index)){
+    			return true;
+    		}
+    		else{
+    			return false;  
+    		}
+
+    }
+})
+
+
 Template.the_playlist.main_list = function(){
-	return Links.find().fetch()[0].songs;
+
+	var ret = Links.find().fetch()[0];
+	if (typeof ret == 'undefined'){
+		ret = []
+	}
+	else {
+		ret = Links.find().fetch()[0].songs;
+	}
+	return ret;
 }
 
 Template.fucking_list.navlist = function(){
@@ -208,7 +237,6 @@ Template.player.created = function(){
 	  tag.src = "https://apis.google.com/js/client.js?onload=onClientLoad";
 	  var firstScriptTag = document.getElementsByTagName('script')[0];
 	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);			
-	
 }
 
 
@@ -276,8 +304,8 @@ Template.list.events({
 			//save the rest of the list in the array
 			//console.log("inserted song:
 			console.log("error from change_record: "+err); 
-			
 		});
+
 	}
   });
 

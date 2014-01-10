@@ -1,0 +1,11 @@
+  $(function() {
+    /*Then we make sortable*/
+    $( "#playlist" ).sortable({
+	/*
+        axis: "y",
+	containment: "#playlist li",*/
+	update: function(){
+	Template.list.updateList(); //Updates on moving the position of an element around.
+     }});
+    $( "#playlist" ).disableSelection();
+  });

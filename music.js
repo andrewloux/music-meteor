@@ -1,12 +1,10 @@
-//Setting up new collection of links
+//Setting up DB collection of links
 Links = new Meteor.Collection("links");
 
 if (Meteor.isClient) {
 
 
 /*PART I: SESSION ID GENERATION ----------------------------------------------------------------------------------------------------------*/
- /*Check if you can put this anywhere else, it looks shit over here.*/
-
 Template.list.sessID_Gen = function(){
 	//need to get id from server
 
@@ -32,52 +30,27 @@ Template.list.sessID_Gen = function(){
 
 
 //The Router after event callback overrides the following line, such that each link is now a mixtape.
-
-
 Meteor.startup(function (){
 
-Session.set("renderedBefore", false);
-    /*FIND A BETTER PLACE TO PUT THIS BELOW. Needs to be in a place after all 
-      songs load onto the page*/
+	Session.set("renderedBefore", false);
+	
+	//lock screen until gapi loads
+	$("#loading_modal").modal('show');
 
-/*
-    Other stupidness below
-    $("#playlist li .next_song").each(function(){
-	$(this).removeClass("next_song").addClass("hide_song");	
-    });
-*/
-
-/*Shit coin toss placeholder*/
-//var rando = Math.floor((Math.random()*2)+1);
-var rando = 2; //Better idea for default.
-if (rando == 1){
-	$("#query").attr("placeholder","E.g. http://www.youtube.com/watch?v=1sAm5UCJ9vA");
-}
-else if (rando == 2){
-	$("#query").attr("placeholder","Journey - Don't Stop Believin'");
-}	
-
-
-
-//lock screen until gapi loads
-$("#loading_modal").modal('show');
-
-
-
-Router.map(function () {
-  //Implies I have a template named tape? That I'm not using... Calling it lists fucks things up.
-  this.route('tape', {
-    path: '/tape/:_sess',
-    before: function(){
-	Template.list.my_playlist_id = this.params._sess;
-	console.log("ROUTING FIRST");
-	 console.log("subscribing to sess inside route: " + this.params._sess);
-	this.subscribe('links',this.params._sess);
-	console.log("after my sessid is " + Template.list.my_playlist_id);
-    }
-  });
-});
-	Template.list.sessID_Gen();	//generate sessionID on pageload
+	Router.map(function () {
+	  	this.route('tape', {
+		    path: '/tape/:_sess',
+		    before: function(){
+				Template.list.my_playlist_id = this.params._sess;
+				//console.log("ROUTING FIRST");
+				//console.log("subscribing to sess inside route: " + this.params._sess);
+				//console.log("after my sessid is " + Template.list.my_playlist_id);
+				this.subscribe('links',this.params._sess);
+		    }
+	  });
+	});
+	//generate sessionID on pageload
+	Template.list.sessID_Gen();	
 });
 
 
@@ -94,32 +67,23 @@ Template.list.search_get= function(str,val){
 	    str = JSON.stringify(response.result);
 	    str = JSON.parse(str);
 
-	   
-
-	   //Ensuring that we found a video and not a channel.
-	   /* if ( (str.items[val].id.kind == "youtube#channel") || (str.items[val].id.kind == "youtube#playlist") ){
-		while (str.items[val].id.kind != "youtube#video"){
-			//Error checking, you could have an inf loop.
-			val = val+1;
-		}
-	
-	    }*/
-	var video_list = [];
-	str.items.forEach(function(entry) {
+		var video_list = [];
+		str.items.forEach(function(entry) {
 			console.log(entry);
 			if((entry.id.kind != "youtube#channel") && (entry.id.kind != "youtube#playlist")){
 				video_list.push(entry);	
 			}
 		});
- 	console.log(video_list);
-	if(video_list.length != 0){
-	//make a call to the db right now
-
+ 		//console.log(video_list);
+		if(video_list.length != 0){
+		
+		//make a call to the db right now to create this session
 		if(!Links.findOne({sess: Template.list.my_playlist_id})){
 			console.log("im inserting a new record with sess id: "+Template.list.my_playlist_id);
 			Links.insert({sess: Template.list.my_playlist_id});
 		}
 
+		/*Creating song object and pushing to db*/
 		var song = new Object();	
 		song["title"] = video_list[val].snippet.title;
 		song["video_id"] = video_list[val].id.videoId;
@@ -133,13 +97,10 @@ Template.list.search_get= function(str,val){
 		video_list.push(last_song);
 		Session.set(song["index"],video_list);
 		Meteor.call('update_record',Template.list.my_playlist_id, song, function(err,message){
-			//
+			//Error handling code
 		});
 	}
-	
-	//console.log(Links);
    });
-   
 }
 
 /*Update List on generate button*/
@@ -148,41 +109,46 @@ Template.list.updateList = function(){
 	console.log("update list being called");
 	var ret = [];
 	
-        $( "#playlist .list_element" ).each(function() {
-	if (1){
-//	if($(this).is(':visible')){
-		var songs= Links.find({sess: Template.list.my_playlist_id},{songs: {$elemMatch: {index: $(this).attr('id')}}}).fetch()[0].songs;
-		for (var i in songs){
-			console.log("hello this is: "+songs[i].index);
-			if(songs[i].index == $(this).attr('id')){
-				console.log("pushing this song "+songs[i].song_title);
-				ret.push(songs[i]);
-				break;
+	/*Creating in-order Session copies of the playlist video urls as well as in-order Session copy of song objects*/
+
+	/*Grabbing in-order song objects*/
+    $( "#playlist .list_element" ).each(function() {
+		if($(this).is(':visible')){
+			var songs= Links.find({sess: Template.list.my_playlist_id},{songs: {$elemMatch: {index: $(this).attr('id')}}}).fetch()[0].songs;
+			for (var i in songs){
+				//console.log("hello this is: "+songs[i].index);
+				if(songs[i].index == $(this).attr('id')){
+					//console.log("pushing this song "+songs[i].song_title);
+					ret.push(songs[i]);
+					break;
+				}
 			}
-		}
-         }
+	    }
 	});
 	
+	/*Grabbing in-order video urls*/
 	var urls = [];
-	console.log("length of ret " + ret.length);
+	//console.log("length of ret " + ret.length);
 	for (var i = 0; i < ret.length; i++){
 		console.log("current video url: "+ret[i].videoId);
 		urls[i] = ret[i].videoId;
 	}
 
+	/*Setting them to Session vars*/
 	Session.set("current_list",ret);
 	Session.set("current_urls",urls);
 	
+	/*Updating the database collection so if playlist is shared after a rearrange, order will be preserved*/
 	Meteor.call('update_order',Template.list.my_playlist_id, ret, function(err,message){
-		console.log("update finito applying shadow to first element");
+		//console.log("update finito applying shadow to first element");
 		$($("#navigation li")[0]).addClass("current_song");
 		Session.set("prev_song_idx", 0);
-		//Session.set("on_prepared", true);
 	});
 
 
 }
 
+/*Signal that is sent to "mark" shared songs. Inelegant solution*/
 Template.the_playlist.signal = function(){
 	//Waits until the playlist finishes rendering. 
 	var len = $("#playlist li").length;
@@ -194,8 +160,7 @@ Template.the_playlist.signal = function(){
 	}
 }
 
-
-
+/*Playlist template helper, assigns hidden or visible Next icon depending on whether the playlist is shared or not*/
 Template.the_playlist.helpers({
     'shared_songs': function() {
     		//Check that either signal is false OR 
@@ -209,7 +174,7 @@ Template.the_playlist.helpers({
     }
 })
 
-
+/*Grabs the main list!*/
 Template.the_playlist.main_list = function(){
 
 	var ret = Links.find().fetch()[0];
@@ -222,8 +187,8 @@ Template.the_playlist.main_list = function(){
 	return ret;
 }
 
-Template.fucking_list.navlist = function(){
-	console.log("getting the fucking list for navigation");
+/*Grabs the in order current list of songs*/
+Template.navigation_list.navlist = function(){
 	return Session.get("current_list");
 }
 
@@ -240,48 +205,37 @@ Template.player.created = function(){
 }
 
 
- Template.search_bar.events({
+Template.search_bar.events({
     'keypress #query, click #search-button' : function (evt,template) {
       // template data, if any, is available in 'this'
       if (evt.which === 13 || evt.which == 1){
                 var url = template.find('#query').value;
 		if(url){
 		        $("#query").val('');
-			$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
-			Template.list.search_get(url,0);//insert records into the database
+		        //The below line makes sure the user is always looking at the last updated thing
+				$('#playlist_container').animate({scrollTop: $('#playlist_container')[0].scrollHeight});
+				//insert records into the database
+				Template.list.search_get(url,0);
 		}	
        }
-}
-  });
-
-  /*Template.list.events({
-	'click .destroy' : function (){
-		console.log("about to set this id for deletion: "+this._id);
-		Session.set("to_delete",this._id);	
-		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
-			Links.remove(Session.get("to_delete"));
-			//Links.update({
-		});
 	}
-  });*/
+  });
 
 Template.list.events({
 	'click .destroy' : function (){
 		var index_local = this.index;
-		console.log("this: "+index_local);
+		//console.log("this: "+index_local);
 		Session.set("to_delete",this.index);	
 		$("#"+Session.get("to_delete")).fadeOut('slow',function(){
-			//Links.remove(Session.get("to_delete"));
-			//Links.update({
 			Meteor.call('delete_record',Template.list.my_playlist_id, Session.get("to_delete"), function(err,message){
-			//alert(err);
-				console.log("err from delete: "+err);
-				console.log("deleting this session variable: "+index_local);								
+				//console.log("err from delete: "+err);
+				//console.log("deleting this session variable: "+index_local);								
 				//Session.set(index_local,undefined);
 				delete Session.keys[index_local];
 			});
 		});
 	},
+
 	'click .next_song' : function(){
 		//console.log("NEXT");
 		var curr_index = this.index;
@@ -293,8 +247,9 @@ Template.list.events({
 		var last_song = song_list.shift();
 		song_list.push(last_song);
 		Session.set(curr_index,song_list); 
-
 		var current_song = song_list.pop();
+
+		//Grabbing next song -- iterating through search results which were saved. And subsequently making db call.
 		var newsong = new Object();	
 		newsong["title"] = current_song.snippet.title;
 		newsong["video_id"] = current_song.id.videoId;
@@ -314,9 +269,7 @@ Template.list.events({
 		/*from_click is a control variable that makes sure that loop_check doesn't get called
 		  on every UNSTARTED event*/
 		Session.set("from_click",true);
-		///var videoId_local = this.videoId;
 		var index = $("li.unremovable").index($("#video-"+this.index));
-		//var index = $.inArray(videoId_local,Session.get("current_urls")); 
 		//highlight next song
 		$($("#navigation li")[Session.get("prev_song_idx")]).removeClass("current_song");
 		$($("#navigation li")[index]).addClass("current_song");
@@ -325,13 +278,13 @@ Template.list.events({
 
 		player.loadPlaylist(Session.get("current_urls"),index);
 	},
+	//Loop control
 	'click .unremovable .element_style .loop_activate' : function(){
 		if ($("#video-"+this.index).hasClass("loop")){
 			$("#video-"+this.index).removeClass("loop");
 		}
 		else{
 			$("#video-"+this.index).addClass("loop");
-			//alert("Loop is activated");
 			console.log("loop activated");
 		}
 		$("#video-"+this.index).children('.element_style').children('.loop_activate').toggleClass('fa-spin');
@@ -339,6 +292,7 @@ Template.list.events({
   });
 
 Template.generate.events({
+	//Share modal control
 	'click #share' : function(){
 		console.log("showing modal");
 		console.log(Template.list.my_playlist().fetch());
@@ -354,29 +308,27 @@ Template.generate.events({
 		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
 	},
+	//Generate YouTube video and playlist using updated list
 	'click #generate_button': function (evt, template){
 	Template.list.updateList();
 	if(Template.list.my_playlist().fetch().length == 0){
-		//alert('Your tape is empty!');
-		$("#playlist-alert").fadeIn('slow');
-		$("#playlist-alert").delay(4000).fadeOut('slow');
+			//alert('Your tape is empty!');
+			$("#playlist-alert").fadeIn('slow');
+			$("#playlist-alert").delay(4000).fadeOut('slow');
 	}
 	else{
-		console.log("current urls: "+Session.get("current_urls"));
-		generatePlaylist(Session.get("current_urls"));
-		console.log("adding class for first song");
+			//console.log("current urls: "+Session.get("current_urls"));
+			generatePlaylist(Session.get("current_urls"));
+			//console.log("adding class for first song");
 		
-		$(".absolute_center2").fadeIn();
-		/*Things to hide*/
-		$("#playlist").fadeOut(700);
-		$("#button_control").fadeOut(700);
-		$("#search-group").fadeOut(700);
-		$("#playlist_container").fadeOut(700, function(){
-		$("#player-list_container").toggleClass("my_hide");
-		});
-		//$("#player-list_container").delay(300).fadeIn();
-		//$('body').animate({backgroundColor: 'rgb(53,53,53)'}, 'slow');
-		//$('#title').animate({color: '#fff'}, 'slow');
+			$(".absolute_center2").fadeIn();
+			/*Things to hide*/
+			$("#playlist").fadeOut(700);
+			$("#button_control").fadeOut(700);
+			$("#search-group").fadeOut(700);
+			$("#playlist_container").fadeOut(700, function(){
+			$("#player-list_container").toggleClass("my_hide");
+			});
 		}
 	} 
 	});
@@ -385,7 +337,6 @@ Template.generate.events({
 	console.log("last signal: "+Session.get("last_signal"));
 	if ((Session.get("from_click") == false)&&(Session.get("last_signal")!=-1)){
 		if (Session.get("last_signal")!=YT.PlayerState.ENDED){
-			console.log("GOING IN");
 			//FIND INDEX IN THE PLAYLIST, THIS WILL LEAD YOU TO THE DOM ELEMENT.
 			if (signal == YT.PlayerState.ENDED){
 			    var index = current_index;
@@ -394,7 +345,7 @@ Template.generate.events({
 			    var index = current_index-1;
 			}
 
-			console.log("CHECKING AND LOADING " + index);
+			//console.log("CHECKING AND LOADING " + index);
 			var loop_check = $($("#navigation li")[index]).hasClass("loop");
 
 			if (loop_check == true){
@@ -409,79 +360,66 @@ Template.generate.events({
 				console.log("adding class for song "+index);
 				$($("#navigation li")[index]).addClass("current_song");
 				Session.set("prev_song_idx",index);
-		
 			}
 			Session.set("last_signal",signal);
 		}
 	}
 	else{
-		/*if(Session.get("last_signal")!=-1){
-			console.log("removing class for song "+Session.get("prev_song_idx"));
-			$($("#navigation li")[Session.get("prev_song_idx")]).removeClass("current_song");
-			console.log("adding class for song "+index);
-			$($("#navigation li")[index]).addClass("current_song");
-			Session.set("prev_song_idx",index);
-		}*/
 		Session.set("from_click",false);
-		
 	}
   }
 
+  /*Returns Collection*/
   Template.list.my_playlist = function(){
 	return Links.find();
 	
   }
 
- 
-  
+  /*Returns db copy*/
   Template.player.nav_playlist = function(){
 	return Session.get("current_list");
   }
 
- //when user hits the generate playlist button
  Template.header.events({
-'click #close_player': function (evt, template){	
-player.pauseVideo();
-$("#player-list_container").toggleClass("my_hide").promise().done(function(){
-	$("#playlist").delay(300).css('display','block');
-	$(".absolute_center2").fadeOut(500);
-	//$("#player-list_container").fadeOut();
+	//when user hits the generate playlist button
+	'click #close_player': function (evt, template){	
+		player.pauseVideo();
+		$("#player-list_container").toggleClass("my_hide").promise().done(function(){
+		$("#playlist").delay(300).css('display','block');
+		$(".absolute_center2").fadeOut(500);
+		
+		/*Things to show*/
+		$("#search-group").delay(300).fadeIn();
+		$(".absolute_center").delay(300).fadeIn();
+		$("#playlist_container").delay(300).fadeIn();
+		$("#button_control").delay(300).fadeIn();
+	});
 
-	/*Things that must reappear*/
-	$("#search-group").delay(300).fadeIn();
-	$(".absolute_center").delay(300).fadeIn();
-	$("#playlist_container").delay(300).fadeIn();
-	$("#button_control").delay(300).fadeIn();
+	/*Below yoou remove current_song class from navigation li*/
+	$( "#navigation li" ).each(function() {
+	  $( this ).removeClass( "current_song" );
+	});
+ }
 });
-/*Below yoou remove current_song class from navigation li*/
-$( "#navigation li" ).each(function() {
-  $( this ).removeClass( "current_song" );
-});
-
-}
- });
-}//End of Client
+}//End of Client Code 
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-    //console.log("hello");
-    Meteor.publish("links", function(sess_var) {
-     //console.log("publishing");
-	console.log("sess_var is: "+sess_var);
-     // return Links.findOne({sess:sess_var});  //each client will only have links with that _lastSessionId
-	console.log("the count is: "+Links.find({sess: sess_var}).count());
-	//console.log(Links.find({sess: sess_var}));
-	return Links.find({sess: sess_var});
-	//return Links.find();
-	
+  	Meteor.startup(function () {
+	    // code to run on server at startup
+
+	    //Only entries with matching sess_var are available per client session.
+	    Meteor.publish("links", function(sess_var) {
+		//console.log("sess_var is: "+sess_var);
+		//console.log("the count is: "+Links.find({sess: sess_var}).count());
+		//console.log(Links.find({sess: sess_var}));
+		//return Links.find();
+		return Links.find({sess: sess_var});
     });
-  
 });
 
-
+//Could Bohan have put this somewhere else?
 (function () {
-Meteor.methods({
+	Meteor.methods({
 	update_record: function(sessID, songObj){
 		Links.update({sess: sessID}, {$push: {songs: {song_title: songObj["title"], videoId: songObj["video_id"], thumbnail: songObj["thumbnail"], index: songObj["index"]}}});
 		console.log("songs: "+Links.findOne({sess: sessID}).songs.length);
@@ -490,15 +428,16 @@ Meteor.methods({
 	update_order: function(sessID, songsArray){
 		Links.update({sess:sessID}, {$set:{songs: songsArray}});
 	},
+	//Gets total number of sessions, used in autonumber counter. 
 	get_count: function(){
 		return Links.find().count();
 	},
 	delete_record: function(sessID, ObjID){
-		console.log("trying to pull object "+ObjID +" from session: "+sessID);
+		//console.log("trying to pull object "+ObjID +" from session: "+sessID);
 		Links.update({sess: sessID}, {$pull: {songs: {index: ObjID}}});
-		console.log("remaining songs: "+Links.findOne({sess: sessID}).songs.length);
+		//console.log("remaining songs: "+Links.findOne({sess: sessID}).songs.length);
 		if(Links.findOne({sess: sessID}).songs.length == 0){
-			console.log("list empty, destroying record with id "+sessID);
+			//console.log("list empty, destroying record with id "+sessID);
 			Links.remove({sess: sessID});
 		}
 	},

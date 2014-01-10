@@ -181,34 +181,34 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 }
 
 @media all and (max-width: 800px) {
-#button_control{
-	background:green !important;
-	line-height:50px;
-	/*For the icons*/
-	text-align:center;
+	#button_control{
+		background:green !important;
+		line-height:50px;
+		/*For the icons*/
+		text-align:center;
 
-	/*So there's space between the list and the buttons:*/
-	margin-top:10px; /*10px???*/
-	/*For the container*/
-	margin-left:auto;
-	margin-right:auto;
-	width:50%;
-}
+		/*So there's space between the list and the buttons:*/
+		margin-top:10px; /*10px???*/
+		/*For the container*/
+		margin-left:auto;
+		margin-right:auto;
+		width:50%;
+	}
 }
 
 @media not all and (max-width: 800px) {
-#button_control{
-	line-height:50px;
-	/*For the icons*/
-	text-align:center;
+	#button_control{
+		line-height:50px;
+		/*For the icons*/
+		text-align:center;
 
-	/*So there's space between the list and the buttons:*/
-	margin-top:20px;
-	/*For the container*/
-	margin-left:auto;
-	margin-right:auto;
-	width:30%;
-}
+		/*So there's space between the list and the buttons:*/
+		margin-top:20px;
+		/*For the container*/
+		margin-left:auto;
+		margin-right:auto;
+		width:30%;
+	}
 }
 
 
@@ -264,12 +264,11 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     z-index:99;
     cursor: pointer;
     color:white;
-
-   right: 20px;
-   height:40px;
-
-    padding:3px;
     opacity:0;
+
+    right: 20px;
+    height:40px;
+    padding:3px;
     display:block;
     position: absolute;
 }
@@ -278,13 +277,12 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     z-index:99;
     cursor: pointer;
     color:white;
-
-   right: 20px;
-   height:40px;
-
-    padding:3px;
     opacity:0;
-   display:none !important;
+
+    right: 20px;
+    height:40px;
+    padding:3px;
+    display:none !important;
     position: absolute;
 }
 
@@ -292,13 +290,11 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 .destroy {
     cursor: pointer;
     color:white;
+    opacity:0;
 
     right:0;
-   height:40px;
-/*  opacity:0.6;*/
+    height:40px;
     padding:3px;
-
-    opacity:0;
     display:block;
     position: absolute;
 }
@@ -312,7 +308,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
     opacity:1;
 }
 
-/*
+/* In case you want to switch back to the icon.
 .list_element:hover .destroy {
     background: url('/destroy.png') no-repeat 0 0;
 }
@@ -331,7 +327,6 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 .list_element:hover{
     cursor:pointer;
 }
-
 
 .unremovable{
 	width:85% !important;/*Override list-element*/
@@ -375,29 +370,16 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 
 .element_style{
     width:98%;
-
     line-height:40px;
-
-    /*Change Ubuntu font. Need something plain, but retro, with character. Like Museo 100*/
     font-family: 'Lato';
-    font-weight: 300;
 
+    font-weight: 300;
     font-size:18px;
 
     /*Order at the bottom*/
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);	
-
     position:relative;
 }
-
-
-/*.current_song {
-	border-bottom:  1px solid rgba(0, 0, 0, 0) !important;
-	padding:5px;
-	border-radius:5px;
-	background:rgba(0,0,0,0.36);
-	color:white;
-}*/
 
 #playlist-alert{
 	padding-top: 5px;
