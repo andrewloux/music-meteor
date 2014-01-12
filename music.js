@@ -33,7 +33,8 @@ Template.list.sessID_Gen = function(){
 Meteor.startup(function (){
 
 	Session.set("renderedBefore", false);
-	
+	Session.set("close_clickable",true);
+
 	//lock screen until gapi loads
 	$("#loading_modal").modal('show');
 
@@ -382,23 +383,27 @@ Template.generate.events({
 
  Template.header.events({
 	//when user hits the generate playlist button
-	'click #close_player': function (evt, template){	
-		player.pauseVideo();
-		$("#player-list_container").toggleClass("my_hide").promise().done(function(){
-		$("#playlist").delay(300).css('display','block');
-		$(".absolute_center2").fadeOut(500);
+	'click #close_player': function (evt, template){
+	
+	if (Session.get("close_clickable")){
+			Session.set("close_clickable",false);
+			player.pauseVideo();
+			$("#player-list_container").toggleClass("my_hide").promise().done(function(){
+			$("#playlist").delay(300).css('display','block');
+			$(".absolute_center2").fadeOut(500);
 		
-		/*Things to show*/
-		$("#search-group").delay(300).fadeIn();
-		$(".absolute_center").delay(300).fadeIn();
-		$("#playlist_container").delay(300).fadeIn();
-		$("#button_control").delay(300).fadeIn();
-	});
+			/*Things to show*/
+			$("#search-group").delay(300).fadeIn();
+			$(".absolute_center").delay(300).fadeIn();
+			$("#playlist_container").delay(300).fadeIn();
+			$("#button_control").delay(300).fadeIn(function(){Session.set("close_clickable",true);});
+		});
 
-	/*Below yoou remove current_song class from navigation li*/
-	$( "#navigation li" ).each(function() {
-	  $( this ).removeClass( "current_song" );
-	});
+		/*Below yoou remove current_song class from navigation li*/
+		$( "#navigation li" ).each(function() {
+		  $( this ).removeClass( "current_song" );
+		});
+	}
  }
 });
 }//End of Client Code 
