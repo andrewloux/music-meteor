@@ -1,7 +1,7 @@
 music-meteor
 ============
 
-music, implemented in meteor.js
+[Mixtape is live!](http://mixtape.meteor.com)
 
 ### Dependencies
 
