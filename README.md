@@ -1,12 +1,9 @@
 music-meteor
 ============
 
-[Mixtape is live!](http://mixtape.meteor.com)
+[~~Mixtape~~ Tubular is live!](http://tubular.meteor.com)
 
 ### Dependencies
 
-- `mrt add jquery-ui`
-- `mrt add iron-router`
-- `mrt add http`
-- `mrt add font-awesome`
+`meteor` to build, run
 
