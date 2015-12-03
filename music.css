@@ -1,5 +1,80 @@
 /* CSS declarations go here */
 
+#loading_container{
+	width:100%;
+	height:100%;
+	position: fixed;
+	display: block;
+	background: #4d6663;
+	z-index: 99;
+	text-align: center;
+}
+
+
+.loader {
+	display: block;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    border: 4px solid #a08771;
+    top: 50%;
+    animation: loader 2s infinite ease;
+    margin: 0 auto;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #a08771;
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(180deg);
+  }
+  
+  50% {
+    transform: rotate(180deg);
+  }
+  
+  75% {
+    transform: rotate(360deg);
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  
+  25% {
+    height: 0%;
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  75% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 0%;
+  }
+}
+
+
 /*Elements expand to the size of their container. To have a div in the body that has a height of 100%; html & body are 100%*/
 html {
    height:100%;
@@ -35,10 +110,21 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	color:white;
 }
 
+.brand{
+	font-family: 'Lato', sans-serif;
+    font-weight: 100;
+    text-align: center;
+    color: white;
+    position: relative;
+    display: block;
+    top: 53%;
+    margin: 0 auto;
+}
+
 
 #search-group{
-        width:650px;   
-	height:40px; 
+		width: 90%;
+        height:40px; 
         margin-left:auto;
         margin-right:auto;
         margin-top:20px;
@@ -46,10 +132,31 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
         display:block;
 }
 
+
 #left{
-	width:93%;
+	width:88%;
 	height:100%;
 	float:left;
+}
+
+.input-button{
+	width: 12%;
+	height:100%;
+	float:right;
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 769px) { 
+	#search-group{
+		width:650px;		
+	}
+	.input-button{
+		width: 7%;
+	}
+	#left{
+		width: 93%;
+	}
+
 }
 
 #query{
@@ -58,11 +165,7 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	height:100%;
 }
 
-.input-button{
-	width:7%;
-	height:100%;
-	float:right;
-}
+
 
 #search-button{
 	border-radius: 0 8px 8px 0;
@@ -241,7 +344,8 @@ background: -webkit-linear-gradient(top,  #4d6663 0%,#808378 27%,#a08771 76%,#8c
 	cursor:text;
 	margin-left:auto;
 	margin-right:auto;
-	font-size:24px;
+	text-align: center;
+	font-size:1.5em;
 	height:50px;
 	width:65.6%;
 }

@@ -31,28 +31,46 @@ Template.list.sessID_Gen = function(){
 
 //The Router after event callback overrides the following line, such that each link is now a mixtape.
 Meteor.startup(function (){
-
 	Session.set("renderedBefore", false);
 	Session.set("close_clickable",true);
+	Session.set("gapi",false);
 
+	Router.configure({
+		layoutTemplate: 'Home',
+		loadingTemplate: 'Loading'
+	})
+	
 	//lock screen until gapi loads
-	$("#loading_modal").modal('show');
-
-	Router.map(function () {
-	  	this.route('tape', {
-		    path: '/tape/:_sess',
-		    before: function(){
-				Template.list.my_playlist_id = this.params._sess;
-				//console.log("ROUTING FIRST");
-				//console.log("subscribing to sess inside route: " + this.params._sess);
-				//console.log("after my sessid is " + Template.list.my_playlist_id);
-				this.subscribe('links',this.params._sess);
-		    }
-	  });
+	Router.route('/', function(){
+		if (!Session.get("gapi"))
+			this.render("Loading")
+		else{
+			$("#loading_container").fadeOut(function(){
+				// Generate sessionID
+				Template.list.sessID_Gen();	
+				this.render(null);
+			}.bind(this))	
+		}
 	});
-	//generate sessionID on pageload
-	Template.list.sessID_Gen();	
+	Router.route('/tape/:_sess', {
+			waitOn: function(){
+				return Meteor.subscribe('links', this.params._sess)
+			},
+			action: function(){
+				if (this.ready()){
+					Template.list.my_playlist_id = this.params._sess;
+					$("#loading_container").fadeOut(function(){
+						this.render(null)	
+					})
+				}
+				else
+					this.render("Loading")
+			}
+	});
+
 });
+
+
 
 
 
@@ -277,7 +295,9 @@ Template.list.events({
 		console.log("this song index is "+index);
 		Session.set("prev_song_idx", index);
 
-		player.loadPlaylist(Session.get("current_urls"),index);
+
+
+		window.player.loadPlaylist(Session.get("current_urls"),index);
 	},
 	//Loop control
 	'click .unremovable .element_style .loop_activate' : function(){
@@ -306,7 +326,7 @@ Template.generate.events({
 			$("#modal_title").text("Share and Collaborate!");
 			$("#modal_text").html("<strong>Here's the link to the playlist you've just created.</strong>")
 		}
-		$("#share_link").val("mixtape.meteor.com/tape/"+Template.list.my_playlist_id);
+		$("#share_link").val("tubular.meteor.com/tape/"+Template.list.my_playlist_id);
 		$("#dialog").modal('show');
 	},
 	//Generate YouTube video and playlist using updated list
@@ -351,7 +371,7 @@ Template.generate.events({
 
 			if (loop_check == true){
 				//Play it again, Sam!
-				player.loadPlaylist(Session.get("current_urls"),index);
+				window.player.loadPlaylist(Session.get("current_urls"),index);
 			
 			}
 			else{
@@ -387,7 +407,7 @@ Template.generate.events({
 	
 	if (Session.get("close_clickable")){
 			Session.set("close_clickable",false);
-			player.pauseVideo();
+			window.player.pauseVideo();
 			$("#player-list_container").toggleClass("my_hide").promise().done(function(){
 			$("#playlist").delay(300).css('display','block');
 			$(".absolute_center2").fadeOut(500);

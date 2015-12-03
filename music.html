@@ -1,5 +1,10 @@
 <head>
-  <title>music</title>
+  <title>tubular</title>
+  <meta name="description" content="tubular helps you leverage the power of YouTube to create and share playlists in realtime" />
+  <meta name="keywords" content="playlists, youtube, real time, Andrew, Louis, Meteor" />
+  <meta name="robots" content="index,unfollow" />
+
+
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:600&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,700' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -22,7 +27,7 @@ function onClientLoad() {
 function onYouTubeApiLoad() {
     gapi.client.setApiKey('AIzaSyD1VcsNnysOY6_Za-8kE-BK6Zh8jQwvo4w');
     //allow user access only when gapi loads;
-    $("#loading_modal").modal('hide');
+    Session.set("gapi", true);
 }
 
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -33,9 +38,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
-var player;
+window.player;
 function onYouTubeIframeAPIReady() {
-	player = new YT.Player('player', {
+	window.player = new YT.Player('player', {
           	height: '390',
           	width: '640',
           	playerVars: {
@@ -57,14 +62,14 @@ function onPlayerStateChange(e){
 	//Save last signal so there is no upwards cascade in check_loop
 	 if(e.data == YT.PlayerState.ENDED){
 		console.log("ENDED SIGNAL");
-		Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);
+		Template.unremovable_track.check_loop(window.player.getPlaylistIndex(),e.data);
 	}
 	else if (e.data == YT.PlayerState.PLAYING){
-		console.log("PLAYING SIGNAL " + player.getPlaylistIndex());
+		console.log("PLAYING SIGNAL " + window.player.getPlaylistIndex());
 		Session.set("last_signal",e.data);
 	}
 	else if (e.data == YT.PlayerState.PAUSED){
-		console.log(player.getPlaylistIndex());
+		console.log(window.player.getPlaylistIndex());
 		console.log("PAUSED SIGNAL");
 		Session.set("last_signal",e.data);
 	}
@@ -77,24 +82,35 @@ function onPlayerStateChange(e){
 		Session.set("last_signal",e.data);
 	}
 	else if (e.data == -1){
-		console.log("unstarted: "+player.getPlaylistIndex());
-		Template.unremovable_track.check_loop(player.getPlaylistIndex(),e.data);	
+		console.log("unstarted: "+window.player.getPlaylistIndex());
+		Template.unremovable_track.check_loop(window.player.getPlaylistIndex(),e.data);	
 	}
 }
 
 function generatePlaylist(list){
-	player.loadPlaylist(list);
+	window.player.loadPlaylist(list);
 }
 </script>
 </head>
 
 <body>
+</body>
+
+<template name="Home">
+  {{> yield}}
   {{> header}}
   {{> search_bar}}
   {{> list}}
   {{> navigation_list}} 
   {{> generate}}
-</body>
+</template>
+
+<template name="Loading">
+  <div id="loading_container">
+    <span class="loader"><span class="loader-inner"></span></span>
+    <h3 class="brand">tubular</h3>
+  </div>
+</template>
 
 <template name="header">
 <div class="tooltip">
@@ -103,30 +119,13 @@ function generatePlaylist(list){
    </div>
    <div class="tooltip-arrow"></div>
  </div>
-  <h1 id="title">mixtape</h1>
+  <h1 id="title">tubular</h1>
 
   <!-- Close Player button -->
   <div class="absolute_center2" id="close_player">
 	     <i class="fa fa-list" id="close" data-toggle="tooltip" data-placement="right" title="Return to list"></i>
   </div>
 
-<!-- Loading modal button -->
-<div class="modal fade" id="loading_modal" role="loading" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="loading_title" class="modal-title">Loading...</h3>
-      </div>
-      <div class="modal-body">
-            <!-- Meat of the progress bar -->
-          	<div class="progress progress-striped active">
-           	 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-            	</div>
-            </div>
-      </div>
-    </div>
-  </div>
-</div>
 </template>
 
 <template name="search_bar">

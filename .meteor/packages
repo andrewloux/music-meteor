@@ -6,7 +6,10 @@
 standard-app-packages
 insecure
 preserve-inputs
-jquery-ui
-iron-router
+mrt:jquery-ui@1.9.2
 http
 less
+standard-minifiers
+jquery-ui
+jquery
+iron:router
